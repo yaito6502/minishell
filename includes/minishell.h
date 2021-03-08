@@ -15,10 +15,3 @@ typedef struct s_command {
 	int					lastfd[2];
 	int					pid;
 } t_command;
-
-
-
-typedef struct redirect {
-	int		fd;
-	char	*file;
-}
