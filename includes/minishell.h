@@ -36,8 +36,13 @@ typedef struct	s_command {
 void		start_commands(t_command *cmds);
 void		execute_parallel(t_command *cmds);
 void		execute_sequential(t_command *cmds);
+void		send_pipeline(t_command *cmds, int newpipe[2]);
+void		receive_pipeline(t_command *cmds);
+void		redirect_input(t_command *cmds);
+void		redirect_output(t_command *cmds);
 
 //utils
+int			is_builtin(t_command *cmds);
 void		free_commandslist(t_command **cmds);
 
 #endif

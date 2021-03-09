@@ -15,13 +15,14 @@ void		redirect_input(t_command *cmds)
 		close(fd);
 		i++;
 	}
+	return ;
 }
 
 static int	check_fd(char *arg)
 {
-	if(!ft_strcmp(arg, ">") || !ft_strcmp(arg, "1>"))
+	if(!ft_strncmp(arg, ">", 2) || !ft_strcmp(arg, "1>", 3))
 		return (1);
-	if(!ft_strcmp(arg, "2>"))
+	if(!ft_strcmp(arg, "2>", 3))
 		return (2);
 	return (0);
 }
@@ -43,4 +44,5 @@ void		redirect_output(t_command *cmds)
 		close(fd);
 		i = i + 2;
 	}
+	return ;
 }
