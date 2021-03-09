@@ -1,8 +1,4 @@
 #include <minishell.h>
-<<<<<<< HEAD
-=======
-#include "libft/libft.h"
->>>>>>> ff081fbcbcd4a2d1b402c0b3fb57afe35d8c98ca
 
 /*
 ** t_command内、argv[0]を各ビルトインコマンドと比較、該当する場合、indexを返す。ない場合は、-1を返す。
@@ -33,27 +29,27 @@ int		is_builtin(t_command *cmds)
 
 // int		main(void)
 // {
-	// t_command test;
+// 	t_command test;
 
-	// test.argv = malloc(sizeof(char**) * 2);
-	// test.argv[1] = NULL;
-	// test.argv[0] = ft_strdup("echo");
-	// printf("%d\n", is_builtin(&test));
-	// test.argv[0] = ft_strdup("cd");
-	// printf("%d\n", is_builtin(&test));
-	// test.argv[0] = ft_strdup("pwd");
-	// printf("%d\n", is_builtin(&test));
-	// test.argv[0] = ft_strdup("export");
-	// printf("%d\n", is_builtin(&test));
-	// test.argv[0] = ft_strdup("unset");
-	// printf("%d\n", is_builtin(&test));
-	// test.argv[0] = ft_strdup("env");
-	// printf("%d\n", is_builtin(&test));
-	// test.argv[0] = ft_strdup("exit");
-	// printf("%d\n", is_builtin(&test));
-	// test.argv[0] = ft_strdup("invalid");
-	// printf("%d\n", is_builtin(&test));
-	// test.argv[0] = ft_strdup("exportaaa");
-	// printf("%d\n", is_builtin(&test));
-	// return (0);
+// 	test.argv = malloc(sizeof(char**) * 2);
+// 	test.argv[1] = NULL;
+// 	test.argv[0] = ft_strdup("echo");
+// 	printf("%d\n", is_builtin(&test));
+// 	test.argv[0] = ft_strdup("cd");
+// 	printf("%d\n", is_builtin(&test));
+// 	test.argv[0] = ft_strdup("pwd");
+// 	printf("%d\n", is_builtin(&test));
+// 	test.argv[0] = ft_strdup("export");
+// 	printf("%d\n", is_builtin(&test));
+// 	test.argv[0] = ft_strdup("unset");
+// 	printf("%d\n", is_builtin(&test));
+// 	test.argv[0] = ft_strdup("env");
+// 	printf("%d\n", is_builtin(&test));
+// 	test.argv[0] = ft_strdup("exit");
+// 	printf("%d\n", is_builtin(&test));
+// 	test.argv[0] = ft_strdup("invalid");
+// 	printf("%d\n", is_builtin(&test));
+// 	test.argv[0] = ft_strdup("exportaaa");
+// 	printf("%d\n", is_builtin(&test));
+// 	return (0);
 // }

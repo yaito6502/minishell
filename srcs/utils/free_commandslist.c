@@ -1,17 +1,21 @@
 #include "minishell.h"
 
-static void	free_command(t_command *cmds)
+static void	free_command(t_command *cmd)
 {
-	ft_free_split(cmds->argv);
-	ft_free_split(cmds->redirect_in);
-	ft_free_split(cmds->redirect_out);
-	free(cmds);
+	if (!cmd)
+		return ;
+	ft_free_split(cmd->argv);
+	ft_free_split(cmd->redirect_in);
+	ft_free_split(cmd->redirect_out);
+	free(cmd);
 }
 
 void		free_commandslist(t_command **cmds)
 {
 	t_command *lst_ptr;
 
+	if (!cmds || !*cmds)
+		return ;
 	lst_ptr = *cmds;
 	while (*cmds)
 	{
@@ -21,3 +25,17 @@ void		free_commandslist(t_command **cmds)
 	}
 	*cmds = NULL;
 }
+
+
+//int		main(void)
+//{
+//	t_command *ptr;
+//
+//	ptr = create_new_tcommand();
+//	ptr->next = create_new_tcommand();
+//	ptr->next->next = create_new_tcommand();
+//
+//	free_commandslist(&ptr);
+//	return 0;
+//
+//}

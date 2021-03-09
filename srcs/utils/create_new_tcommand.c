@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_command *create_new_tcommand(void)
+t_command	*create_new_tcommand(void)
 {
 	t_command *ptr;
 
@@ -18,19 +18,13 @@ t_command *create_new_tcommand(void)
 	return (ptr);
 }
 
-// int	main(void)
-// {
-	// t_command *ptr;
 
-	// ptr = create_new_tcommand();
-	// printf("%p\n",ptr->next);
-	// printf("%p\n",ptr->argv);
-	// printf("%p\n",ptr->redirect_in);
-	// printf("%p\n",ptr->redirect_out);
-	// printf("%d\n",ptr->receive_pipe);
-	// printf("%d\n",ptr->lastfd[0]);
-	// printf("%d\n",ptr->lastfd[1]);
-	// printf("%d\n",ptr->pid);
-	// printf("%d\n",ptr->op);
-	// return (0);
-// }
+//
+//int	main(void)
+//{
+//	t_command *ptr;
+//
+//	ptr = create_new_tcommand();
+//	print_tcommand(*ptr);
+//	return (0);
+//}

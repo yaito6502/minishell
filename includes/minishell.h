@@ -45,5 +45,9 @@ void		redirect_output(t_command *cmds);
 //utils
 int			is_builtin(t_command *cmds);
 void		free_commandslist(t_command **cmds);
+t_command	*create_new_tcommand(void);
+
+//for debug
+void		print_tcommand(t_command cmd);
 
 #endif
