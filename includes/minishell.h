@@ -1,11 +1,25 @@
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
-typedef enum e_op {
+# include <unistd.h>
+# include <stdlib.h>
+# include <errno.h>
+# include <stdbool.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <signal.h>
+# include <fcntl.h>
+# include <dirent.h>
+# include <string.h>
+
+typedef enum	e_op{
 	EOS,
 	PIPELINE,
 	SCOLON
-} t_op;
+}				t_op;
 
-typedef struct s_command {
+typedef struct	s_command {
 	struct s_command	*next;
 	char				**argv;
 	char				**redirect_in;
@@ -14,4 +28,6 @@ typedef struct s_command {
 	bool				receive_pipe;
 	int					lastfd[2];
 	int					pid;
-} t_command;
+}				t_command;
+
+#endif
