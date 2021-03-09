@@ -31,4 +31,13 @@ typedef struct	s_command {
 	int					pid;
 }				t_command;
 
+
+//execute
+void		start_commands(t_command *cmds);
+void		execute_parallel(t_command *cmds);
+void		execute_sequential(t_command *cmds);
+
+//utils
+void		free_commandslist(t_command **cmds);
+
 #endif
