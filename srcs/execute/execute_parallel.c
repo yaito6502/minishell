@@ -8,13 +8,13 @@ static void	execute_child(t_command *cmds, int newpipe[2])
 	receive_pipeline(cmds);
 	redirect_input(cmds);
 	redirect_output(cmds);
-	if (is_builtin() == -1)
+	if (is_builtin(cmds) == -1)
 		execve(cmds->argv[0], cmds->argv, __environ);
 	execute_builtin(cmds);
 	exit(EXIT_SUCCESS);
 }
 
-void	execute_parallel(t_command *cmds)
+void		execute_parallel(t_command *cmds)
 {
 	int			status;
 	int			newpipe[2];

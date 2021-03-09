@@ -10,7 +10,7 @@ void		redirect_input(t_command *cmds)
 	{
 		fd = open(cmds->redirect_in[i], O_RDONLY);
 		if (fd = -1)
-			//error出力関数、パース後エラーチェック挟んだほうがよい？
+			;//error出力関数、パース後エラーチェック挟んだほうがよい？
 		dup2(fd, 0);
 		close(fd);
 		i++;
@@ -20,9 +20,9 @@ void		redirect_input(t_command *cmds)
 
 static int	check_fd(char *arg)
 {
-	if(!ft_strncmp(arg, ">", 2) || !ft_strcmp(arg, "1>", 3))
+	if (!ft_strncmp(arg, ">", 2) || !ft_strcmp(arg, "1>", 3))
 		return (1);
-	if(!ft_strcmp(arg, "2>", 3))
+	if (!ft_strcmp(arg, "2>", 3))
 		return (2);
 	return (0);
 }

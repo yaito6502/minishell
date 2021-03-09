@@ -10,7 +10,7 @@ static void	reconnect_std(int fd[3])
 void		execute_sequential(t_command *cmds)
 {
 	pid_t	pid;
-	extern char **__environ;//仮
+	extern	char **__environ;//仮
 
 	redirect_input(cmds);
 	redirect_output(cmds);

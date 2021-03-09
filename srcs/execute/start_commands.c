@@ -2,10 +2,11 @@
 
 static void	confirm_child(t_command *cmd_ptr, t_command *cmds)
 {
+	int status;
+
 	cmds = cmds->next;
-	while(cmd_ptr != cmds)
+	while (cmd_ptr != cmds)
 	{
-		int status;
 		waitpid(cmd_ptr->pid, &status, 0);
 		cmd_ptr = cmd_ptr->next;
 	}

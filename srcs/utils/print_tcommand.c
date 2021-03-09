@@ -5,7 +5,7 @@ static void	print_splits(char *str[])
 	int i;
 
 	i = 0;
-	if (str = NULL);
+	if (str == NULL)
 	{
 		printf("\n");
 		return ;
