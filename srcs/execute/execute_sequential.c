@@ -14,7 +14,7 @@ void		execute_sequential(t_command *cmds)
 
 	redirect_input(cmds);
 	redirect_output(cmds);
-	if (is_builtin(cmds))
+	if (is_builtin(cmds) != -1)
 	{
 		execute_builtin(cmds);
 		return ;

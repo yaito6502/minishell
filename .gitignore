@@ -1,2 +1,5 @@
 # no .a files and .o files
 *.[ao]
+*.out
+
+.vscode

@@ -1,14 +1,14 @@
 #include "minishell.h"
 
-static void	execute_child(t_command *cmds)
+static void	execute_child(t_command *cmds, int newpipe[2])
 {
 	extern char **__environ;
 
-	send_pipeline();
-	receive_pipeline();
-	redirect_input();
-	redirect_output();
-	if (!is_builtin())
+	send_pipeline(cmds, newpipe);
+	receive_pipeline(cmds);
+	redirect_input(cmds);
+	redirect_output(cmds);
+	if (is_builtin() == -1)
 		execve(cmds->argv[0], cmds->argv, __environ);
 	execute_builtin(cmds);
 	exit(EXIT_SUCCESS);
@@ -24,7 +24,7 @@ void	execute_parallel(t_command *cmds)
 		pipe(newpipe);
 	pid = fork();
 	if (pid == 0)
-		execute_child(cmds);
+		execute_child(cmds, newpipe);
 	if (cmds->receive_pipe == true)
 	{
 		close(cmds->lastfd[0]);
