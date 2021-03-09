@@ -1,4 +1,8 @@
 #include <minishell.h>
+<<<<<<< HEAD
+=======
+#include "libft/libft.h"
+>>>>>>> ff081fbcbcd4a2d1b402c0b3fb57afe35d8c98ca
 
 /*
 ** t_command内、argv[0]を各ビルトインコマンドと比較、該当する場合、indexを返す。ない場合は、-1を返す。
