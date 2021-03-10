@@ -32,4 +32,11 @@ typedef struct	s_command {
 	int					pid;
 }				t_command;
 
+
+//utils
+t_command	*create_new_tcommand(void);
+
+//for debug
+void		print_tcommand(t_command cmd);
+
 #endif
