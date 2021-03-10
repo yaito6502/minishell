@@ -2,10 +2,15 @@ CFLAGS = -Wall -Wextra -Werror
 NAME = minishell
 
 SRCFILE =	srcs/utils/create_new_tcommand.c \
-			srcs/utils/free_commandslist.c
+			srcs/utils/free_commandslist.c \
+			srcs/utils/is_builtin.c \
+			srcs/utils/create_newenv.c
 
 TESTFILE =	tests/utils/test_create_new_tcommand.c \
-			tests/utils/test_free_commandslist.c
+			tests/utils/test_free_commandslist.c \
+			tests/utils/test_is_builtin.c \
+			tests/utils/test_create_newenv.c
+
 
 OBJDIR = ./obj
 OBJECTS = $(addprefix $(OBJDIR)/, $(notdir $(SRCFILE:.c=.o)))
@@ -13,22 +18,22 @@ OBJECTS = $(addprefix $(OBJDIR)/, $(notdir $(SRCFILE:.c=.o)))
 TESTCORE = srcs/utils/create_new_tcommand.c \
 			tests/print_tcommand.c
 
-TEST = $(notdir $(basename $(TESTFILE)))
+TEST = $(notdir $(basename $(SRCFILE)))
 
 all: $(NAME)
 
 libft:
 	$(MAKE) bonus -C ./libft
 
-$(NAME): libft $(OBJECTS)
-	gcc -g $(SRCFILE) -I./includes -I./libft -L./libft -lft -o cub3D
+# $(NAME): libft $(OBJECTS)
+	# gcc -g $(SRCFILE) -I./includes -I./libft -L./libft -lft -o cub3D
 
 %.o: %.c
 	gcc $(CFLAGS) -c $< -o $@ -I./includes
 
 $(TEST): libft
-	gcc -g $(wildcard tests/*/$(addsuffix .c,$@)) \
-	$(wildcard srcs/*/$(addsuffix .c,$(subst test_,,$@))) \
+	gcc -g $(wildcard tests/*/$(addprefix test_,$(addsuffix .c,$@))) \
+	$(wildcard srcs/*/$(addsuffix .c,$@)) \
 	$(TESTCORE) -I./includes -I. -L./libft -lft -o test
 
 clean:
