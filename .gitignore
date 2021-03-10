@@ -1,2 +1,8 @@
 # no .a files and .o files
 *.[ao]
+
+#output
+a.out
+
+# vscode setting
+.vscode
