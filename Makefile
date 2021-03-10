@@ -10,7 +10,7 @@ TESTFILE =	tests/utils/test_create_new_tcommand.c \
 OBJDIR = ./obj
 OBJECTS = $(addprefix $(OBJDIR)/, $(notdir $(SRCFILE:.c=.o)))
 
-TESTCCORE = srcs/utils/create_new_tcommand.c \
+TESTCORE = srcs/utils/create_new_tcommand.c \
 			tests/print_tcommand.c
 
 TEST = $(notdir $(basename $(TESTFILE)))
@@ -29,7 +29,7 @@ $(NAME): libft $(OBJECTS)
 $(TEST): libft
 	gcc -g $(wildcard tests/*/$(addsuffix .c,$@)) \
 	$(wildcard srcs/*/$(addsuffix .c,$(subst test_,,$@))) \
-	$(TESTCCORE) -I./includes -I. -L./libft -lft -o test
+	$(TESTCORE) -I./includes -I. -L./libft -lft -o test
 
 clean:
 	$(MAKE) clean -C ./libft

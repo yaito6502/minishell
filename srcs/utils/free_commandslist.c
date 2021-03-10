@@ -23,5 +23,4 @@ void		free_commandslist(t_command **cmds)
 		free_command(*cmds);
 		*cmds = lst_ptr;
 	}
-	*cmds = NULL;
 }
