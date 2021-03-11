@@ -37,6 +37,7 @@ typedef struct	s_command {
 t_command	*create_new_tcommand(void);
 void		free_commandslist(t_command **cmds);
 int			is_builtin(t_command *cmds);
+bool		create_newenv(void);
 
 //for debug
 void		print_tcommand(t_command cmd);
