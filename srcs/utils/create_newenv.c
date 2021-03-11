@@ -2,6 +2,7 @@
 
 /*
 ** environをコピーした新しいenvを作成する。成功したらtrue、失敗したらfalseを返す。
+** environが持つ各文字列もheap領域にコピーする。
 */
 
 bool	create_newenv(void)
@@ -17,7 +18,13 @@ bool	create_newenv(void)
 	size = (i + 1) * sizeof(char *);
 	if (!(new_env = (char **)malloc(size)))
 		return (false);
-	ft_memcpy(new_env, environ, size);
+	new_env[i] = NULL;
+	i = 0;
+	while (environ[i] != NULL)
+	{
+		new_env[i] = ft_strdup(environ[i]);
+		i++;
+	}
 	environ = new_env;
 	return (true);
 }
