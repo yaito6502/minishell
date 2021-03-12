@@ -40,6 +40,10 @@ int			is_builtin(t_command *cmds);
 bool		create_newenv(void);
 bool		add_newval_to_env(const char *str);
 
+//execute
+void		redirect_input(t_command *cmds);
+void		redirect_output(t_command *cmds);
+
 //for debug
 void		print_tcommand(t_command cmd);
 
