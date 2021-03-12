@@ -5,13 +5,15 @@ SRCFILE =	srcs/utils/create_new_tcommand.c \
 			srcs/utils/free_commandslist.c \
 			srcs/utils/is_builtin.c \
 			srcs/utils/create_newenv.c \
-			srcs/utils/add_newval_to_env.c
+			srcs/utils/add_newval_to_env.c \
+			srcs/execute/connect_pipeline.c
 
 TESTFILE =	tests/utils/test_create_new_tcommand.c \
 			tests/utils/test_free_commandslist.c \
 			tests/utils/test_is_builtin.c \
 			tests/utils/test_create_newenv.c \
-			tests/utils/add_newval_to_env.c
+			tests/utils/test_add_newval_to_env.c \
+			tests/execute/test_connect_pipeline.c
 
 
 OBJDIR = ./obj
