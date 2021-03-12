@@ -40,6 +40,9 @@ int			is_builtin(t_command *cmds);
 bool		create_newenv(void);
 bool		add_newval_to_env(const char *str);
 
+//execute
+char		*get_cmd_frompath(t_command *cmd);
+
 //for debug
 void		print_tcommand(t_command cmd);
 
