@@ -20,6 +20,6 @@ char	*read_command(void)
 		free(buf);
 		exit(EXIT_SUCCESS);
 	}
-	buf[BUFFER_SIZE] = '\0';
+	buf[rdbyte] = '\0';
 	return (buf);
 }
