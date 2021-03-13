@@ -23,8 +23,10 @@ OBJDIR = ./obj
 BINDIRS = $(addprefix $(OBJDIR)/, $(SRCDIRS))
 OBJECTS = $(addprefix $(OBJDIR)/, $(SRCFILE:.c=.o))
 
-TESTCORE = srcs/utils/create_new_tcommand.c \
+TESTCORE =	srcs/utils/create_new_tcommand.c \
+			srcs/utils/create_newenv.c \
 			tests/print_tcommand.c
+
 
 TEST = $(notdir $(basename $(SRCFILE)))
 
@@ -41,9 +43,9 @@ $(OBJDIR)/%.o: %.c
 	gcc $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 $(TEST): $(LIBFT)
-	gcc -g $(wildcard tests/*/$(addprefix test_,$(addsuffix .c,$@))) \
+	gcc -g $(sort $(wildcard tests/*/$(addprefix test_,$(addsuffix .c,$@))) \
 	$(wildcard srcs/*/$(addsuffix .c,$@)) \
-	$(TESTCORE) $(INCLUDES) $^ -o test
+	$(TESTCORE)) $(INCLUDES) $^ -o test
 
 clean:
 	$(MAKE) clean -C ./libft
