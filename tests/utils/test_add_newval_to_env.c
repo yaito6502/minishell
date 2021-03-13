@@ -1,23 +1,5 @@
 #include "minishell.h"
 
-static bool	create_newenv(void)
-{
-	extern char	**environ;
-	char		**new_env;
-	int			i;
-	size_t		size;
-
-	i = 0;
-	while (environ[i] != NULL)
-		i++;
-	size = (i + 1) * sizeof(char *);
-	if (!(new_env = (char **)malloc(size)))
-		return (false);
-	ft_memcpy(new_env, environ, size);
-	environ = new_env;
-	return (true);
-}
-
 //末尾5メンバのみ出力
 static void	print_env()
 {
