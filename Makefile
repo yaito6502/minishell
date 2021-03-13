@@ -8,7 +8,8 @@ SRCFILE =	srcs/utils/create_new_tcommand.c \
 			srcs/utils/add_newval_to_env.c \
 			srcs/execute/connect_pipeline.c \
 			srcs/execute/do_redirection.c \
-			srcs/execute/get_cmd_frompath.c
+			srcs/execute/get_cmd_frompath.c \
+			srcs/execute/execute_sequential.c
 
 
 TESTFILE =	tests/utils/test_create_new_tcommand.c \
@@ -19,14 +20,18 @@ TESTFILE =	tests/utils/test_create_new_tcommand.c \
 			tests/utils/test_add_newval_to_env.c \
 			tests/execute/test_connect_pipeline.c \
 			test/execute/test_do_redirection.c \
-			test/execute/test_get_cmd_frompath.c
+			test/execute/test_get_cmd_frompath.c \
+			tests/execute/test_execute_sequential.c \
 
 
 OBJDIR = ./obj
 OBJECTS = $(addprefix $(OBJDIR)/, $(notdir $(SRCFILE:.c=.o)))
 
 TESTCORE =	srcs/utils/create_new_tcommand.c \
+			srcs/utils/free_commandslist.c \
 			srcs/utils/create_newenv.c \
+			srcs/utils/is_builtin.c \
+			srcs/execute/get_cmd_frompath.c \
 			tests/print_tcommand.c
 
 

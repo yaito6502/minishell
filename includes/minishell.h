@@ -46,6 +46,7 @@ void		receive_pipeline(t_command *cmds);
 void		redirect_input(t_command *cmds);
 void		redirect_output(t_command *cmds);
 char		*get_cmd_frompath(t_command *cmd);
+void		execute_sequential(t_command *cmd);
 
 
 //for debug
