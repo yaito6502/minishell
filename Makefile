@@ -17,26 +17,28 @@ TESTFILE =	tests/utils/test_create_new_tcommand.c \
 OBJDIR = ./obj
 OBJECTS = $(addprefix $(OBJDIR)/, $(notdir $(SRCFILE:.c=.o)))
 
-TESTCORE = srcs/utils/create_new_tcommand.c \
+TESTCORE =	srcs/utils/create_new_tcommand.c \
+			srcs/utils/create_newenv.c \
 			tests/print_tcommand.c
+
 
 TEST = $(notdir $(basename $(SRCFILE)))
 
 all: $(NAME)
 
-libft:
-	$(MAKE) bonus -C ./libft
-
 # $(NAME): libft $(OBJECTS)
 	# gcc -g $(SRCFILE) -I./includes -I./libft -L./libft -lft -o cub3D
+
+libft:
+	$(MAKE) bonus -C ./libft
 
 %.o: %.c
 	gcc $(CFLAGS) -c $< -o $@ -I./includes
 
 $(TEST): libft
-	gcc -g $(wildcard tests/*/$(addprefix test_,$(addsuffix .c,$@))) \
+	gcc -g $(sort $(wildcard tests/*/$(addprefix test_,$(addsuffix .c,$@))) \
 	$(wildcard srcs/*/$(addsuffix .c,$@)) \
-	$(TESTCORE) -I./includes -I. -L./libft -lft -o test
+	$(TESTCORE)) -I./includes -I. -L./libft -lft -o test
 
 clean:
 	$(MAKE) clean -C ./libft
