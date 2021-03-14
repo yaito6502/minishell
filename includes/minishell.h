@@ -42,6 +42,10 @@ bool		add_newval_to_env(const char *str);
 
 //execute
 char		*get_cmd_frompath(t_command *cmd);
+void		send_pipeline(t_command *cmds, int newpipe[2]);
+void		receive_pipeline(t_command *cmds);
+void		redirect_input(t_command *cmds);
+void		redirect_output(t_command *cmds);
 
 //for debug
 void		print_tcommand(t_command cmd);

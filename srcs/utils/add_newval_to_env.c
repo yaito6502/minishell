@@ -1,18 +1,5 @@
 #include "minishell.h"
 
-static void	*ft_realloc(void *ptr, size_t size)
-{
-	void	*new;
-
-	if (!(new = malloc(size)))
-		return (NULL);
-	if (ptr == NULL)
-		return (new);
-	ft_memcpy(new, ptr, size);
-	free(ptr);
-	return (new);
-}
-
 /*
 ** environに新しいメンバを追加。追加する文字列は関数内でmallocする。
 ** mallocに失敗したときfalseを返す。
