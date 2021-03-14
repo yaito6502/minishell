@@ -11,19 +11,24 @@ SRCFILE =	srcs/main/main.c \
 			srcs/utils/is_builtin.c \
 			srcs/utils/create_newenv.c \
 			srcs/utils/add_newval_to_env.c \
+			srcs/execute/connect_pipeline.c \
+			srcs/execute/do_redirection.c \
 			srcs/execute/get_cmd_frompath.c \
- 			srcs/execute/connect_pipeline.c \
-			srcs/execute/do_redirection.c
+			srcs/execute/execute_sequential.c
+
 
 
 TESTFILE =	tests/utils/test_create_new_tcommand.c \
 			tests/utils/test_free_commandslist.c \
 			tests/utils/test_is_builtin.c \
 			tests/utils/test_create_newenv.c \
+			tests/utils/add_newval_to_env.c \
 			tests/utils/test_add_newval_to_env.c \
 			test/execute/test_get_cmd_frompath.c \
 			tests/execute/test_connect_pipeline.c \
-      test/execute/test_do_redirection.c
+			test/execute/test_do_redirection.c \
+			test/execute/test_get_cmd_frompath.c \
+			tests/execute/test_execute_sequential.c
 
 
 SRCDIRS = $(dir $(SRCFILE))
@@ -32,7 +37,10 @@ BINDIRS = $(addprefix $(OBJDIR)/, $(SRCDIRS))
 OBJECTS = $(addprefix $(OBJDIR)/, $(SRCFILE:.c=.o))
 
 TESTCORE =	srcs/utils/create_new_tcommand.c \
+			srcs/utils/free_commandslist.c \
 			srcs/utils/create_newenv.c \
+			srcs/utils/is_builtin.c \
+			srcs/execute/get_cmd_frompath.c \
 			tests/print_tcommand.c
 
 
