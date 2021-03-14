@@ -124,30 +124,39 @@ t_command	*get_command(char *line)
 	char		**words;
 	char		**files;
 	char		**argv;
+	int			i = 0;
 
 	printf("command[%s]\n", line);
 	if (!line)
 		return (NULL);
 	if ((cmd = create_new_tcommand()) == NULL)
 		return (NULL);
-	if ((words = ft_split_multi(line, SPACES)) == NULL)
+	if ((words = ft_split(line, ' ')) == NULL)
 		return (NULL);
+	argv = NULL;
 	while (*words != NULL)
 	{
+		files = NULL;
 		files = get_redirection_list(*words++, files);
 		if (files == NULL)
 			return (NULL);
 		while (*files != NULL)
-			argv = add_str(argv, *files);
+			argv = add_str(argv, *files++);
 	}
 	while (*argv != NULL)
 	{
 		if (*argv[0] == '<')
-			cmd->redirect_in = add_str(cmd->redirect_in, *argv);
+		{
+			cmd->redirect_in = add_str(cmd->redirect_in, *argv++);
+			cmd->redirect_in = add_str(cmd->redirect_in, *argv++);
+		}
 		else if (*argv[0] == '>')
-			cmd->redirect_out = add_str(cmd->redirect_out, *argv);
+		{
+			cmd->redirect_out = add_str(cmd->redirect_out, *argv++);
+			cmd->redirect_out = add_str(cmd->redirect_out, *argv++);
+		}
 		else
-			cmd->argv = add_str(cmd->argv, *argv);
+			cmd->argv = add_str(cmd->argv, *argv++);
 	}
 	return (cmd);
 }
@@ -156,6 +165,7 @@ char	**get_redirection_list(char *line, char **argv)
 {
 	char *head;
 	char **files;
+	int i;
 
 	printf("redirection[%s]\n", line);
 	if (!line)
@@ -164,10 +174,13 @@ char	**get_redirection_list(char *line, char **argv)
 	while ((head != line) && !ft_strchr("<>", *head))
 		head--;
 	if (head == line)
-		return (add_str(argv, line));
+	{
+		argv = add_str(argv, line);
+		return (argv);
+	}
 	get_redirection_list(ft_substr(line, 0, head - line), files);
 	while (*files != NULL)
-		argv = add_str(argv, *files);
+		argv = add_str(argv, *files++);
 	if (*head == '<')
 		argv = add_str(argv, "<");
 	else
@@ -177,13 +190,14 @@ char	**get_redirection_list(char *line, char **argv)
 		else
 			argv = add_str(argv, ">");
 	}
-	return (add_str(argv, head + 1 + (head[1] == '>')));
+	return (argv = add_str(argv, head + 1 + (head[1] == '>')));
 }
 
 char	**add_str(char **str, char *add)
 {
 	int			i;
 	char		*new_value;
+	char		**array;
 
 	if (!str)
 	{
