@@ -39,12 +39,19 @@ void		free_commandslist(t_command **cmds);
 int			is_builtin(t_command *cmds);
 bool		create_newenv(void);
 bool		add_newval_to_env(const char *str);
+char		**ft_split_multi(char const *s, char *div);
 
 //execute
 void		send_pipeline(t_command *cmds, int newpipe[2]);
 void		receive_pipeline(t_command *cmds);
 void		redirect_input(t_command *cmds);
 void		redirect_output(t_command *cmds);
+t_command	*get_commandline(char *line);
+t_command	*get_list(char *line);
+t_command	*get_pipeline(char *line);
+t_command	*get_command(char *line);
+char		**get_redirection_list(char *line, char **argv);
+char		**add_str(char **str, char *add);
 
 
 //for debug
