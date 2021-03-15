@@ -16,7 +16,8 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/do_redirection.c \
 			srcs/execute/get_cmd_frompath.c \
 			srcs/execute/join_path.c \
-			srcs/execute/execute_sequential.c
+			srcs/execute/execute_sequential.c \
+			srcs/execute/execute_parallel.c
 
 
 TESTFILE =	tests/utils/test_create_new_tcommand.c \
@@ -31,7 +32,8 @@ TESTFILE =	tests/utils/test_create_new_tcommand.c \
 			tests/execute/test_do_redirection.c \
 			tests/execute/test_get_cmd_frompath.c \
 			tests/execute/test_join_path.c \
-			tests/execute/test_execute_sequential.c
+			tests/execute/test_execute_sequential.c \
+			tests/execute/test_execute_parallel.c
 
 
 SRCDIRS = $(dir $(SRCFILE))
