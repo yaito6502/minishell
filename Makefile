@@ -14,8 +14,8 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/connect_pipeline.c \
 			srcs/execute/do_redirection.c \
 			srcs/execute/get_cmd_frompath.c \
+			srcs/execute/join_path.c \
 			srcs/execute/execute_sequential.c
-
 
 
 TESTFILE =	tests/utils/test_create_new_tcommand.c \
@@ -28,6 +28,7 @@ TESTFILE =	tests/utils/test_create_new_tcommand.c \
 			tests/execute/test_connect_pipeline.c \
 			test/execute/test_do_redirection.c \
 			test/execute/test_get_cmd_frompath.c \
+			tests/execute/test_join_path.c \
 			tests/execute/test_execute_sequential.c
 
 
@@ -35,14 +36,6 @@ SRCDIRS = $(dir $(SRCFILE))
 OBJDIR = ./obj
 BINDIRS = $(addprefix $(OBJDIR)/, $(SRCDIRS))
 OBJECTS = $(addprefix $(OBJDIR)/, $(SRCFILE:.c=.o))
-
-TESTCORE =	srcs/utils/create_new_tcommand.c \
-			srcs/utils/free_commandslist.c \
-			srcs/utils/create_newenv.c \
-			srcs/utils/is_builtin.c \
-			srcs/execute/get_cmd_frompath.c \
-			tests/print_tcommand.c
-
 
 TEST = $(notdir $(basename $(SRCFILE)))
 
@@ -59,9 +52,8 @@ $(OBJDIR)/%.o: %.c
 	gcc $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 $(TEST): $(LIBFT)
-	gcc -g $(sort $(wildcard tests/*/$(addprefix test_,$(addsuffix .c,$@))) \
-	$(wildcard srcs/*/$(addsuffix .c,$@)) \
-	$(TESTCORE)) $(INCLUDES) $^ -o test
+	gcc -g $(wildcard tests/*/$(addprefix test_,$(addsuffix .c,$@))) \
+	$(filter-out srcs/main/main.c ,$(SRCFILE)) $(INCLUDES) $^ -o test
 
 clean:
 	$(MAKE) clean -C ./libft
