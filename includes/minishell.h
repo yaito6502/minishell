@@ -49,6 +49,9 @@ void		redirect_output(t_command *cmds);
 char		*get_cmd_frompath(t_command *cmd);
 void		execute_sequential(t_command *cmd);
 
+//parser
+char		*expand_envval(char *line);
+
 //for debug
 void		print_tcommand(t_command cmd);
 
