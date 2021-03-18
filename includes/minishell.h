@@ -39,6 +39,7 @@ void		free_commandslist(t_command **cmds);
 int			is_builtin(t_command *cmds);
 bool		create_newenv(void);
 bool		add_newval_to_env(const char *str);
+char		*read_command(void);
 
 //execute
 char		*get_cmd_frompath(t_command *cmd);
