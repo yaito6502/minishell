@@ -64,6 +64,7 @@ fclean:
 	$(MAKE) fclean -C ./libft
 	$(RM) $(OBJECTS) $(NAME)
 	$(RM) -rf $(OBJDIR)
+	$(RM) -rf test test.dSYM
 
 re: fclean all
 
