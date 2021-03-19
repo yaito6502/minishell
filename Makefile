@@ -15,7 +15,8 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/connect_pipeline.c \
 			srcs/execute/do_redirection.c \
 			srcs/execute/get_cmd_frompath.c \
-			srcs/execute/execute_sequential.c
+			srcs/execute/execute_sequential.c \
+			srcs/execute/parser.c
 
 
 
@@ -30,7 +31,8 @@ TESTFILE =	tests/utils/test_create_new_tcommand.c \
 			tests/execute/test_connect_pipeline.c \
 			test/execute/test_do_redirection.c \
 			test/execute/test_get_cmd_frompath.c \
-			tests/execute/test_execute_sequential.c
+			tests/execute/test_execute_sequential.c \
+			test/execute/test_parser.c
 
 
 SRCDIRS = $(dir $(SRCFILE))
@@ -42,6 +44,7 @@ TESTCORE =	srcs/utils/create_new_tcommand.c \
 			srcs/utils/free_commandslist.c \
 			srcs/utils/create_newenv.c \
 			srcs/utils/is_builtin.c \
+			srcs/utils/add_str_to_list.c \
 			srcs/execute/get_cmd_frompath.c \
 			tests/print_tcommand.c
 
