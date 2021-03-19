@@ -80,7 +80,10 @@ void		execute_unset(t_command *cmd)
 	{
 		env = getenv(cmd->argv[i]);
 		if (env == NULL)
+		{
+			i++;
 			continue ;
+		}
 		ret = delete_key(cmd->argv[i]);
 		if (ret == false)
 			;//error

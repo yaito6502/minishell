@@ -27,7 +27,7 @@ int main(void)
 	print_env();
 	puts("-------------");
 	cmd = create_new_tcommand();
-	cmd->argv = ft_split("unset,HOME,USER",',');
+	cmd->argv = ft_split("unset,HOME,USER,INVALID",',');
 	execute_unset(cmd);
 	print_env();
 	ft_free_split(environ);
