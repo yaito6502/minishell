@@ -51,6 +51,9 @@ void		redirect_output(t_command *cmds);
 char		*get_cmd_frompath(t_command *cmd);
 void		execute_sequential(t_command *cmd);
 
+//builtin
+void		execute_unset(t_command *cmd);
+
 //for debug
 void		print_tcommand(t_command cmd);
 
