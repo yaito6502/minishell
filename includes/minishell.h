@@ -40,11 +40,8 @@ int			is_builtin(t_command *cmds);
 bool		create_newenv(void);
 bool		add_newval_to_env(const char *str);
 bool		has_slash(char *cmd);
-<<<<<<< HEAD
-=======
 char		**add_str_to_list(char **list, const char *str);
 char		*read_command(void);
->>>>>>> 32d86e7ff02ae84e56acca1a53425a1cc39c240b
 
 //execute
 char		*get_cmd_frompath(t_command *cmd);
