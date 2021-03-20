@@ -42,6 +42,7 @@ bool		add_newval_to_env(const char *str);
 bool		has_slash(char *cmd);
 char		**add_str_to_list(char **list, const char *str);
 char		*read_command(void);
+char		**split_line(char *str, char *set[2]);
 
 //execute
 char		*get_cmd_frompath(t_command *cmd);

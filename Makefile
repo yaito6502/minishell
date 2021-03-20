@@ -13,6 +13,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/utils/add_newval_to_env.c \
 			srcs/utils/has_slash.c \
 			srcs/utils/add_str_to_list.c \
+			srcs/utils/split_line.c \
 			srcs/execute/connect_pipeline.c \
 			srcs/execute/do_redirection.c \
 			srcs/execute/get_cmd_frompath.c \
@@ -26,8 +27,9 @@ TESTFILE =	tests/utils/test_create_new_tcommand.c \
 			tests/utils/test_create_newenv.c \
 			tests/utils/add_newval_to_env.c \
 			tests/utils/test_add_newval_to_env.c \
-      tests/utils/test_has_slash.c \
+			tests/utils/test_has_slash.c \
 			tests/utils/test_add_str_to_list.c \
+			tests/utils/test_split_line.c \
 			test/execute/test_get_cmd_frompath.c \
 			tests/execute/test_connect_pipeline.c \
 			test/execute/test_do_redirection.c \
