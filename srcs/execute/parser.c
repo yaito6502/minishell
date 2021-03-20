@@ -1,256 +1,115 @@
 #include "minishell.h"
 
-/*
-**
-**
-*/
-
-static char			*get_laststr(char **list)
+static t_command	*get_command(char **strs)
 {
-	size_t i;
-
-	if (!list)
-		return (NULL);
-	i = 0;
-	while (list[i] != NULL)
-		i++;
-	return (list[i - 1]);
-}
-
-static char			**get_strs(char **list, int len)
-{
-	char	**newlist;
-	size_t	i;
-
-	i = 0;
-	if (len <= 0)
-	{
-		while (list[i] != NULL)
-			i++;
-		len = i + len;
-	}
-	newlist = NULL;
-	i = 0;
-	while (list[i] != NULL && i < len)
-		if ((newlist = add_str_to_list(newlist, list[i++])) == NULL)
-			return (NULL);
-	return (newlist);
-}
-
-static void			set_op(t_command *cmd, t_op op)
-{
-	t_command *current;
-
-	if (!cmd)
-		return ;
-	current = cmd;
-	while (current->next != NULL)
-		current = current->next;
-	current->op = op;
-}
-
-void				print_strs(char **strs)
-{
-	size_t i;
+	int			i;
+	t_command	*cmd;
 
 	if (!strs)
-	{
-		puts("NULL");
-		return ;
-	}
-	i = 0;
-	while (strs[i] != NULL)
-	{
-		printf("%s ", strs[i]);
-		i++;
-	}
-	puts("");
-}
-
-void				*wrap_free_commands_list(t_command *cmds)
-{
-	free_commandslist(&cmds);
-	return (NULL);
-}
-
-static bool			set_redirection_list(t_command *cmd, char **list)
-{
-	printf("\nredirection_list\n");
-	printf("%s %s\n", list[0], list[1]);
-	if (ft_strchr(*list, '<'))
-	{
-		if (!(cmd->redirect_in = add_str_to_list(cmd->redirect_in, list[0])))
-			return (false);
-		if (!(cmd->redirect_in = add_str_to_list(cmd->redirect_in, list[1])))
-			return (false);
-	}
-	else if (ft_strchr(*list, '>'))
-	{
-		if (!(cmd->redirect_out = add_str_to_list(cmd->redirect_out, list[0])))
-			return (false);
-		if (!(cmd->redirect_out = add_str_to_list(cmd->redirect_out, list[1])))
-			return (false);
-	}
-	return (true);
-}
-
-static t_command	*get_command(char **list)
-{
-	size_t				i;
-	t_command			*cmd;
-
-	printf("\ncommand\n");
-	print_strs(list);
-	if (!list)
 		return (NULL);
 	if ((cmd = create_new_tcommand()) == NULL)
 		return (NULL);
 	i = 0;
-	while (list[i] != NULL)
+	while (strs[i] != NULL)
 	{
-		if (ft_strchr(list[i], '<') || ft_strchr(list[i], '>'))
+		if (ft_strchr(strs[i], '<') || ft_strchr(strs[i], '>'))
 		{
-			if (!set_redirection_list(cmd, list + i))
+			if (!set_redirection_list(cmd, strs + i))
 				return (wrap_free_commands_list(cmd));
+			if (ft_strchr(strs[i + 1], '<') || ft_strchr(strs[i + 1], '>'))
+				i++;
 			i += 2;
 		}
 		else
 		{
-			if ((cmd->argv = add_str_to_list(cmd->argv, list[i])) == NULL)
+			if ((cmd->argv = add_str_to_list(cmd->argv, strs[i++])) == NULL)
 				return (wrap_free_commands_list(cmd));
-			i++;
 		}
 	}
 	return (cmd);
 }
 
-/*
-**今のところrecieve_pipeをtrueにする方法が見つからず
-*/
-static t_command	*get_pipeline(char **list)
+static t_command	*get_pipeline(char **strs)
 {
-	size_t				i;
-	t_command			*cmd;
-	t_command			*head;
+	int			i;
+	t_command	*pipeline;
 
-	printf("\npipeline\n");
-	print_strs(list);
-	if (!list)
+	if (!strs)
 		return (NULL);
-	i = 0;
-	head = cmd;
-	while (list[i] != NULL)
-	{
-		if (!ft_strncmp(list[i], "|", 2))
-		{
-			if ((cmd = get_command(get_strs(list, i))) == NULL)
-				return (wrap_free_commands_list(head));
-			//set_op(cmd, PIPELINE);
-			cmd = cmd->next;
-			list += (i + 1);
-			i = 0;
-		}
-		i++;
-	}
-	if ((cmd = get_command(get_strs(list, 0))) == NULL)
-		return (wrap_free_commands_list(head));
-	//printf("\npipeline\n");
-	return (head);
+	if ((i = strschr(strs, "|")) < 0)
+		return (get_command(strs));
+	if ((pipeline = get_pipeline(get_strs(strs, i))) == NULL)
+		return (NULL);
+	pipeline->op = PIPELINE;
+	if ((pipeline->next = get_pipeline(get_strs(strs + i + 1, 0))) == NULL)
+		return (wrap_free_commands_list(pipeline));
+	pipeline->next->receive_pipe = true;
+	return (pipeline);
 }
 
-static t_command	*get_andor(char **list)
+static t_command	*get_andor(char **strs)
 {
-	size_t				i;
-	t_command			*cmd;
-	t_command			*head;
+	int			i;
+	t_command	*andor;
 
-	printf("\nandor\n");
-	print_strs(list);
-	if (!list)
+	if (!strs)
 		return (NULL);
-	i = 0;
-	head = cmd;
-	while (list[i] != NULL)
-	{
-		if ((!ft_strncmp(list[i], "&", 2) && !ft_strncmp(list[i + 1], "&", 2)) \
-		|| (!ft_strncmp(list[i], "|", 2) && !ft_strncmp(list[i + 1], "|", 2)))
-		{
-			if ((cmd = get_pipeline(get_strs(list, i))) == NULL)
-				return (wrap_free_commands_list(head));
-			/*if (!ft_strncmp(list[i], ";", 2))
-			**	set_op(cmd, SCOLON);
-			*/
-			cmd = cmd->next;
-			list += (i + 1);
-			i = 0;
-		}
-		i++;
-	}
-	if ((cmd = get_pipeline(get_strs(list, 0))) == NULL)
-		return (wrap_free_commands_list(head));
-	//printf("\nandor\n");
-	return (head);
+	if ((i = strschr(strs, "&|")) < 0 || (!ft_strchr(strs[i + 1], '&') && \
+	!ft_strchr(strs[i + 1], '|')))
+		return (get_pipeline(strs));
+	if ((andor = get_andor(get_strs(strs, i))) == NULL)
+		return (NULL);
+	/*if (ft_strchr(strs[i + 1], '&'))
+	**	andor.? = AND;
+	**else
+	**	andor.? = PIPELINE;
+	*/
+	if ((andor->next = get_andor(get_strs(strs + i + 1, 0))) == NULL)
+		return (wrap_free_commands_list(andor));
+	return (andor);
 }
 
-/*
-**214行目のset_opが正常に動作していない
-*/
-static t_command	*get_list(char **list)
+static t_command	*get_list(char **strs)
 {
-	size_t				i;
-	t_command			*cmd;
-	t_command			*head;
+	int			i;
+	t_command	*list;
 
-	printf("\nlist\n");
-	print_strs(list);
-	if (!list)
+	if (!strs)
 		return (NULL);
-	i = 0;
-	head = cmd;
-	while (list[i] != NULL)
-	{
-		if (!ft_strncmp(list[i], ";", 2) || !ft_strncmp(list[i], "&", 2))
-		{
-			if ((cmd = get_andor(get_strs(list, i))) == NULL)
-				return (wrap_free_commands_list(head));
-			/*if (!ft_strncmp(list[i], ";", 2))
-			**	set_op(cmd, SCOLON);
-			*/
-			/*if (!ft_strncmp(list[i], "&", 2))
-			**	set_op(cmd, AND);
-			*/
-			cmd = cmd->next;
-			list += (i + 1);
-			i = 0;
-		}
-		i++;
-	}
-	if ((cmd = get_andor(get_strs(list, i))) == NULL)
-		return (wrap_free_commands_list(head));
-	//printf("\nlist\n");
-	return (head);
+	if ((i = strschr(strs, ";&")) < 0)
+		return (get_andor(strs));
+	if ((list = get_list(get_strs(strs, i))) == NULL)
+		return (NULL);
+	if (ft_strchr(strs[i], ';'))
+		list->op = SCOLON;
+	/*else
+	**	list->op = AND;
+	*/
+	if ((list->next = get_list(get_strs(strs + i + 1, 0))) == NULL)
+		return (wrap_free_commands_list(list));
+	return (list);
 }
 
-t_command			*get_commandline(char **list)
+t_command			*get_commandline(char **strs)
 {
 	t_command	*cmds;
+	t_command	*head;
 	char		*last;
 
-	printf("\ncommandline\n");
-	print_strs(list);
-	if (!list)
+	if (!strs)
 		return (NULL);
-	last = get_laststr(list);
-	if (!ft_strncmp(last, ";", 2) || !ft_strncmp(last, "&", 2))
-		cmds = get_list(get_strs(list, -1));
+	last = get_laststr(strs);
+	if (ft_strchr(last, ';') || ft_strchr(last, '&'))
+		cmds = get_list(get_strs(strs, -1));
 	else
-		cmds = get_list(list);
-	/*if (!ft_strncmp(last, ";", 2))
-	**	set_op(cmds, SCOLON);
+		cmds = get_list(strs);
+	head = cmds;
+	while (cmds->next)
+		cmds = cmds->next;
+	if (ft_strchr(last, ';'))
+		cmds->op = SCOLON;
+	/*if (ft_strchr(last, '&'))
+	**	cmds->op = AND;
 	*/
-	/*if (!ft_strncmp(last, "&", 2))
-	**	set_op(cmds, AND);
-	*/
-	//printf("\ncommandline\n");
-	return (cmds);
+	return (head);
 }

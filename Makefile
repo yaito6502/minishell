@@ -16,7 +16,8 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/do_redirection.c \
 			srcs/execute/get_cmd_frompath.c \
 			srcs/execute/execute_sequential.c \
-			srcs/execute/parser.c
+			srcs/execute/parser.c \
+			srcs/execute/parser_utils.c
 
 
 
@@ -46,6 +47,7 @@ TESTCORE =	srcs/utils/create_new_tcommand.c \
 			srcs/utils/is_builtin.c \
 			srcs/utils/add_str_to_list.c \
 			srcs/execute/get_cmd_frompath.c \
+			srcs/execute/parser_utils.c \
 			tests/print_tcommand.c
 
 

@@ -50,6 +50,11 @@ void		redirect_output(t_command *cmds);
 char		*get_cmd_frompath(t_command *cmd);
 void		execute_sequential(t_command *cmd);
 t_command	*get_commandline(char **list);
+char		*get_laststr(char **list);
+char		**get_strs(char **list, int len);
+int			strschr(char **strs, char *set);
+void		*wrap_free_commands_list(t_command *cmds);
+bool		set_redirection_list(t_command *cmd, char **list);
 
 //for debug
 void		print_tcommand(t_command cmd);
