@@ -39,7 +39,9 @@ void		free_commandslist(t_command **cmds);
 int			is_builtin(t_command *cmds);
 bool		create_newenv(void);
 bool		add_newval_to_env(const char *str);
+bool		has_slash(char *cmd);
 char		**add_str_to_list(char **list, const char *str);
+char		*read_command(void);
 
 //execute
 char		*get_cmd_frompath(t_command *cmd);
@@ -48,6 +50,7 @@ void		receive_pipeline(t_command *cmds);
 void		redirect_input(t_command *cmds);
 void		redirect_output(t_command *cmds);
 char		*get_cmd_frompath(t_command *cmd);
+char		*join_path(char *cmd);
 void		execute_sequential(t_command *cmd);
 t_command	*get_commandline(char **list);
 char		*get_laststr(char **list);
