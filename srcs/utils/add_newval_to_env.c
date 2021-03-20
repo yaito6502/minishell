@@ -17,7 +17,7 @@ bool	add_newval_to_env(const char *str)
 	i = 0;
 	while (environ[i] != NULL)
 		i++;
-	new_env = (char **)ft_realloc(environ, (i + 2) * sizeof(char *));
+	new_env = (char **)ft_sprealloc(environ, (i + 2) * sizeof(char *));
 	if (new_env == NULL)
 		return (false);
 	environ = new_env;
