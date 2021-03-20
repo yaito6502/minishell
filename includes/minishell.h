@@ -53,6 +53,9 @@ char		*get_cmd_frompath(t_command *cmd);
 char		*join_path(char *cmd);
 void		execute_sequential(t_command *cmd);
 
+//builtin
+void		execute_env(t_command *cmd);
+
 //for debug
 void		print_tcommand(t_command cmd);
 

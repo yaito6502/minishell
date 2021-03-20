@@ -18,7 +18,8 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/get_cmd_frompath.c \
 			srcs/execute/join_path.c \
 			srcs/execute/execute_sequential.c \
-			srcs/execute/read_command.c
+			srcs/execute/read_command.c \
+			srcs/builtin/execute_env.c
 
 TESTFILE =	tests/utils/test_create_new_tcommand.c \
 			tests/utils/test_free_commandslist.c \
@@ -34,7 +35,8 @@ TESTFILE =	tests/utils/test_create_new_tcommand.c \
 			test/execute/test_get_cmd_frompath.c \
 			tests/execute/test_join_path.c \
 			tests/execute/test_execute_sequential.c \
-			tests/execute/test_read_command.c
+			tests/execute/test_read_command.c \
+			tests/builtin/test_execute_env.c
 
 SRCDIRS = $(dir $(SRCFILE))
 OBJDIR = ./obj
