@@ -18,7 +18,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/get_cmd_frompath.c \
 			srcs/execute/join_path.c \
 			srcs/execute/execute_sequential.c \
-			srcs/execute/execute_parallel.c
+			srcs/execute/execute_parallel.c \
 			srcs/execute/read_command.c
 
 TESTFILE =	tests/utils/test_create_new_tcommand.c \
