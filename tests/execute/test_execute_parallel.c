@@ -6,6 +6,8 @@ static void	confirm_child(t_command *cmd_ptr, t_command *cmd)
 	int	ret;
 	t_command *end;
 
+	if (cmd->next == NULL)
+		end = NULL;
 	end = cmd->next;
 	while (cmd_ptr != end)
 	{
@@ -42,12 +44,12 @@ int main(void)
 	cmd_ptr = cmd;
 	while (cmd != NULL)
 	{
-		if (cmd->op == PIPELINE || cmd->receive_pipe == true)
-			execute_parallel(cmd);
+		execute_parallel(cmd);
+
 		if (cmd->op == SCOLON || cmd->op == EOS)
 			confirm_child(cmd_ptr, cmd);
 		cmd = cmd->next;
 	}
-	free_commandslist(&cmd_ptr);
+	free_commandslist(&cmd);
 	return 0;
 }
