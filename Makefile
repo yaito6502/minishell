@@ -35,7 +35,7 @@ TESTFILE =	tests/utils/test_create_new_tcommand.c \
 			test/execute/test_get_cmd_frompath.c \
 			tests/execute/test_join_path.c \
 			tests/execute/test_execute_sequential.c \
-      tests/execute/test_execute_parallel.c \
+			tests/execute/test_execute_parallel.c \
 			tests/execute/test_read_command.c
 
 SRCDIRS = $(dir $(SRCFILE))
