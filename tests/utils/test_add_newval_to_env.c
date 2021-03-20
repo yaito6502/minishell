@@ -28,6 +28,6 @@ int			main(void)
 	add_newval_to_env("test is success!");
 	add_newval_to_env("second test is success!");
 	print_env();
-
+	ft_free_split(environ);
 	return (0);
 }
