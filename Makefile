@@ -13,31 +13,41 @@ SRCFILE =	srcs/main/main.c \
 			srcs/utils/add_newval_to_env.c \
 			srcs/utils/has_slash.c \
 			srcs/utils/add_str_to_list.c \
+			srcs/utils/split_line.c \
 			srcs/execute/connect_pipeline.c \
 			srcs/execute/do_redirection.c \
 			srcs/execute/get_cmd_frompath.c \
 			srcs/execute/join_path.c \
+			srcs/execute/reconnect_stdfd.c \
 			srcs/execute/execute_sequential.c \
+			srcs/execute/execute_parallel.c \
 			srcs/execute/read_command.c \
       srcs/execute/parser.c \
-			srcs/execute/parser_utils.c
+			srcs/execute/parser_utils.c \
+			srcs/builtin/execute_env.c \
+			srcs/builtin/execute_unset.c
+
 
 TESTFILE =	tests/utils/test_create_new_tcommand.c \
 			tests/utils/test_free_commandslist.c \
 			tests/utils/test_is_builtin.c \
 			tests/utils/test_create_newenv.c \
-			tests/utils/add_newval_to_env.c \
 			tests/utils/test_add_newval_to_env.c \
-      tests/utils/test_has_slash.c \
+			tests/utils/test_has_slash.c \
 			tests/utils/test_add_str_to_list.c \
-			test/execute/test_get_cmd_frompath.c \
+			tests/utils/test_split_line.c \
 			tests/execute/test_connect_pipeline.c \
-			test/execute/test_do_redirection.c \
-			test/execute/test_get_cmd_frompath.c \
+			tests/execute/test_do_redirection.c \
+			tests/execute/test_get_cmd_frompath.c \
 			tests/execute/test_join_path.c \
+			tests/execute/test_reconnect_stdfd.c \
 			tests/execute/test_execute_sequential.c \
+			tests/execute/test_execute_parallel.c \
 			tests/execute/test_read_command.c \
-      test/execute/test_parser.c
+      test/execute/test_parser.c \
+			tests/builtin/test_execute_env.c \
+			tests/builtin/test_execute_unset.c
+
 
 SRCDIRS = $(dir $(SRCFILE))
 OBJDIR = ./obj
@@ -58,7 +68,7 @@ $(OBJDIR)/%.o: %.c
 	gcc $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 $(TEST): $(LIBFT)
-	gcc -g $(wildcard tests/*/$(addprefix test_,$(addsuffix .c,$@))) \
+	gcc -g $(filter tests/%/test_$@.c, $(TESTFILE)) \
 	$(filter-out srcs/main/main.c ,$(SRCFILE)) $(INCLUDES) $^ -o test
 
 clean:

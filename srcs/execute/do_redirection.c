@@ -39,6 +39,8 @@ void		redirect_input(t_command *cmds)
 	int		state;
 	int		flag;
 
+	if (cmds->redirect_in == NULL)
+		return ;
 	i = 0;
 	while (cmds->redirect_in[i] != NULL)
 	{
@@ -73,6 +75,8 @@ void		redirect_output(t_command *cmds)
 	int		state;
 	int		flag;
 
+	if (cmds->redirect_out == NULL)
+		return ;
 	i = 0;
 	while (cmds->redirect_out[i] != NULL)
 	{
