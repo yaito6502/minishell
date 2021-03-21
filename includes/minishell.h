@@ -69,4 +69,6 @@ void		execute_unset(t_command *cmd);
 //for debug
 void		print_tcommand(t_command cmd);
 
+char		**tokenize(char *line);
+
 #endif

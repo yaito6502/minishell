@@ -25,7 +25,8 @@ SRCFILE =	srcs/main/main.c \
       srcs/execute/parser.c \
 			srcs/execute/parser_utils.c \
 			srcs/builtin/execute_env.c \
-			srcs/builtin/execute_unset.c
+			srcs/builtin/execute_unset.c \
+			srcs/tokenizer/tokenize.c
 
 
 TESTFILE =	tests/utils/test_create_new_tcommand.c \
@@ -46,7 +47,8 @@ TESTFILE =	tests/utils/test_create_new_tcommand.c \
 			tests/execute/test_read_command.c \
       test/execute/test_parser.c \
 			tests/builtin/test_execute_env.c \
-			tests/builtin/test_execute_unset.c
+			tests/builtin/test_execute_unset.c \
+			tests/tokenizer/test_tokenize.c
 
 
 SRCDIRS = $(dir $(SRCFILE))
