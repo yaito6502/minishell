@@ -49,9 +49,11 @@ void		send_pipeline(t_command *cmds, int newpipe[2]);
 void		receive_pipeline(t_command *cmds);
 void		redirect_input(t_command *cmds);
 void		redirect_output(t_command *cmds);
+bool		reconnect_stdfd(int mode);
 char		*get_cmd_frompath(t_command *cmd);
 char		*join_path(char *cmd);
 void		execute_sequential(t_command *cmd);
+void		execute_parallel(t_command *cmd);
 
 //builtin
 void		execute_env(t_command *cmd);
