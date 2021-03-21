@@ -1,11 +1,11 @@
 #include "minishell.h"
 
-char	*get_cwd_with_slash(char *path)
+char	*get_cwd_with_slash(void)
 {
+	char *path;
 	char *tmp;
 
-	path = NULL;
-	path = getcwd(path, 1024);
+	path = getcwd(NULL, 0);
 	if (path == NULL)
 		return (NULL);
 	tmp = path;
@@ -70,8 +70,7 @@ char	*read_path(char *cmd, char *buf)
 		tmp[len] = '/';
 		tmp[len + 1] = '\0';
 	}
-	if (buf != NULL)
-		free(buf);
+	free(buf);
 	buf = ft_strdup(tmp);
 	if (buf == NULL)
 		return (NULL);
@@ -93,7 +92,7 @@ char	*join_path(char *cmd)
 	if (*cmd == '/')
 		return (cmd);
 	buf = NULL;
-	path = get_cwd_with_slash(path);
+	path = get_cwd_with_slash();
 	if (path == NULL)
 		return (NULL);
 	while (*cmd != '\0')

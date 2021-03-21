@@ -4,13 +4,9 @@
 ** argv[0]内に/があるか確認する。あったらtrue、なかったらfalseを返す。
 */
 
-bool	has_slash(char *cmd)
+bool	has_slash(char *str)
 {
-	while(*cmd != '/')
-	{
-		cmd++;
-		if (*cmd == '\0')
-			return (false);
-	}
+	if (ft_strchr(str, '/') == NULL)
+		return (false);
 	return (true);
 }
