@@ -32,8 +32,8 @@ TESTFILE =	tests/utils/test_create_new_tcommand.c \
 			tests/utils/test_has_slash.c \
 			tests/utils/test_add_str_to_list.c \
 			tests/execute/test_connect_pipeline.c \
-			test/execute/test_do_redirection.c \
-			test/execute/test_get_cmd_frompath.c \
+			tests/execute/test_do_redirection.c \
+			tests/execute/test_get_cmd_frompath.c \
 			tests/execute/test_join_path.c \
 			tests/execute/test_reconnect_stdfd.c \
 			tests/execute/test_execute_sequential.c \
@@ -61,7 +61,7 @@ $(OBJDIR)/%.o: %.c
 	gcc $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 $(TEST): $(LIBFT)
-	gcc -g $(wildcard tests/*/$(addprefix test_,$(addsuffix .c,$@))) \
+	gcc -g $(filter tests/%/test_$@.c, $(TESTFILE)) \
 	$(filter-out srcs/main/main.c ,$(SRCFILE)) $(INCLUDES) $^ -o test
 
 clean:
