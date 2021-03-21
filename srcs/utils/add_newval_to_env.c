@@ -12,7 +12,10 @@ bool	add_newval_to_env(const char *str)
 	char		**new_env;
 	extern char	**environ;
 
-	if (!(new_value = ft_strdup(str)))
+	if (str == NULL)
+		return (false);
+	new_value = ft_strdup(str);
+	if (new_value == NULL)
 		return (false);
 	i = 0;
 	while (environ[i] != NULL)
