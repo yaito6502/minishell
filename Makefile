@@ -20,7 +20,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/reconnect_stdfd.c \
 			srcs/execute/execute_sequential.c \
 			srcs/execute/execute_parallel.c \
-			srcs/execute/start_commands.c
+			srcs/execute/start_commands.c \
 			srcs/execute/read_command.c
 
 
@@ -38,8 +38,7 @@ TESTFILE =	tests/utils/test_create_new_tcommand.c \
 			tests/execute/test_reconnect_stdfd.c \
 			tests/execute/test_execute_sequential.c \
 			tests/execute/test_execute_parallel.c \
-			tests/execute/test_start_commands.c
-
+			tests/execute/test_start_commands.c \
 			tests/execute/test_read_command.c
 
 SRCDIRS = $(dir $(SRCFILE))
