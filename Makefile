@@ -19,8 +19,9 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/join_path.c \
 			srcs/execute/reconnect_stdfd.c \
 			srcs/execute/execute_sequential.c \
-			srcs/execute/execute_parallel.c \
-			srcs/execute/read_command.c
+			srcs/execute/read_command.c \
+			srcs/builtin/execute_unset.c \
+			srcs/execute/execute_parallel.c
 
 
 TESTFILE =	tests/utils/test_create_new_tcommand.c \
@@ -36,8 +37,9 @@ TESTFILE =	tests/utils/test_create_new_tcommand.c \
 			tests/execute/test_join_path.c \
 			tests/execute/test_reconnect_stdfd.c \
 			tests/execute/test_execute_sequential.c \
+			tests/execute/test_read_command.c \
+			tests/builtin/test_execute_unset.c \
 			tests/execute/test_execute_parallel.c \
-			tests/execute/test_read_command.c
 
 SRCDIRS = $(dir $(SRCFILE))
 OBJDIR = ./obj
