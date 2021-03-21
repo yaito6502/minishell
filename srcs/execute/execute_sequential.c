@@ -4,23 +4,24 @@
 //エラー時、bool型等を返して判定する？
 void		execute_sequential(t_command *cmd)
 {
-	pid_t	pid;
 	extern	char **environ;
 	char	*path;
 
-	//修正前なので、コメントアウトしてます。
-	//redirect_input(cmd);
-	//redirect_output(cmd);
+	redirect_input(cmd);
+	redirect_output(cmd);
 	if (is_builtin(cmd) != -1)
 	{
 		//execute_builtin(cmd);
 		printf("this command is builtin.\n");
-		return ;
+		return ; //call read_command
 	}
-	if ((pid = fork()) == -1)
+	if ((cmd->pid = fork()) == -1)
 		;//error
-	if (pid == 0)
+	if (cmd->pid == 0)
+	{
+		if (has_slash(cmd->argv[0]))
+			execve(join_path(cmd->argv[0]), cmd->argv, environ);
 		execve(get_cmd_frompath(cmd), cmd->argv, environ);
-	cmd->pid = pid;
+	}
 	return ;
 }
