@@ -12,6 +12,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/utils/create_newenv.c \
 			srcs/utils/add_newval_to_env.c \
 			srcs/utils/has_slash.c \
+			srcs/utils/add_str_to_list.c \
 			srcs/execute/connect_pipeline.c \
 			srcs/execute/do_redirection.c \
 			srcs/execute/get_cmd_frompath.c \
@@ -19,26 +20,26 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/reconnect_stdfd.c \
 			srcs/execute/execute_sequential.c \
 			srcs/execute/execute_parallel.c \
-			srcs/execute/start_commands.c
+			srcs/execute/start_commands.c \
+			srcs/execute/read_command.c
 
 
 TESTFILE =	tests/utils/test_create_new_tcommand.c \
 			tests/utils/test_free_commandslist.c \
 			tests/utils/test_is_builtin.c \
 			tests/utils/test_create_newenv.c \
-			tests/utils/add_newval_to_env.c \
 			tests/utils/test_add_newval_to_env.c \
 			tests/utils/test_has_slash.c \
-			tests/execute/test_get_cmd_frompath.c \
+			tests/utils/test_add_str_to_list.c \
 			tests/execute/test_connect_pipeline.c \
-			tests/execute/test_do_redirection.c \
-			tests/execute/test_get_cmd_frompath.c \
+			test/execute/test_do_redirection.c \
+			test/execute/test_get_cmd_frompath.c \
 			tests/execute/test_join_path.c \
 			tests/execute/test_reconnect_stdfd.c \
 			tests/execute/test_execute_sequential.c \
 			tests/execute/test_execute_parallel.c \
-			tests/execute/test_start_commands.c
-
+			tests/execute/test_start_commands.c \
+			tests/execute/test_read_command.c
 
 SRCDIRS = $(dir $(SRCFILE))
 OBJDIR = ./obj
@@ -72,6 +73,7 @@ fclean:
 	$(MAKE) fclean -C ./libft
 	$(RM) $(OBJECTS) $(NAME)
 	$(RM) -rf $(OBJDIR)
+	$(RM) -rf test test.dSYM
 
 re: fclean all
 

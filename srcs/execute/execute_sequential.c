@@ -13,7 +13,7 @@ void		execute_sequential(t_command *cmd)
 	{
 		//execute_builtin(cmd);
 		printf("this command is builtin.\n");
-		return ;
+		return ; //call read_command
 	}
 	if ((cmd->pid = fork()) == -1)
 		;//error
