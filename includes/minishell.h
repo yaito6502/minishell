@@ -55,6 +55,12 @@ char		*get_cmd_frompath(t_command *cmd);
 char		*join_path(char *cmd);
 void		execute_sequential(t_command *cmd);
 void		execute_parallel(t_command *cmd);
+t_command	*get_commandline(char **list);
+char		*get_laststr(char **list);
+char		**get_strs(char **list, int len);
+int			strschr(char **strs, char *set);
+void		*wrap_free_commands_list(t_command *cmds);
+bool		set_redirection_list(t_command *cmd, char **list);
 
 //builtin
 void		execute_env(t_command *cmd);
