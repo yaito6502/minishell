@@ -8,9 +8,16 @@
 
 void	execute_echo(t_command *cmd)
 {
-	int	i;
+	bool	op_flag;
+	int		i;
 
+	op_flag = false;
 	i = 1;
+	if (!ft_strncmp("-n", cmd->argv[1], 3))
+	{
+		op_flag = true;
+		i = 2;
+	}
 	while (cmd->argv[i] != NULL)
 	{
 		printf("%s", cmd->argv[i]);
@@ -18,6 +25,7 @@ void	execute_echo(t_command *cmd)
 			printf(" ");
 		i++;
 	}
-	printf("\n");
+	if (op_flag == false)
+		printf("\n");
 	return ;
 }
