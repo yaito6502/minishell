@@ -2,17 +2,15 @@
 
 /*
 ** 標準入力から受け取った、lineをトークン化した二次元配列にする関数。
-** e.g. $A "world, $USER" 3>outfile1| ls $HOME; -> {{$A}, {"world, $USER"}, {3>}, {outfile1}, {|}, {ls}, {$HOME}, {;}, NULL}
-** トークンの二次元配列の数は初期値64として、足りないときは倍にしていく。
+** e.g. $A "world, $USER" 3>outfile1| ls $HOME;
+** -> {{$A}, {"world, $USER"}, {3>}, {outfile1}, {|}, {ls}, {$HOME}, {;}, NULL}
 ** errorの時はNULL、それ以外は、作成したtoken配列を返す。
 */
-// 後ろから見て行くほうがいいね
 
 /*
-** hello"world"は一つのトークン
+** スペース区切り文字を見つけてインデックスを返す。"'の中身はそのまま渡す。
 */
 
-//kurikaesi tuika
 static int		get_index(char *p)
 {
 	int		i;
@@ -38,6 +36,10 @@ static int		get_index(char *p)
 	}
 	return (i);
 }
+
+/*
+** <>が来たとき前のトークンが数字のみの場合結合する。
+*/
 
 static char		**check_lasttoken(char **tokens, char *op)
 {
