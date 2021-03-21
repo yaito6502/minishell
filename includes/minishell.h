@@ -57,6 +57,7 @@ void		execute_parallel(t_command *cmd);
 
 //builtin
 void		execute_env(t_command *cmd);
+void		execute_unset(t_command *cmd);
 
 //for debug
 void		print_tcommand(t_command cmd);
