@@ -42,6 +42,15 @@ bool		add_newval_to_env(const char *str);
 bool		has_slash(char *cmd);
 char		**add_str_to_list(char **list, const char *str);
 char		*read_command(void);
+char		**split_line(char *str, char *set[2]);
+
+//parse
+t_command	*get_commandline(char **list);
+char		*get_laststr(char **list);
+char		**get_strs(char **list, int len);
+int			strschr(char **strs, char *set);
+void		*wrap_free_commands_list(t_command *cmds);
+bool		set_redirection_list(t_command *cmd, char **list);
 
 //execute
 char		*get_cmd_frompath(t_command *cmd);
@@ -55,6 +64,10 @@ char		*join_path(char *cmd);
 void		execute_sequential(t_command *cmd);
 void		execute_parallel(t_command *cmd);
 void		start_commands(t_command *cmd);
+
+//builtin
+void		execute_env(t_command *cmd);
+void		execute_unset(t_command *cmd);
 
 //for debug
 void		print_tcommand(t_command cmd);
