@@ -26,7 +26,8 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/start_commands.c \
 			srcs/execute/read_command.c \
 			srcs/builtin/execute_env.c \
-			srcs/builtin/execute_unset.c
+			srcs/builtin/execute_unset.c \
+			srcs/builtin/execute_echo.c
 
 
 TESTFILE =	tests/print_tcommand.c \
@@ -49,7 +50,8 @@ TESTFILE =	tests/print_tcommand.c \
 			tests/execute/test_start_commands.c \
 			tests/execute/test_read_command.c \
 			tests/builtin/test_execute_env.c \
-			tests/builtin/test_execute_unset.c
+			tests/builtin/test_execute_unset.c \
+			tests/builtin/test_execute_echo.c
 
 
 SRCDIRS = $(dir $(SRCFILE))
