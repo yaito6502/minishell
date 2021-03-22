@@ -39,7 +39,7 @@ int main(void)
 	printf("%sWHITE%s   RESET\n", WHITE, RESET);
 
 	create_newenv();
-	printf("Jenerating shell environment valiables ... %s[OK]%s\n", GREEN, RESET);
+	printf("Generating shell environment valiables ... %s[OK]%s\n", GREEN, RESET);
 	username = get_username();
 	printf("Hello %s, welcome to our minishell!\n", username);
 	//prompt表示

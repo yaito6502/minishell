@@ -29,7 +29,6 @@ static void	confirm_child(t_command *cmd_ptr, t_command *cmd)
 void		start_commands(t_command *cmd)
 {
 	t_command	*cmd_ptr;
-	int			default_fd[3];
 
 	reconnect_stdfd(0);
 	cmd_ptr = cmd;

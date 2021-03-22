@@ -37,7 +37,6 @@ void		redirect_input(t_command *cmds)
 	long	ret;
 	int		fd;
 	int		state;
-	int		flag;
 
 	if (cmds->redirect_in == NULL)
 		return ;

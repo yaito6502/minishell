@@ -5,7 +5,6 @@
 void	execute_sequential(t_command *cmd)
 {
 	extern char	**environ;
-	char		*path;
 
 	redirect_input(cmd);
 	redirect_output(cmd);
@@ -16,8 +15,8 @@ void	execute_sequential(t_command *cmd)
 		return ; //call read_command
 	}
 	cmd->pid = fork();
-	if (cmd->pid == -1)
-		;//error
+	//if (cmd->pid == -1)
+	//	;//error
 	if (cmd->pid == 0)
 	{
 		if (has_slash(cmd->argv[0]))

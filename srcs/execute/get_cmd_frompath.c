@@ -51,7 +51,6 @@ static char	*search_path(char **split_path, char *cmdname)
 char		*get_cmd_frompath(t_command *cmd)
 {
 	char	**split_path;
-	char	*program;
 	char	*fullpath;
 
 	split_path = create_splitpath();
