@@ -2,9 +2,9 @@
 
 static void	confirm_child(t_command *cmd_ptr, t_command *cmd)
 {
-	int	status;
-	int	ret;
-	t_command *end;
+	int			status;
+	int			ret;
+	t_command	*end;
 
 	if (cmd->next == NULL)
 		end = NULL;

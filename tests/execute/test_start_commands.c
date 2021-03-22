@@ -20,7 +20,7 @@ int main(void)
 	cmd->next->next->next = create_new_tcommand();
 	next = next->next;
 	next->argv = ft_split("cat,tests/execute/test_join_path.c",',');
-	next->op = EOF;
+	next->op = EOS;
 
 
 	start_commands(cmd);
