@@ -15,24 +15,26 @@ static int		get_index(char *p)
 {
 	int		i;
 	int		j;
-	int		c;
+	int		quote_count;
 
 	i = 0;
-	j = 0;
-	c = 0;
-	while (p[i] != '\0' && !ft_strchr(" |><;", p[i]))
-		i++;
-	while (j < i)
+	while (p[i] != '\0')
 	{
-		if (ft_strchr("\"'", p[j]))
-			c++;
-		j++;
-	}
-	if (c % 2 == 1)
-	{
-		while (p[i] != '\0' && !ft_strchr("\"'", p[i]))
+		while (p[i] != '\0' && !ft_strchr(" |><;", p[i]))
 			i++;
-		i++;
+		j = 0;
+		quote_count = 0;
+		while (j < i)
+			if (ft_strchr("\"'", p[j++]))
+				quote_count++;
+		if (quote_count % 2 == 1)
+		{
+			while (p[i] != '\0' && !ft_strchr("\"'", p[i]))
+				i++;
+			i++;
+		}
+		else
+			return (i);
 	}
 	return (i);
 }
