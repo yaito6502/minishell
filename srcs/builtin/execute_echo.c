@@ -6,18 +6,43 @@
 ** ""など空の文字列があった場合もスペースを挟む。
 */
 
-void	execute_echo(t_command *cmd)
+/*
+** nオプションの有無をflagに格納、出力を始めるindexを返す。
+** 最初の引数から任意の数-nが続く→有効、-nnnnnnnnn…→有効。
+** -n[n以外の文字]→無効、そのまま出力
+** 無効なオプションを見つけた時点でそのインデックスを返す。
+*/
+
+static int	get_option(char **argv, bool *flag)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (argv[i] != NULL)
+	{
+		j = 0;
+		if (argv[i][j] != '-')
+			return (i);
+		j++;
+		while (argv[i][j] != '\0')
+		{
+			if (argv[i][j] != 'n')
+				return (i);
+			j++;
+		}
+		*flag = true;
+		i++;
+	}
+}
+
+void		execute_echo(t_command *cmd)
 {
 	bool	op_flag;
 	int		i;
 
 	op_flag = false;
-	i = 1;
-	if (!ft_strncmp("-n", cmd->argv[1], 3))
-	{
-		op_flag = true;
-		i = 2;
-	}
+	i = get_option(cmd->argv, &op_flag);
 	while (cmd->argv[i] != NULL)
 	{
 		printf("%s", cmd->argv[i]);

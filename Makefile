@@ -22,7 +22,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/execute_sequential.c \
 			srcs/execute/execute_parallel.c \
 			srcs/execute/read_command.c \
-      srcs/execute/parser.c \
+			srcs/execute/parser.c \
 			srcs/execute/parser_utils.c \
 			srcs/builtin/execute_env.c \
 			srcs/builtin/execute_unset.c \
@@ -44,7 +44,7 @@ TESTFILE =	tests/utils/test_create_new_tcommand.c \
 			tests/execute/test_execute_sequential.c \
 			tests/execute/test_execute_parallel.c \
 			tests/execute/test_read_command.c \
-      test/execute/test_parser.c \
+			tests/execute/test_parser.c \
 			tests/builtin/test_execute_env.c \
 			tests/builtin/test_execute_unset.c \
 			tests/builtin/test_execute_echo.c
