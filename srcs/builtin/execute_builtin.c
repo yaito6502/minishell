@@ -14,6 +14,7 @@ void	execute_builtin(t_command *cmd)
 	};
 
 	ret = is_builtin(cmd);
-	builtinfunc[ret](cmd);
+	if (ret >= 0 && ret <= 6)
+		builtinfunc[ret](cmd);
 	return ;
 }
