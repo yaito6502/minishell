@@ -38,9 +38,9 @@ static int		get_index(char *p)
 }
 
 /*
-** <>が来たとき前のトークンが数字のみの場合結合する。
+** <>が来たとき前のトークンが数字のみor>が連続するときの場合結合する。
 */
-
+//>>未対応
 static char		**check_lasttoken(char **tokens, char *op)
 {
 	int		i;
@@ -58,14 +58,10 @@ static char		**check_lasttoken(char **tokens, char *op)
 	{
 		tmp = tokens[i];
 		tokens[i] = ft_strjoin(tokens[i], op);
-		if (tokens[i] == NULL)
-			return (NULL);
 		free(tmp);
 		return (tokens);
 	}
 	tokens = add_str_to_list(tokens, op);
-	if (tokens == NULL)
-		return (NULL);
 	return (tokens);
 }
 
@@ -80,7 +76,9 @@ static char		*put_op_token(char ***tokens, char *p)
 		return (p);
 	}
 	if (*p == '>' || *p == '<')
+	{
 		*tokens = check_lasttoken(*tokens, ft_substr(p, 0, 1));
+	}
 	else
 		*tokens = add_str_to_list(*tokens, ft_substr(p, 0, 1));
 	if (*tokens == NULL)
