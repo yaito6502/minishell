@@ -21,7 +21,6 @@ static void	execute_child(t_command *cmd, int newpipe[2])
 
 void		execute_parallel(t_command *cmd)
 {
-	int			status;
 	int			newpipe[2];
 
 	if (cmd->op == PIPELINE)

@@ -12,7 +12,6 @@ char	**add_str_to_list(char **list, const char *str)
 {
 	size_t	i;
 	char	*new_str;
-	char	**new_list;
 
 	if ((new_str = ft_strdup(str)) == NULL)
 		return (list);

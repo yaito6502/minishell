@@ -58,7 +58,6 @@ char	*check_buf(char *path, char *buf)
 char	*read_path(char *cmd, char *buf)
 {
 	int		len;
-	int		i;
 	char	tmp[2048];
 
 	len = 0;
@@ -85,9 +84,7 @@ char	*read_path(char *cmd, char *buf)
 char	*join_path(char *cmd)
 {
 	char	*path;
-	char	*tmp;
 	char	*buf;
-	int		i;
 
 	if (*cmd == '/')
 		return (cmd);
