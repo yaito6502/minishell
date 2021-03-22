@@ -23,7 +23,7 @@ static int	get_option(char **argv, bool *flag)
 	{
 		j = 0;
 		if (argv[i][j] != '-')
-			return (i);
+			break ;
 		j++;
 		while (argv[i][j] != '\0')
 		{
@@ -34,6 +34,7 @@ static int	get_option(char **argv, bool *flag)
 		*flag = true;
 		i++;
 	}
+	return (i);
 }
 
 void		execute_echo(t_command *cmd)
