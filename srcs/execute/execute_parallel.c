@@ -12,7 +12,7 @@ static void	execute_child(t_command *cmd, int newpipe[2])
 	{
 		//execute_builtin(cmd);
 		printf("this command is builtin.\n");
-		exit(EXIT_SUCCESS) ;//call exit func
+		exit(EXIT_SUCCESS);//call exit func
 	}
 	if (has_slash(cmd->argv[0]))
 		execve(join_path(cmd->argv[0]), cmd->argv, environ);

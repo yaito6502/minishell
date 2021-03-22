@@ -1,11 +1,11 @@
 #include "minishell.h"
 
-
 //エラー時、bool型等を返して判定する？
-void		execute_sequential(t_command *cmd)
+
+void	execute_sequential(t_command *cmd)
 {
-	extern	char **environ;
-	char	*path;
+	extern char	**environ;
+	char		*path;
 
 	redirect_input(cmd);
 	redirect_output(cmd);
@@ -15,7 +15,8 @@ void		execute_sequential(t_command *cmd)
 		printf("this command is builtin.\n");
 		return ; //call read_command
 	}
-	if ((cmd->pid = fork()) == -1)
+	cmd->pid = fork();
+	if (cmd->pid == -1)
 		;//error
 	if (cmd->pid == 0)
 	{

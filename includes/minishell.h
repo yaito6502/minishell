@@ -63,6 +63,7 @@ char		*get_cmd_frompath(t_command *cmd);
 char		*join_path(char *cmd);
 void		execute_sequential(t_command *cmd);
 void		execute_parallel(t_command *cmd);
+void		start_commands(t_command *cmd);
 
 //builtin
 void		execute_env(t_command *cmd);
