@@ -29,8 +29,7 @@ static bool		is_inquote(char *p, int len)
 				j++;
 			if (i + j == len)
 				return (true);
-			i += j + 1;
-			continue ;
+			i += j;
 		}
 		i++;
 	}
@@ -50,7 +49,7 @@ static int		get_index(char *p)
 	i = 0;
 	while (p[i] != '\0')
 	{
-		while (p[i] != '\0' && !ft_strchr(" |><;", p[i]))
+		while (!ft_strchr(" |><;", p[i]))
 			i++;
 		if (is_inquote(p, i))
 		{
@@ -81,8 +80,8 @@ static char		**check_lasttoken(char **tokens, char *op)
 	j = 0;
 	while (ft_isdigit(tokens[i][j]))
 		j++;
-	if (tokens[i][j] == '\0' ||
-		(tokens[i][j] == '>' && tokens[i][j + 1] == '\0'))
+	if (tokens[i][j] == '\0' || \
+	(ft_strchr("<>", tokens[i][j]) && tokens[i][j + 1] == '\0'))
 	{
 		tmp = tokens[i];
 		tokens[i] = ft_strjoin(tokens[i], op);
@@ -104,9 +103,7 @@ static char		*put_op_token(char ***tokens, char *p)
 		return (p);
 	}
 	if (*p == '>' || *p == '<')
-	{
 		*tokens = check_lasttoken(*tokens, ft_substr(p, 0, 1));
-	}
 	else
 		*tokens = add_str_to_list(*tokens, ft_substr(p, 0, 1));
 	if (*tokens == NULL)
