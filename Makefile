@@ -16,6 +16,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/utils/split_line.c \
 			srcs/parser/parser.c \
 			srcs/parser/parser_utils.c \
+			srcs/parser/expander.c \
 			srcs/parser/expand_envval.c \
 			srcs/execute/connect_pipeline.c \
 			srcs/execute/do_redirection.c \
@@ -41,6 +42,7 @@ TESTFILE =	tests/print_tcommand.c \
 			tests/utils/test_add_str_to_list.c \
 			tests/utils/test_split_line.c \
 			tests/parser/test_parser.c \
+			tests/parser/test_expander.c \
 			tests/parser/test_expand_envval.c \
 			tests/execute/test_connect_pipeline.c \
 			tests/execute/test_do_redirection.c \
@@ -76,7 +78,7 @@ $(OBJDIR)/%.o: %.c
 
 $(TEST): $(LIBFT)
 	gcc -g $(filter tests/%/test_$@.c, $(TESTFILE)) \
-	$(filter-out srcs/main/main.c ,$(SRCFILE)) $(INCLUDES) $^ -o test
+	$(filter-out srcs/main/main.c ,$(SRCFILE)) $(INCLUDES) tests/print_tcommand.c $^ -o test
 
 clean:
 	$(MAKE) clean -C ./libft
