@@ -27,6 +27,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/read_command.c \
 			srcs/builtin/execute_env.c \
 			srcs/builtin/execute_unset.c \
+			srcs/tokenizer/tokenize.c \
 			srcs/builtin/execute_echo.c
 
 
@@ -51,6 +52,7 @@ TESTFILE =	tests/print_tcommand.c \
 			tests/execute/test_read_command.c \
 			tests/builtin/test_execute_env.c \
 			tests/builtin/test_execute_unset.c \
+			tests/tokenizer/test_tokenize.c \
 			tests/builtin/test_execute_echo.c
 
 
