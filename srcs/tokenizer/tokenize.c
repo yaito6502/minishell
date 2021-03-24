@@ -8,6 +8,36 @@
 */
 
 /*
+** 現在読み込んだindexまでがクォート中にあるかないかを返す。
+*/
+
+static bool		is_inquote(char *p, int len)
+{
+	int		quote_count;
+	int		i;
+	int		j;
+	char	quote;
+
+	i = 0;
+	while (p[i] != '\0' && i < len)
+	{
+		if (p[i] == '\'' || p[i] == '"')
+		{
+			quote = p[i];
+			j = 1;
+			while (i + j < len && p[i + j] != quote)
+				j++;
+			if (i + j == len)
+				return (true);
+			i += j + 1;
+			continue ;
+		}
+		i++;
+	}
+	return (false);
+}
+
+/*
 ** スペース区切り文字を見つけてインデックスを返す。"'の中身はそのまま渡す。
 */
 
@@ -22,12 +52,7 @@ static int		get_index(char *p)
 	{
 		while (p[i] != '\0' && !ft_strchr(" |><;", p[i]))
 			i++;
-		j = 0;
-		quote_count = 0;
-		while (j < i)
-			if (ft_strchr("\"'", p[j++]))
-				quote_count++;
-		if (quote_count % 2 == 1)
+		if (is_inquote(p, i))
 		{
 			while (p[i] != '\0' && !ft_strchr("\"'", p[i]))
 				i++;
