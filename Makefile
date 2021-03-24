@@ -23,10 +23,12 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/reconnect_stdfd.c \
 			srcs/execute/execute_sequential.c \
 			srcs/execute/execute_parallel.c \
+			srcs/execute/start_commands.c \
 			srcs/execute/read_command.c \
 			srcs/builtin/execute_env.c \
 			srcs/builtin/execute_unset.c \
-			srcs/tokenizer/tokenize.c
+			srcs/tokenizer/tokenize.c \
+			srcs/builtin/execute_echo.c
 
 
 TESTFILE =	tests/print_tcommand.c \
@@ -46,10 +48,12 @@ TESTFILE =	tests/print_tcommand.c \
 			tests/execute/test_reconnect_stdfd.c \
 			tests/execute/test_execute_sequential.c \
 			tests/execute/test_execute_parallel.c \
+			tests/execute/test_start_commands.c \
 			tests/execute/test_read_command.c \
 			tests/builtin/test_execute_env.c \
 			tests/builtin/test_execute_unset.c \
-			tests/tokenizer/test_tokenize.c
+			tests/tokenizer/test_tokenize.c \
+			tests/builtin/test_execute_echo.c
 
 
 SRCDIRS = $(dir $(SRCFILE))

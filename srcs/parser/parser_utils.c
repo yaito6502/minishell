@@ -26,7 +26,7 @@ char	**get_strs(char **list, int len)
 	}
 	newlist = NULL;
 	i = 0;
-	while (list[i] != NULL && i < len)
+	while (list[i] != NULL && i < (size_t)len)
 		if ((newlist = add_str_to_list(newlist, list[i++])) == NULL)
 			return (NULL);
 	return (newlist);
