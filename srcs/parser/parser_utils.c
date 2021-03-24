@@ -22,13 +22,16 @@ char	**get_strs(char **list, int len)
 	{
 		while (list[i] != NULL)
 			i++;
-		len = i + len;
+		len += i;
 	}
 	newlist = NULL;
 	i = 0;
 	while (list[i] != NULL && i < (size_t)len)
-		if ((newlist = add_str_to_list(newlist, list[i++])) == NULL)
+	{
+		newlist = add_str_to_list(newlist, list[i++]);
+		if (newlist == NULL)
 			return (NULL);
+	}
 	return (newlist);
 }
 
@@ -44,10 +47,8 @@ int		strschr(char **strs, char *set)
 	{
 		j = 0;
 		while (set[j])
-		{
 			if (ft_strchr(strs[i], set[j++]))
 				return (i);
-		}
 		i++;
 	}
 	return (-1);
@@ -61,28 +62,28 @@ void	*wrap_free_commands_list(t_command *cmds)
 
 bool	set_redirection_list(t_command *cmd, char **list)
 {
+	char	**target;
+
 	if (ft_strchr(*list, '<'))
-	{
-		if (!(cmd->redirect_in = add_str_to_list(cmd->redirect_in, list[0])))
-			return (false);
-		if (!(cmd->redirect_in = add_str_to_list(cmd->redirect_in, list[1])))
-			return (false);
-		/*if (ft_strchr(list[1], '<'))
-		**	if (!(cmd->redirect_in = \
-		**add_str_to_list(cmd->redirect_in, list[2])))
-		**		return (false);
-		*/
-	}
+		target = cmd->redirect_in;
 	else if (ft_strchr(*list, '>'))
+		target = cmd->redirect_out;
+	else
+		return (false);
+	if (ft_strchr(list[1], '<') || ft_strchr(list[1], '>'))
 	{
-		if (!(cmd->redirect_out = add_str_to_list(cmd->redirect_out, list[0])))
-			return (false);
-		if (!(cmd->redirect_out = add_str_to_list(cmd->redirect_out, list[1])))
-			return (false);
-		if (ft_strchr(list[1], '>'))
-			if (!(cmd->redirect_out = \
-			add_str_to_list(cmd->redirect_out, list[2])))
-				return (false);
+		printf("bash: syntax error near unexpected token `%s'\n", list[1]);
+		return (false);
 	}
+	target = add_str_to_list(target, list[0]);
+	if (target == NULL)
+		return (false);
+	target = add_str_to_list(target, list[1]);
+	if (target == NULL)
+		return (false);
+	if (ft_strchr(*list, '<'))
+		cmd->redirect_in = target;
+	else
+		cmd->redirect_out = target;
 	return (true);
 }
