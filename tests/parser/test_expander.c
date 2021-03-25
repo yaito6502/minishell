@@ -7,7 +7,7 @@ int main(void)
 	// export TEST="$TERM + $PWD"
 
 	cmd = create_new_tcommand();
-	cmd->argv = ft_split("'$HOME' aaaa\"$TEST\" $PWD,'test' \"string\" $USER",',');
+	cmd->argv = ft_split("\"world's end\",'$HOME' aaaa\"$TEST\" $PWD,'\"tes\"t\"' $USER",',');
 	ret = preprocess_command(cmd);
 	if (ret == true)
 		puts("success");

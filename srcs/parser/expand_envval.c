@@ -6,12 +6,19 @@
 
 static int	has_dollar(char *line)
 {
-	int ret;
+	int		ret;
+	bool	inquote;
 
 	ret = 0;
+	inquote = false;
 	while (*line != '\0')
 	{
-		if (*line == '\'')
+		if (*line == '"')
+			if (inquote == false)
+				inquote = true;
+			else
+				inquote = false;
+		if (*line == '\'' && inquote == false)
 		{
 			line++;
 			while (*line != '\'')

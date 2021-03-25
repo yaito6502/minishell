@@ -17,44 +17,64 @@ static int	get_len(char *line)
 	{
 		if (line[i] != '\'' && line[i] != '"')
 		{
-			quote = line[i];
-			while ()
 			len++;
+			i++;
+			continue ;
+		}
+		quote = line[i];
+		i++;
+		while (line[i] != '\0' && line[i] != quote)
+		{
+			len++;
+			i++;
 		}
 		i++;
 	}
 	return (len);
 }
 
+static char	*copy_literal(char *arg, char *tmp, int *i)
+{
+	char	quote;
+
+	quote = arg[*i];
+	(*i)++;
+	while (arg[*i] != quote)
+	{
+		*tmp = arg[*i];
+		tmp++;
+		(*i)++;
+	}
+	(*i)++;
+	return (tmp);
+}
+
 static char	*trim_quote(char *arg)
 {
-	int	i;
-	int	j;
+	int		i;
+	char	*tmp;
 	char	*ret;
 
-	if (arg == NULL)
-		return (NULL);
-	ret = malloc(sizeof(char) * get_len(arg));
-	if (ret == NULL)
+	tmp = malloc(sizeof(char) * get_len(arg));
+	if (tmp == NULL)
 		return (NULL);
 	i = 0;
-	j = 0;
+	ret = tmp;
 	while (arg[i] != '\0')
 	{
 		if (arg[i] == '\'' || arg[i] == '"')
 		{
-			i++;
+			tmp = copy_literal(arg, tmp, &i);
 			continue ;
 		}
-		ret[j] = arg[i];
+		*tmp++ = arg[i];
 		i++;
-		j++;
 	}
-	ret[j] = '\0';
+	*tmp = '\0';
 	return (ret);
 }
 
-bool	preprocess_command(t_command *cmd)
+bool		preprocess_command(t_command *cmd)
 {
 	int		i;
 	char	*ret;
@@ -63,6 +83,8 @@ bool	preprocess_command(t_command *cmd)
 	while (cmd->argv[i] != NULL)
 	{
 		ret = expand_envval(cmd->argv[i]);
+		if (ret == NULL)
+			return (false);
 		ret = trim_quote(ret);
 		if (ret == NULL)
 			return (false);
