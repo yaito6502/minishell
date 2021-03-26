@@ -13,18 +13,14 @@ bool	reconnect_stdfd(int mode)
 	if (mode != 0 && mode != 1)
 		return (false);
 	i = 0;
-	if (mode == 0)
+	while (i < 3 && mode == 0)
 	{
-		while (i < 3)
-		{
-			stdfd[i] = dup(i);
-			if (stdfd[i] == -1)
-				return (false);
-			i++;
-		}
-		return (true);
+		stdfd[i] = dup(i);
+		if (stdfd[i] == -1)
+			return (false);
+		i++;
 	}
-	while (i < 3)
+	while (i < 3 && mode == 1)
 	{
 		ret = dup2(stdfd[i], i);
 		if (ret == -1)
