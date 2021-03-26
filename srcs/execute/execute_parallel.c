@@ -10,13 +10,13 @@ static void	execute_child(t_command *cmd, int newpipe[2])
 	redirect_output(cmd);
 	if (is_builtin(cmd) != -1)
 	{
-		//execute_builtin(cmd);
-		printf("this command is builtin.\n");
-		exit(EXIT_SUCCESS);//call exit func
+		execute_builtin(cmd);
+		exit(store_exitstatus(1, 0));
 	}
 	if (has_slash(cmd->argv[0]))
-		execve(join_path(cmd->argv[0]), cmd->argv, environ);
+		execve(cmd->argv[0], cmd->argv, environ);
 	execve(get_cmd_frompath(cmd), cmd->argv, environ);
+	//execveのエラーキャッチ
 }
 
 void		execute_parallel(t_command *cmd)
