@@ -6,25 +6,30 @@
 
 bool	reconnect_stdfd(int mode)
 {
-	static int stdfd[3];
+	static int	stdfd[3];
+	int			i;
+	int			ret;
 
 	if (mode != 0 && mode != 1)
 		return (false);
+	i = 0;
 	if (mode == 0)
 	{
-		if ((stdfd[0] = dup(STDIN_FILENO)) == -1)
-			return (false);
-		if ((stdfd[1] = dup(STDOUT_FILENO)) == -1)
-			return (false);
-		if ((stdfd[2] = dup(STDERR_FILENO)) == -1)
-			return (false);
+		while (i < 3)
+		{
+			stdfd[i] = dup(i);
+			if (stdfd[i] == -1)
+				return (false);
+			i++;
+		}
 		return (true);
 	}
-	if (dup2(stdfd[0], STDIN_FILENO) == -1)
-		return (false);
-	if (dup2(stdfd[1], STDOUT_FILENO) == -1)
-		return (false);
-	if (dup2(stdfd[2], STDERR_FILENO) == -1)
-		return (false);
+	while (i < 3)
+	{
+		ret = dup2(stdfd[i], i);
+		if (ret == -1)
+			return (false);
+		i++;
+	}
 	return (true);
 }
