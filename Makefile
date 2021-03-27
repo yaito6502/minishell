@@ -25,6 +25,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/execute_parallel.c \
 			srcs/execute/start_commands.c \
 			srcs/execute/read_command.c \
+			srcs/execute/error_execute.c \
 			srcs/builtin/execute_env.c \
 			srcs/builtin/execute_unset.c \
 			srcs/tokenizer/tokenize.c \
