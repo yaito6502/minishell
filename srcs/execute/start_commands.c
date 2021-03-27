@@ -11,16 +11,18 @@ static void	confirm_child(t_command *cmd_ptr, t_command *cmd)
 	end = cmd->next;
 	while (cmd_ptr != end)
 	{
-		ret = waitpid(cmd_ptr->pid, &status, 0);
-		//出力はデバッグ用、コマンドに合わせて終了ステータスを設定
-		if (ret == -1)
+		if (cmd_ptr->has_childproc == true)
 		{
-			puts("something wrong!");
+			ret = waitpid(cmd_ptr->pid, &status, 0);
+			if (WIFEXITED(status))
+			{
+				ret = WEXITSTATUS(status);
+				store_exitstatus(0, ret);
+			}
 		}
-		if (WIFEXITED(status))
-			printf("child process ended successfully.\n");
 		else
-			printf("something wrong.\n");
+			store_exitstatus(0, cmd_ptr->exitstatus);
+		printf("%d\n", store_exitstatus(1, 0));//for debug
 		cmd_ptr = cmd_ptr->next;
 	}
 	return ;

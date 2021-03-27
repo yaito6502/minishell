@@ -27,6 +27,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/read_command.c \
 			srcs/execute/error_execute.c \
 			srcs/execute/store_exitstatus.c \
+			srcs/builtin/execute_builtin.c \
 			srcs/builtin/execute_env.c \
 			srcs/builtin/execute_unset.c \
 			srcs/builtin/execute_echo.c \

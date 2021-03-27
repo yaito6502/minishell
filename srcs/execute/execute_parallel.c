@@ -11,9 +11,8 @@ static void	parallel_childproc(t_command *cmd, int newpipe[2])
 	redirect_output(cmd);
 	if (is_builtin(cmd) != -1)
 	{
-		//execute_builtin(cmd);
-		//exit(store_exitstatus(1, 0));
-		exit(EXIT_SUCCESS);
+		execute_builtin(cmd);
+		exit(cmd->exitstatus);
 	}
 	if (has_slash(cmd->argv[0]))
 		ret = execve(cmd->argv[0], cmd->argv, environ);
@@ -32,6 +31,7 @@ void		execute_parallel(t_command *cmd)
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 		parallel_childproc(cmd, newpipe);
+	cmd->has_childproc = true;
 	if (cmd->receive_pipe == true)
 	{
 		close(cmd->lastfd[0]);
@@ -39,7 +39,6 @@ void		execute_parallel(t_command *cmd)
 	}
 	if (cmd->op == PIPELINE)
 	{
-		cmd->next->receive_pipe = true;
 		cmd->next->lastfd[0] = newpipe[0];
 		cmd->next->lastfd[1] = newpipe[1];
 	}

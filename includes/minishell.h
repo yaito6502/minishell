@@ -29,7 +29,9 @@ typedef struct	s_command {
 	t_op				op;
 	bool				receive_pipe;
 	int					lastfd[2];
-	int					pid;
+	bool				has_childproc;
+	pid_t				pid;
+	int					exitstatus;
 }				t_command;
 
 
@@ -68,9 +70,10 @@ int			error_execute(char *path);
 int			store_exitstatus(int mode, int last_status);
 
 //builtin
-void		execute_env(t_command *cmd);
+void		execute_builtin(t_command *cmd);
+int			execute_echo(t_command *cmd);
+int			execute_env(t_command *cmd);
 void		execute_unset(t_command *cmd);
-void		execute_echo(t_command *cmd);
 
 //for debug
 void		print_tcommand(t_command cmd);
