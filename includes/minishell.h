@@ -43,6 +43,7 @@ bool		has_slash(char *cmd);
 char		**add_str_to_list(char **list, const char *str);
 char		*read_command(void);
 char		**split_line(char *str, char *set[2]);
+bool		validate_envkey(char *key);
 
 //parse
 t_command	*get_commandline(char **list);
