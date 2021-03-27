@@ -26,10 +26,11 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/start_commands.c \
 			srcs/execute/read_command.c \
 			srcs/execute/error_execute.c \
+			srcs/execute/store_exitstatus.c \
 			srcs/builtin/execute_env.c \
 			srcs/builtin/execute_unset.c \
-			srcs/tokenizer/tokenize.c \
-			srcs/builtin/execute_echo.c
+			srcs/builtin/execute_echo.c \
+			srcs/tokenizer/tokenize.c
 
 
 TESTFILE =	tests/print_tcommand.c \
@@ -51,6 +52,7 @@ TESTFILE =	tests/print_tcommand.c \
 			tests/execute/test_execute_parallel.c \
 			tests/execute/test_start_commands.c \
 			tests/execute/test_read_command.c \
+			tests/execute/test_store_exitstatus.c \
 			tests/builtin/test_execute_env.c \
 			tests/builtin/test_execute_unset.c \
 			tests/tokenizer/test_tokenize.c \
@@ -76,7 +78,7 @@ $(OBJDIR)/%.o: %.c
 	gcc $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 $(TEST): $(LIBFT)
-	gcc -g $(filter tests/%/test_$@.c, $(TESTFILE)) \
+	gcc -g $(filter tests/%/test_$@.c, $(TESTFILE)) tests/print_tcommand.c \
 	$(filter-out srcs/main/main.c ,$(SRCFILE)) $(INCLUDES) $^ -o test
 
 clean:
