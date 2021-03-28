@@ -2,8 +2,17 @@
 
 int		main(void)
 {
-	t_command *cmd;
+	t_command	*cmd;
+	pid_t		pid;
+	int			status;
 
-	execute_pwd(cmd);
+	pid = fork();
+	if (pid == 0)
+		execute_pwd(cmd);
+	else
+	{
+		wait(&status);
+		printf("%s\n", strerror(status));
+	}
 	return (0);
 }
