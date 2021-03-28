@@ -13,18 +13,21 @@ char	**add_str_to_list(char **list, const char *str)
 	size_t	i;
 	char	*new_str;
 
-	if ((new_str = ft_strdup(str)) == NULL)
+	new_str = ft_strdup(str);
+	if (new_str == NULL)
 		return (list);
 	if (!list)
 	{
-		if ((list = (char **)malloc(sizeof(char *))) == NULL)
+		list = (char **)malloc(sizeof(char *));
+		if (list == NULL)
 			return (NULL);
 		list[0] = NULL;
 	}
 	i = 0;
 	while (list[i] != NULL)
 		i++;
-	if (!(list = (char **)ft_sprealloc(list, sizeof(char *) * (i + 2))))
+	list = (char **)ft_sprealloc(list, sizeof(char *) * (i + 2));
+	if (list == NULL)
 		return (NULL);
 	list[i] = new_str;
 	list[i + 1] = NULL;

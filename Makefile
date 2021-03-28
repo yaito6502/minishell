@@ -29,6 +29,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/read_command.c \
 			srcs/builtin/execute_env.c \
 			srcs/builtin/execute_unset.c \
+			srcs/builtin/execute_pwd.c \
 			srcs/tokenizer/tokenize.c \
 			srcs/builtin/execute_echo.c
 
@@ -56,6 +57,7 @@ TESTFILE =	tests/print_tcommand.c \
 			tests/execute/test_read_command.c \
 			tests/builtin/test_execute_env.c \
 			tests/builtin/test_execute_unset.c \
+			tests/builtin/test_execute_pwd.c \
 			tests/tokenizer/test_tokenize.c \
 			tests/builtin/test_execute_echo.c
 
@@ -79,8 +81,8 @@ $(OBJDIR)/%.o: %.c
 	gcc $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 $(TEST): $(LIBFT)
-	gcc -g $(filter tests/%/test_$@.c, $(TESTFILE)) \
-	$(filter-out srcs/main/main.c ,$(SRCFILE)) $(INCLUDES) tests/print_tcommand.c $^ -o test
+	gcc -g $(filter tests/%/test_$@.c, $(TESTFILE)) tests/print_tcommand.c \
+	$(filter-out srcs/main/main.c ,$(SRCFILE)) $(INCLUDES) $^ -o test
 
 clean:
 	$(MAKE) clean -C ./libft

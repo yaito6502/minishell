@@ -13,19 +13,25 @@ void	print_tcommand_iterate(t_command *cmds)
 	}
 }
 
-int		main(void)
+void	print_strs(char **strs)
+{
+	size_t i = 0;
+	while (strs[i] != NULL)
+		printf("%s ", strs[i++]);
+	puts("");
+}
+
+int		main(int argc, char **argv)
 {
 	t_command	*cmd;
-	char		*list1[19] = {"echo", "hello", ">", "file1", ">", "file2", "world", ";", "cat", "<", "file2", "|", "head", "-n", "1", "|", "wc", ";", NULL};
-	char		*list2[3] = {"echo", "hello", NULL};
+	char		**token;
+	(void)argc;
 
-	puts("test1\n");
-	if ((cmd = get_commandline(list1)) != NULL)
+	token = tokenize(argv[1]);
+	print_strs(token);
+	if ((cmd = get_commandline(token)) != NULL)
 		print_tcommand_iterate(cmd);
 	free_commandslist(&cmd);
-	puts("\n\ntest2\n");
-	if ((cmd = get_commandline(list2)) != NULL)
-		print_tcommand_iterate(cmd);
-	free_commandslist(&cmd);
+	ft_free_split(token);
 	return (0);
 }
