@@ -57,7 +57,7 @@ char	*read_linetty(void)
 			line = back_line(line, &i);
 			continue ;
 		}
-		if (rc != 0 && c != '\n')
+		if (rc != 0 && c != '\n' && c != '\177')
 		{
 			ft_putchar_fd(c, STDOUT_FILENO);
 			line[i] = c;
