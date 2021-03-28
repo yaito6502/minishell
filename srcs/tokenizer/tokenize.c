@@ -53,7 +53,8 @@ static int		get_index(char *p)
 		{
 			while (p[i] != '\0' && !ft_strchr("\"'", p[i]))
 				i++;
-			i++;
+			if (p[i] != '\0')
+				i++;
 		}
 		else
 			return (i);
