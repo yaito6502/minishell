@@ -16,7 +16,7 @@ int		set_path(char *path)
 	char		*pwd;
 	//t_command	*cmd;
 
-	printf("path[%s]\n", join_path(path));
+	printf("path[%s]\n", join_path(path)); //デバッグ用
 	status = chdir(join_path(path));
 	if (status == -1)
 		return (print_error(ft_strjoin(path, ": No such file or directory")));
