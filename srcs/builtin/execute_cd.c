@@ -14,7 +14,7 @@ int		set_path(char *path)
 {
 	int			status;
 	char		*pwd;
-	//t_command	*cmd;
+	t_command	*cmd;
 
 	printf("path[%s]\n", join_path(path)); //デバッグ用
 	status = chdir(join_path(path));
@@ -23,13 +23,10 @@ int		set_path(char *path)
 	pwd = getenv("PWD");
 	if (pwd == NULL)
 		return (EXIT_FAILURE);
-	/*create_newenv();
 	cmd = create_new_tcommand();
-	cmd->argv = (char **)malloc(sizeof(char *) * 2);
-	cmd->argv[0] = ft_strdup("OLDPWD");
-	cmd->argv[1] = NULL;
+	cmd->argv = ft_split("unset,OLDPWD", ',');
 	execute_unset(cmd);
-	free_commandslist(&cmd);*/
+	free_commandslist(&cmd);
 	status = add_newval_to_env(ft_strjoin("OLDPWD=", pwd));
 	if (status == 0)
 		return (EXIT_FAILURE);
@@ -64,10 +61,8 @@ int		execute_cd(t_command *cmd)
 	char		*path;
 	int			status;
 
-	if (!cmd)
-		return (EXIT_FAILURE);
 	path = cmd->argv[1];
-	if (path == NULL)
+	if (path == NULL || (path[0] == '~' && path[1] == '\0'))
 	{
 		path = getenv("HOME");
 		if (path == NULL)
