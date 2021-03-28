@@ -14,6 +14,7 @@
 # include <fcntl.h>
 # include <dirent.h>
 # include <string.h>
+# include <termios.h>
 
 typedef enum	e_op{
 	EOS,
@@ -75,5 +76,6 @@ int			execute_pwd(t_command *cmd);
 void		print_tcommand(t_command cmd);
 
 char		**tokenize(char *line);
+char		*read_linetty(void);
 
 #endif
