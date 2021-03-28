@@ -79,7 +79,7 @@ $(OBJDIR)/%.o: %.c
 	gcc $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 $(TEST): $(LIBFT)
-	gcc -g -fsanitize=address $(filter tests/%/test_$@.c, $(TESTFILE)) tests/print_tcommand.c \
+	gcc -g $(filter tests/%/test_$@.c, $(TESTFILE)) tests/print_tcommand.c \
 	$(filter-out srcs/main/main.c ,$(SRCFILE)) $(INCLUDES) $^ -o test
 
 clean:
