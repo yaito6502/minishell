@@ -28,8 +28,9 @@ SRCFILE =	srcs/main/main.c \
 			srcs/builtin/execute_env.c \
 			srcs/builtin/execute_unset.c \
 			srcs/builtin/execute_pwd.c \
-			srcs/tokenizer/tokenize.c \
-			srcs/builtin/execute_echo.c
+			srcs/builtin/execute_echo.c \
+			srcs/builtin/execute_cd.c \
+			srcs/tokenizer/tokenize.c
 
 
 TESTFILE =	tests/print_tcommand.c \
@@ -54,8 +55,9 @@ TESTFILE =	tests/print_tcommand.c \
 			tests/builtin/test_execute_env.c \
 			tests/builtin/test_execute_unset.c \
 			tests/builtin/test_execute_pwd.c \
-			tests/tokenizer/test_tokenize.c \
-			tests/builtin/test_execute_echo.c
+			tests/builtin/test_execute_echo.c \
+			tests/builtin/test_execute_cd.c \
+			tests/tokenizer/test_tokenize.c
 
 
 SRCDIRS = $(dir $(SRCFILE))
@@ -77,7 +79,7 @@ $(OBJDIR)/%.o: %.c
 	gcc $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 $(TEST): $(LIBFT)
-	gcc -g $(filter tests/%/test_$@.c, $(TESTFILE)) tests/print_tcommand.c \
+	gcc -g -fsanitize=address $(filter tests/%/test_$@.c, $(TESTFILE)) tests/print_tcommand.c \
 	$(filter-out srcs/main/main.c ,$(SRCFILE)) $(INCLUDES) $^ -o test
 
 clean:
