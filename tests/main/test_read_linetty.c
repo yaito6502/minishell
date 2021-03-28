@@ -6,5 +6,6 @@ int main(void)
 
 	line = read_linetty();
 	puts(line);
+	free(line);
 	return 0;
 }
