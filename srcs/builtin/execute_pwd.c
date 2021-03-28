@@ -3,16 +3,16 @@
 /*
 **exitで終了ステータスを呼び出し元に返す。
 **成功時 0
-**失敗時 エラー番号(>0)
+**失敗時 1
 */
 
-void	execute_pwd(t_command *cmd)
+int		execute_pwd(t_command *cmd)
 {
 	char *path;
 
 	path = getenv("PWD");
 	if (path == NULL)
-		exit(errno);
+		return (EXIT_FAILURE);
 	printf("%s\n", path);
-	exit(EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
