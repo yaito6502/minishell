@@ -10,6 +10,34 @@ int		print_error(char *message)
 	return (EXIT_FAILURE);
 }
 
+bool	update_oldpwd(char *pwd)
+{
+	extern char	**environ;
+	char		*tmp;
+	int			i;
+
+	tmp = ft_strjoin("OLDPWD=", pwd);
+	if (tmp == NULL)
+		return (false);
+	i = 0;
+	while (environ[i] != NULL && ft_strncmp(environ[i], "OLDPWD=", 7))
+		i++;
+	if (environ[i] == NULL)
+	{
+		if (!add_newval_to_env(tmp))
+		{
+			free(tmp);
+			return (false);
+		}
+	}
+	else
+	{
+		free(environ[i]);
+		environ[i] = tmp;
+	}
+	return (true);
+}
+
 int		set_path(char *path)
 {
 	int			status;
@@ -23,11 +51,7 @@ int		set_path(char *path)
 	pwd = getenv("PWD");
 	if (pwd == NULL)
 		return (EXIT_FAILURE);
-	cmd = create_new_tcommand();
-	cmd->argv = ft_split("unset,OLDPWD", ',');
-	execute_unset(cmd);
-	free_commandslist(&cmd);
-	status = add_newval_to_env(ft_strjoin("OLDPWD=", pwd));
+	status = update_oldpwd(pwd);
 	if (status == 0)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
