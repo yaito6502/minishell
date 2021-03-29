@@ -15,11 +15,22 @@
 # include <dirent.h>
 # include <string.h>
 
-typedef enum	e_op{
+typedef enum	e_op {
 	EOS,
 	PIPELINE,
 	SCOLON
 }				t_op;
+
+typedef enum	e_dir {
+	PREV,
+	NEXT
+}				t_dir;
+
+typedef struct	s_history {
+	struct s_history	*next;
+	struct s_history	*prev;
+	char				*line;
+}				t_history;
 
 typedef struct	s_command {
 	struct s_command	*next;
@@ -76,5 +87,9 @@ int			execute_pwd(t_command *cmd);
 void		print_tcommand(t_command cmd);
 
 char		**tokenize(char *line);
+
+//history
+t_history	*add_history(t_history *last_history, char *line);
+void		free_history(t_history *history);
 
 #endif
