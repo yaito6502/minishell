@@ -15,6 +15,7 @@
 # include <dirent.h>
 # include <string.h>
 # include <termios.h>
+# include <termcap.h>
 
 typedef enum	e_op{
 	EOS,
