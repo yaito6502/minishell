@@ -80,7 +80,7 @@ $(LIBFT):
 	$(MAKE) bonus -C ./libft
 
 $(NAME): $(OBJECTS) $(LIBFT)
-	gcc -g $^ $(INCLUDES) -o $@
+	gcc -g $(CFLAGS) $^ $(INCLUDES) -o $@
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(BINDIRS)
