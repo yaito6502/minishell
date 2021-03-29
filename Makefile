@@ -16,6 +16,8 @@ SRCFILE =	srcs/main/main.c \
 			srcs/utils/split_line.c \
 			srcs/parser/parser.c \
 			srcs/parser/parser_utils.c \
+			srcs/parser/expander.c \
+			srcs/parser/expand_envval.c \
 			srcs/execute/connect_pipeline.c \
 			srcs/execute/do_redirection.c \
 			srcs/execute/get_cmd_frompath.c \
@@ -44,6 +46,8 @@ TESTFILE =	tests/print_tcommand.c \
 			tests/utils/test_add_str_to_list.c \
 			tests/utils/test_split_line.c \
 			tests/parser/test_parser.c \
+			tests/parser/test_expander.c \
+			tests/parser/test_expand_envval.c \
 			tests/execute/test_connect_pipeline.c \
 			tests/execute/test_do_redirection.c \
 			tests/execute/test_get_cmd_frompath.c \
