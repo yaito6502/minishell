@@ -37,7 +37,7 @@ static int	get_option(char **argv, bool *flag)
 	return (i);
 }
 
-void		execute_echo(t_command *cmd)
+int			execute_echo(t_command *cmd)
 {
 	bool	op_flag;
 	int		i;
@@ -53,5 +53,5 @@ void		execute_echo(t_command *cmd)
 	}
 	if (op_flag == false)
 		printf("\n");
-	return ;
+	return (0);
 }

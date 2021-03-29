@@ -7,7 +7,7 @@ int main(void)
 	char buf[25];
 	bool ret;
 
-	ret = reconnect_stdfd(0);
+	ret = reconnect_stdfd(SAVE);
 	if (ret == true)
 		printf("standard fd duplication is complete.\n");
 	else
@@ -20,7 +20,7 @@ int main(void)
 	buf[rc] = '\0';
 	write(STDOUT_FILENO, buf, rc);
 
-	ret = reconnect_stdfd(1);
+	ret = reconnect_stdfd(LOAD);
 	if (ret == true)
 		printf("standard fd restore is complete.\n");
 	else
