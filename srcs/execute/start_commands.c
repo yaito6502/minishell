@@ -11,16 +11,18 @@ static void	confirm_child(t_command *cmd_ptr, t_command *cmd)
 	end = cmd->next;
 	while (cmd_ptr != end)
 	{
-		ret = waitpid(cmd_ptr->pid, &status, 0);
-		//出力はデバッグ用、コマンドに合わせて終了ステータスを設定
-		if (ret == -1)
+		if (cmd_ptr->has_childproc == true)
 		{
-			puts("something wrong!");
+			ret = waitpid(cmd_ptr->pid, &status, 0);
+			if (WIFEXITED(status))
+			{
+				ret = WEXITSTATUS(status);
+				store_exitstatus(SAVE, ret);
+			}
 		}
-		if (WIFEXITED(status))
-			printf("child process ended successfully.\n");
 		else
-			printf("something wrong.\n");
+			store_exitstatus(SAVE, cmd_ptr->exitstatus);
+		printf("%d\n", store_exitstatus(LOAD, 0));//for debug
 		cmd_ptr = cmd_ptr->next;
 	}
 	return ;
@@ -30,7 +32,7 @@ void		start_commands(t_command *cmd)
 {
 	t_command	*cmd_ptr;
 
-	reconnect_stdfd(0);
+	reconnect_stdfd(SAVE);
 	cmd_ptr = cmd;
 	while (cmd != NULL)
 	{
@@ -39,7 +41,7 @@ void		start_commands(t_command *cmd)
 		else
 		{
 			execute_sequential(cmd);
-			reconnect_stdfd(1);
+			reconnect_stdfd(LOAD);
 		}
 		if (cmd->op == SCOLON || cmd->op == EOS)
 		{
@@ -49,5 +51,5 @@ void		start_commands(t_command *cmd)
 		cmd = cmd->next;
 	}
 	free_commandslist(&cmd);
-	return ;//call read_command func
+	return ;
 }

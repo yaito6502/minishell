@@ -4,7 +4,7 @@
 ** ビルトインコマンドenvを再現した関数。環境変数のkey,valueを出力する。ソートはしない。
 */
 
-void	execute_env(t_command *cmd)
+int	execute_env(t_command *cmd)
 {
 	extern char	**environ;
 	int			i;
@@ -16,5 +16,5 @@ void	execute_env(t_command *cmd)
 		printf("%s\n", environ[i]);
 		i++;
 	}
-	return ;
+	return (0);
 }

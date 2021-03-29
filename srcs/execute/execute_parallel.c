@@ -1,8 +1,9 @@
 #include "minishell.h"
 
-static void	execute_child(t_command *cmd, int newpipe[2])
+static void	parallel_childproc(t_command *cmd, int newpipe[2])
 {
 	extern char	**environ;
+	int			ret;
 
 	send_pipeline(cmd, newpipe);
 	receive_pipeline(cmd);
@@ -10,13 +11,15 @@ static void	execute_child(t_command *cmd, int newpipe[2])
 	redirect_output(cmd);
 	if (is_builtin(cmd) != -1)
 	{
-		//execute_builtin(cmd);
-		printf("this command is builtin.\n");
-		exit(EXIT_SUCCESS);//call exit func
+		execute_builtin(cmd);
+		exit(cmd->exitstatus);
 	}
 	if (has_slash(cmd->argv[0]))
-		execve(join_path(cmd->argv[0]), cmd->argv, environ);
-	execve(get_cmd_frompath(cmd), cmd->argv, environ);
+		ret = execve(cmd->argv[0], cmd->argv, environ);
+	else
+		ret = execve(get_cmd_frompath(cmd), cmd->argv, environ);
+	ret = error_execute(cmd->argv[0]);
+	exit(ret);
 }
 
 void		execute_parallel(t_command *cmd)
@@ -27,7 +30,8 @@ void		execute_parallel(t_command *cmd)
 		pipe(newpipe);
 	cmd->pid = fork();
 	if (cmd->pid == 0)
-		execute_child(cmd, newpipe);
+		parallel_childproc(cmd, newpipe);
+	cmd->has_childproc = true;
 	if (cmd->receive_pipe == true)
 	{
 		close(cmd->lastfd[0]);
@@ -35,7 +39,6 @@ void		execute_parallel(t_command *cmd)
 	}
 	if (cmd->op == PIPELINE)
 	{
-		cmd->next->receive_pipe = true;
 		cmd->next->lastfd[0] = newpipe[0];
 		cmd->next->lastfd[1] = newpipe[1];
 	}

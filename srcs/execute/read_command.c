@@ -21,6 +21,6 @@ char	*read_command(void)
 		printf("exit\n");
 		exit(EXIT_SUCCESS);
 	}
-	buf[rdbyte] = '\0';
+	buf[rdbyte - 1] = '\0';
 	return (buf);
 }
