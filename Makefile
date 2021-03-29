@@ -25,6 +25,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/execute_parallel.c \
 			srcs/execute/start_commands.c \
 			srcs/execute/read_command.c \
+			srcs/execute/store_exitstatus.c \
 			srcs/builtin/execute_env.c \
 			srcs/builtin/execute_unset.c \
 			srcs/builtin/execute_pwd.c \
@@ -51,6 +52,7 @@ TESTFILE =	tests/print_tcommand.c \
 			tests/execute/test_execute_parallel.c \
 			tests/execute/test_start_commands.c \
 			tests/execute/test_read_command.c \
+			tests/execute/test_store_exitstatus.c \
 			tests/builtin/test_execute_env.c \
 			tests/builtin/test_execute_unset.c \
 			tests/builtin/test_execute_pwd.c \
