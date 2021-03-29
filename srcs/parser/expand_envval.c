@@ -10,6 +10,7 @@ static int	has_dollar(char *line)
 	bool	inquote;
 
 	ret = 0;
+	puts(line);
 	inquote = false;
 	while (*line != '\0')
 	{
@@ -45,10 +46,10 @@ static char	*copy_literal(char *line, char *ret, int *i)
 		return (NULL);
 	tmp = ret;
 	ret = ft_strjoin(ret, literal);
+	free(literal);
 	if (ret == NULL)
 		return (NULL);
 	free(tmp);
-	free(literal);
 	return (ret);
 }
 
@@ -65,10 +66,10 @@ static char	*copy_normalchar(char *line, char *ret, int *i)
 		return (NULL);
 	tmp = ret;
 	ret = ft_strjoin(ret, str);
+	free(str);
 	if (ret == NULL)
 		return (NULL);
 	free(tmp);
-	free(str);
 	(*i)--;
 	return (ret);
 }
@@ -93,11 +94,11 @@ static char	*get_key(char *line, char *ret, int *i)
 	if (name == NULL)
 		return (NULL);
 	env = getenv(name);
+	free(name);
 	tmp = ret;
 	ret = ft_strjoin(ret, env);
 	if (ret == NULL)
 		return (NULL);
-	free(name);
 	free(tmp);
 	return (ret);
 }
