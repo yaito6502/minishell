@@ -77,6 +77,6 @@ int			execute_pwd(t_command *cmd);
 void		print_tcommand(t_command cmd);
 
 char		**tokenize(char *line);
-char		*read_linetty(void);
+char		*read_line(void);
 
 #endif

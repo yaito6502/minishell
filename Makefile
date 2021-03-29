@@ -6,7 +6,7 @@ INCLUDES = -I./includes -I.
 LIBFT = ./libft/libft.a
 
 SRCFILE =	srcs/main/main.c \
-			srcs/main/read_linetty.c \
+			srcs/main/read_line.c \
 			srcs/utils/create_new_tcommand.c \
 			srcs/utils/free_commandslist.c \
 			srcs/utils/is_builtin.c \
@@ -34,7 +34,7 @@ SRCFILE =	srcs/main/main.c \
 
 
 TESTFILE =	tests/print_tcommand.c \
-			tests/main/test_read_linetty.c \
+			tests/main/test_read_line.c \
 			tests/utils/test_create_new_tcommand.c \
 			tests/utils/test_free_commandslist.c \
 			tests/utils/test_is_builtin.c \

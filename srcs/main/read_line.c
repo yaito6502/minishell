@@ -18,11 +18,14 @@ static void	back_line(char *line, int *i)
 	return ;
 }
 
-static char	*get_line(char *line, int i, int rc)
+static char	*get_line(char *line)
 {
 	char	c[8];
+	int		i;
+	int		rc;
 
 	c[0] = '\0';
+	i = 0;
 	while (c[0] != '\n')
 	{
 		rc = read(STDIN_FILENO, c, 7);
@@ -46,24 +49,24 @@ static char	*get_line(char *line, int i, int rc)
 	return (line);
 }
 
-char		*read_linetty(void)
+char		*read_line(void)
 {
-	char			*line;
-	int				i;
-	int				rc;
+	char	*line;
+	char	*tmp;
 
 	line = malloc(sizeof(char) * 2048);
-	if (!line)
-		return (NULL);
-	if (!set_terminal_setting())
+	if (!line || !set_terminal_setting())
 	{
 		free(line);
 		return (NULL);
 	}
-	i = 0;
-	line = get_line(line, i, rc);
-	if (line == NULL)
+	tmp = line;
+	line = get_line(line);
+	if (!line || !reset_terminal_setting())
+	{
+		free(tmp);
 		return (NULL);
+	}
 	write(1, "\n", 1);
 	return (line);
 }
