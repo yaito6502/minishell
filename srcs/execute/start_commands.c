@@ -49,5 +49,5 @@ void		start_commands(t_command *cmd)
 		cmd = cmd->next;
 	}
 	free_commandslist(&cmd);
-	return ;//call read_command func
+	return ;
 }

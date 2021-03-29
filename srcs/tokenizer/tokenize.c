@@ -94,8 +94,6 @@ static char		**check_lasttoken(char **tokens, char *op)
 
 static char		*put_op_token(char ***tokens, char *p)
 {
-	char *tmp;
-
 	if (*p == ' ')
 	{
 		while (*p == ' ')

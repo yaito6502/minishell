@@ -75,6 +75,7 @@ char		*join_path(char *cmd);
 void		execute_sequential(t_command *cmd);
 void		execute_parallel(t_command *cmd);
 void		start_commands(t_command *cmd);
+int			error_execute(char *path);
 int			store_exitstatus(int mode, int last_status);
 
 //builtin
