@@ -15,10 +15,12 @@ static int	has_dollar(char *line)
 	while (*line != '\0')
 	{
 		if (*line == '"')
+		{
 			if (inquote == false)
 				inquote = true;
 			else
 				inquote = false;
+		}
 		if (*line == '\'' && inquote == false)
 		{
 			line++;
@@ -86,8 +88,8 @@ static char	*get_key(char *line, char *ret, int *i)
 
 	*i = 0;
 	line++;
-	if (*line == '?')
-		;//call store_exit_status()
+	//if (*line == '?')
+	//	;//call store_exit_status()
 	while (ft_isalnum(line[*i]) || line[*i] == '_')
 		(*i)++;
 	name = ft_substr(line, 0, *i);

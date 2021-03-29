@@ -29,11 +29,12 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/read_command.c \
 			srcs/execute/error_execute.c \
 			srcs/execute/store_exitstatus.c \
+			srcs/builtin/execute_builtin.c \
 			srcs/builtin/execute_env.c \
 			srcs/builtin/execute_unset.c \
 			srcs/builtin/execute_pwd.c \
-			srcs/tokenizer/tokenize.c \
 			srcs/builtin/execute_echo.c \
+			srcs/tokenizer/tokenize.c \
 			srcs/history/history.c
 
 
@@ -79,7 +80,7 @@ $(LIBFT):
 	$(MAKE) bonus -C ./libft
 
 $(NAME): $(OBJECTS) $(LIBFT)
-	gcc -g $^ $(INCLUDES) -o $@
+	gcc -g $(CFLAGS) $^ $(INCLUDES) -o $@
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(BINDIRS)

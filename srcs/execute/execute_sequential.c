@@ -19,12 +19,13 @@ void		execute_sequential(t_command *cmd)
 	redirect_output(cmd);
 	if (is_builtin(cmd) != -1)
 	{
-		//execute_builtin(cmd);
+		execute_builtin(cmd);
 		return ;
 	}
 	cmd->pid = fork();
 	//if (cmd->pid == -1)
 	//	;//error
+	cmd->has_childproc = true;
 	if (cmd->pid == 0)
 		sequential_chlidproc(cmd);
 	return ;

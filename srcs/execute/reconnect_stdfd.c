@@ -10,17 +10,17 @@ bool	reconnect_stdfd(int mode)
 	int			i;
 	int			ret;
 
-	if (mode != 0 && mode != 1)
+	if (mode != SAVE && mode != LOAD)
 		return (false);
 	i = 0;
-	while (i < 3 && mode == 0)
+	while (i < 3 && mode == SAVE)
 	{
 		stdfd[i] = dup(i);
 		if (stdfd[i] == -1)
 			return (false);
 		i++;
 	}
-	while (i < 3 && mode == 1)
+	while (i < 3 && mode == LOAD)
 	{
 		ret = dup2(stdfd[i], i);
 		if (ret == -1)
