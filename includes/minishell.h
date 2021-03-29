@@ -88,6 +88,6 @@ char		**tokenize(char *line);
 
 //history
 t_history	*add_history(t_history *last_history, char *line);
-bool		free_history(t_history *history);
+void		free_history(t_history *history);
 
 #endif

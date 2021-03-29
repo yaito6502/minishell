@@ -10,6 +10,8 @@ static t_history	*create_newhistory(void)
 	t_history *history;
 
 	history = malloc(sizeof(t_history));
+	if (history == NULL)
+		return (NULL);
 	history->next = NULL;
 	history->prev = NULL;
 	history->line = NULL;
@@ -21,8 +23,6 @@ t_history			*add_history(t_history *last_history, char *line)
 	t_history	*new_elm;
 	char		*copy;
 
-	if (line == NULL)
-		return (NULL);
 	copy = ft_strdup(line);
 	if (copy == NULL)
 		return (NULL);
@@ -38,12 +38,10 @@ t_history			*add_history(t_history *last_history, char *line)
 	return (new_elm);
 }
 
-bool				free_history(t_history *history)
+void				free_history(t_history *history)
 {
 	t_history *tmp;
 
-	if (history == NULL)
-		return (false);
 	while (history != NULL)
 	{
 		free(history->line);
@@ -51,5 +49,4 @@ bool				free_history(t_history *history)
 		history = history->next;
 		free(tmp);
 	}
-	return (true);
 }
