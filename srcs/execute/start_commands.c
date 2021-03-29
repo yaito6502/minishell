@@ -17,12 +17,12 @@ static void	confirm_child(t_command *cmd_ptr, t_command *cmd)
 			if (WIFEXITED(status))
 			{
 				ret = WEXITSTATUS(status);
-				store_exitstatus(0, ret);
+				store_exitstatus(SAVE, ret);
 			}
 		}
 		else
-			store_exitstatus(0, cmd_ptr->exitstatus);
-		printf("%d\n", store_exitstatus(1, 0));//for debug
+			store_exitstatus(SAVE, cmd_ptr->exitstatus);
+		printf("%d\n", store_exitstatus(LOAD, 0));//for debug
 		cmd_ptr = cmd_ptr->next;
 	}
 	return ;
@@ -32,7 +32,7 @@ void		start_commands(t_command *cmd)
 {
 	t_command	*cmd_ptr;
 
-	reconnect_stdfd(0);
+	reconnect_stdfd(SAVE);
 	cmd_ptr = cmd;
 	while (cmd != NULL)
 	{
@@ -41,7 +41,7 @@ void		start_commands(t_command *cmd)
 		else
 		{
 			execute_sequential(cmd);
-			reconnect_stdfd(1);
+			reconnect_stdfd(LOAD);
 		}
 		if (cmd->op == SCOLON || cmd->op == EOS)
 		{

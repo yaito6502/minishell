@@ -10,9 +10,9 @@ int	store_exitstatus(int mode, int last_status)
 {
 	static int	exit_status = 0;
 
-	if (mode != 0 && mode != 1)
+	if (mode != SAVE && mode != LOAD)
 		return (-1);
-	if (mode == 0)
+	if (mode == SAVE)
 	{
 		exit_status = last_status;
 	}

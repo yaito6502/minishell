@@ -15,10 +15,12 @@ static int	has_dollar(char *line)
 	while (*line != '\0')
 	{
 		if (*line == '"')
+		{
 			if (inquote == false)
 				inquote = true;
 			else
 				inquote = false;
+		}
 		if (*line == '\'' && inquote == false)
 		{
 			line++;

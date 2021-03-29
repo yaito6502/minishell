@@ -13,7 +13,6 @@
 
 static bool		is_inquote(char *p, int len)
 {
-	int		quote_count;
 	int		i;
 	int		j;
 	char	quote;
@@ -43,8 +42,6 @@ static bool		is_inquote(char *p, int len)
 static int		get_index(char *p)
 {
 	int		i;
-	int		j;
-	int		quote_count;
 
 	i = 0;
 	while (p[i] != '\0')

@@ -5,13 +5,13 @@ int main(void)
 	int status;
 
 
-	status = store_exitstatus(1, 0);
+	status = store_exitstatus(LOAD, 0);
 	printf("%d\n", status);
-	store_exitstatus(0, 1);
-	status = store_exitstatus(1, 0);
+	store_exitstatus(SAVE, 1);
+	status = store_exitstatus(LOAD, 0);
 	printf("%d\n", status);
-	store_exitstatus(0, 255);
-	status = store_exitstatus(1, 0);
+	store_exitstatus(SAVE, 255);
+	status = store_exitstatus(LOAD, 0);
 	printf("%d\n", status);
 	return 0;
 }
