@@ -78,5 +78,7 @@ void		print_tcommand(t_command cmd);
 
 char		**tokenize(char *line);
 char		*read_line(void);
+bool		set_terminal_setting(void);
+bool		reset_terminal_setting(void);
 
 #endif
