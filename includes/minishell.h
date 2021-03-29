@@ -70,6 +70,7 @@ int			store_exitstatus(int mode, int last_status);
 void		execute_env(t_command *cmd);
 void		execute_unset(t_command *cmd);
 void		execute_echo(t_command *cmd);
+int			execute_pwd(t_command *cmd);
 
 //for debug
 void		print_tcommand(t_command cmd);

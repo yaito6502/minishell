@@ -8,6 +8,35 @@
 */
 
 /*
+** 現在読み込んだindexまでがクォート中にあるかないかを返す。
+*/
+
+static bool		is_inquote(char *p, int len)
+{
+	int		quote_count;
+	int		i;
+	int		j;
+	char	quote;
+
+	i = 0;
+	while (p[i] != '\0' && i < len)
+	{
+		if (p[i] == '\'' || p[i] == '"')
+		{
+			quote = p[i];
+			j = 1;
+			while (i + j < len && p[i + j] != quote)
+				j++;
+			if (i + j == len)
+				return (true);
+			i += j;
+		}
+		i++;
+	}
+	return (false);
+}
+
+/*
 ** スペース区切り文字を見つけてインデックスを返す。"'の中身はそのまま渡す。
 */
 
@@ -20,14 +49,9 @@ static int		get_index(char *p)
 	i = 0;
 	while (p[i] != '\0')
 	{
-		while (p[i] != '\0' && !ft_strchr(" |><;", p[i]))
+		while (!ft_strchr(" |><;", p[i]))
 			i++;
-		j = 0;
-		quote_count = 0;
-		while (j < i)
-			if (ft_strchr("\"'", p[j++]))
-				quote_count++;
-		if (quote_count % 2 == 1)
+		if (is_inquote(p, i))
 		{
 			while (p[i] != '\0' && !ft_strchr("\"'", p[i]))
 				i++;
@@ -56,8 +80,8 @@ static char		**check_lasttoken(char **tokens, char *op)
 	j = 0;
 	while (ft_isdigit(tokens[i][j]))
 		j++;
-	if (tokens[i][j] == '\0' ||
-		(tokens[i][j] == '>' && tokens[i][j + 1] == '\0'))
+	if (tokens[i][j] == '\0' || \
+	(ft_strchr("<>", tokens[i][j]) && tokens[i][j + 1] == '\0'))
 	{
 		tmp = tokens[i];
 		tokens[i] = ft_strjoin(tokens[i], op);
@@ -79,9 +103,7 @@ static char		*put_op_token(char ***tokens, char *p)
 		return (p);
 	}
 	if (*p == '>' || *p == '<')
-	{
 		*tokens = check_lasttoken(*tokens, ft_substr(p, 0, 1));
-	}
 	else
 		*tokens = add_str_to_list(*tokens, ft_substr(p, 0, 1));
 	if (*tokens == NULL)
