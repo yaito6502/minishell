@@ -19,5 +19,6 @@ t_command	*create_new_tcommand(void)
 	ptr->lastfd[1] = -1;
 	ptr->pid = -1;
 	ptr->op = EOS;
+	ptr->has_childproc = false;
 	return (ptr);
 }
