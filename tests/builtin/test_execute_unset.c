@@ -20,7 +20,6 @@ static void print_env()
 int main(void)
 {
 	int			i;
-	int			ret;
 	t_command	*cmd;
 	extern char	**environ;
 
@@ -29,8 +28,7 @@ int main(void)
 	puts("-------------");
 	cmd = create_new_tcommand();
 	cmd->argv = ft_split("unset,HOME,USER,INVALID",',');
-	ret = execute_unset(cmd);
-	printf("%d\n", ret);
+	execute_unset(cmd);
 	print_env();
 	ft_free_split(environ);
 	ft_free_split(cmd->argv);

@@ -7,14 +7,6 @@
 ** return後、execute_builtin関数で、コマンド終了時の処理を呼び出す想定で実装します。
 */
 
-void		error_unset(char *key, char *errmsg)
-{
-	ft_putstr_fd("bash: unset: `", 2);
-	ft_putstr_fd(key, 2);
-	ft_putendl_fd(errmsg, 2);
-	return ;
-}
-
 static int	get_target_index(char *key)
 {
 	int			i;
@@ -77,27 +69,25 @@ static bool	delete_key(char *key)
 	return (true);
 }
 
-int			execute_unset(t_command *cmd)
+void		execute_unset(t_command *cmd)
 {
 	int		i;
-	int		ret;
+	char	*env;
+	bool	ret;
 
 	i = 1;
-	ret = 0;
 	while (cmd->argv[i] != NULL)
 	{
-		if (!validate_envkey(cmd->argv[i]))
+		env = getenv(cmd->argv[i]);
+		if (env == NULL)
 		{
-			error_unset(cmd->argv[i], "': not a valid identifier");
-			ret = 1;
+			i++;
+			continue ;
 		}
-		else if (getenv(cmd->argv[i]))
-			if (!delete_key(cmd->argv[i]))
-			{
-				error_unset(cmd->argv[i], "':malloc error");
-				ret = 1;
-			}
+		ret = delete_key(cmd->argv[i]);
+		if (ret == false)
+			return ;//error
 		i++;
 	}
-	return (ret);
+	return ;
 }
