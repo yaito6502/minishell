@@ -15,9 +15,19 @@
 
 static void	back_line(char *line, int *i)
 {
+	extern t_termcap term;
+
+	if (*i == 0)
+	{
+		write(1, "\007", 1);
+		return ;
+	}
 	line[*i - 1] = '\0';
 	*i = *i - 1;
-	//termcapを使ってカーソルを左へ移動、カーソル上の文字削除
+	term.le = wrap_tgetstr(term.le, "le", &term.buf_ptr);
+	term.dc = wrap_tgetstr(term.dc, "dc", &term.buf_ptr);
+	tputs(term.le, 1, ft_putchar);
+	tputs(term.dc, 1, ft_putchar);
 	return ;
 }
 

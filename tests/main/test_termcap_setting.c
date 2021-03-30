@@ -11,13 +11,13 @@ int	ft_putchar(int n)
 
 int	main(void)
 {
-	t_termcap *term;
+	extern t_termcap term;
 	char *str;
 
-	term = create_tterm();
-	get_terminal_description(term);
+	init_tterm();
+	get_terminal_description();
 	set_termcapsettings(term);
-	str = tgetstr("cl", &term->buf_ptr);
+	str = tgetstr("cl", &term.buf_ptr);
 	tputs(str, 1, ft_putchar);
 	free_tterm(term);
 	return (0);

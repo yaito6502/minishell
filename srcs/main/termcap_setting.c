@@ -1,31 +1,31 @@
 #include "minishell.h"
 
-t_termcap	*create_tterm(void)
+bool		init_tterm(void)
 {
-	t_termcap *new;
+	extern t_termcap term;
 
-	new = malloc(sizeof(t_termcap));
-	if (!new)
-		return (NULL);
-	new->term_buf = malloc(2048);
-	new->string_buf = malloc(2048);
-	if (!new->term_buf || !new->string_buf)
+	term.term_buf = malloc(2048);
+	term.string_buf = malloc(2048);
+	if (!term.term_buf || !term.string_buf)
 	{
-		free(new->term_buf);
-		free(new->string_buf);
-		free(new);
-		return (NULL);
+		free(term.term_buf);
+		free(term.string_buf);
+		return (false);
 	}
-	new->buf_ptr = new->string_buf;
-	return (new);
+	term.buf_ptr = term.string_buf;
+	term.dc = NULL;
+	term.DC = NULL;
+	term.le = NULL;
+	return (true);
 }
 
-bool		get_terminal_description(t_termcap *term)
+bool		get_terminal_description(void)
 {
+	extern t_termcap term;
 	char		*termtype;
 
 	termtype = getenv("TERM");
-	if (!termtype || tgetent(term->term_buf, termtype) <= 0)
+	if (!termtype || tgetent(term.term_buf, termtype) <= 0)
 	{
 		ft_putendl_fd(strerror(errno), 2);
 		return (false);
@@ -37,7 +37,7 @@ bool		get_terminal_description(t_termcap *term)
 ** termios、terminal descriptionからtermcapに必要な情報を取得、外部変数へ設定。
 */
 
-bool	set_termcapsettings(t_termcap *term)
+bool	set_termcapsettings(t_termcap term)
 {
 	struct termios	termios_p;
 	extern short	ospeed;
@@ -54,8 +54,8 @@ bool	set_termcapsettings(t_termcap *term)
 	PC = tgetnum("pc");
 	if (PC == -1)
 		PC = 0;
-	BC = tgetstr("le", &term->buf_ptr);
-	UP = tgetstr("up", &term->buf_ptr);
+	BC = tgetstr("le", &term.buf_ptr);
+	UP = tgetstr("up", &term.buf_ptr);
 	return (true);
 }
 
@@ -74,10 +74,9 @@ char	*wrap_tgetstr(char *stored_cap, char *cap, char **bufaddr)
 	return (stored_cap);
 }
 
-void	free_tterm(t_termcap *term)
+void	free_tterm(t_termcap term)
 {
-	free(term->term_buf);
-	free(term->string_buf);
-	free(term);
+	free(term.term_buf);
+	free(term.string_buf);
 	return ;
 }

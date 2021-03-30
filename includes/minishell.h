@@ -59,6 +59,8 @@ typedef struct	s_termcap {
 	char *le;
 }				t_termcap;
 
+t_termcap term;
+
 //utils
 t_command		*create_new_tcommand(void);
 void			free_commandslist(t_command **cmds);
@@ -117,10 +119,11 @@ void			free_history(t_history *history);
 char		*read_line(void);
 bool		set_terminal_setting(void);
 bool		reset_terminal_setting(void);
-t_termcap	*create_tterm(void);
-bool		get_terminal_description(t_termcap *term);
-bool		set_termcapsettings(t_termcap *term);
+bool		init_tterm(void);
+bool		get_terminal_description(void);
+bool		set_termcapsettings(t_termcap term);
 char		*wrap_tgetstr(char *stored_cap, char *cap, char **bufaddr);
-void		free_tterm(t_termcap *term);
+void		free_tterm(t_termcap term);
+int			ft_putchar(int n);
 
 #endif
