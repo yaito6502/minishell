@@ -89,8 +89,9 @@ int				execute_env(t_command *cmd);
 void			execute_unset(t_command *cmd);
 int				execute_pwd(t_command *cmd);
 
-//parser
+//expander
 char			*expand_envval(char *line);
+char	*expand_exitstatus(char *ret, int *i);
 bool			preprocess_command(t_command *cmd);
 
 //for debug
