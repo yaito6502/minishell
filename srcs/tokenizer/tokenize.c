@@ -46,13 +46,14 @@ static int		get_index(char *p)
 	i = 0;
 	while (p[i] != '\0')
 	{
-		while (!ft_strchr(" |><;", p[i]))
+		while (p[i] != '\0' && !ft_strchr(" |><;", p[i]))
 			i++;
 		if (is_inquote(p, i))
 		{
 			while (p[i] != '\0' && !ft_strchr("\"'", p[i]))
 				i++;
-			i++;
+			if (p[i] != '\0')
+				i++;
 		}
 		else
 			return (i);
@@ -70,6 +71,8 @@ static char		**check_lasttoken(char **tokens, char *op)
 	int		j;
 	char	*tmp;
 
+	if (op == NULL)
+		return (NULL);
 	i = 0;
 	while (tokens[i] != NULL)
 		i++;
@@ -97,10 +100,14 @@ static char		*put_op_token(char ***tokens, char *p)
 			p++;
 		return (p);
 	}
+	tmp = ft_substr(p, 0, 1);
+	if (tmp == NULL)
+		return (NULL);
 	if (*p == '>' || *p == '<')
-		*tokens = check_lasttoken(*tokens, ft_substr(p, 0, 1));
+		*tokens = check_lasttoken(*tokens, tmp);
 	else
-		*tokens = add_str_to_list(*tokens, ft_substr(p, 0, 1));
+		*tokens = add_str_to_list(*tokens, tmp);
+	free(tmp);
 	if (*tokens == NULL)
 		return (NULL);
 	return (p + 1);
@@ -109,27 +116,26 @@ static char		*put_op_token(char ***tokens, char *p)
 char			**tokenize(char *line)
 {
 	int		i;
-	char	*p;
 	char	**tokens;
+	char	*tmp;
 
 	tokens = NULL;
-	p = line;
-	while (*p != '\0')
+	while (*line != '\0')
 	{
-		i = get_index(p);
+		i = get_index(line);
 		if (i > 0)
 		{
-			tokens = add_str_to_list(tokens, ft_substr(p, 0, i));
-			if (tokens == NULL)
+			tmp = ft_substr(line, 0, i);
+			if (tmp == NULL)
 				return (NULL);
-			p += i;
+			tokens = add_str_to_list(tokens, tmp);
+			free(tmp);
+			line += i;
 		}
 		else
-		{
-			p = put_op_token(&tokens, p);
-			if (p == NULL)
-				return (NULL);
-		}
+			line = put_op_token(&tokens, line);
+		if (tokens == NULL || line == NULL)
+			return (NULL);
 	}
 	return (tokens);
 }
