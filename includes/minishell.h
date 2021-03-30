@@ -49,15 +49,16 @@ typedef struct	s_command {
 }				t_command;
 
 //utils
-t_command		*create_new_tcommand(void);
-void			free_commandslist(t_command **cmds);
-int				is_builtin(t_command *cmds);
-bool			create_newenv(void);
-bool			add_newval_to_env(const char *str);
-bool			has_slash(char *cmd);
-char			**add_str_to_list(char **list, const char *str);
-char			*read_command(void);
-char			**split_line(char *str, char *set[2]);
+t_command	*create_new_tcommand(void);
+void		free_commandslist(t_command **cmds);
+int			is_builtin(t_command *cmds);
+bool		create_newenv(void);
+bool		add_newval_to_env(const char *str);
+bool		has_slash(char *cmd);
+char		**add_str_to_list(char **list, const char *str);
+char		*read_command(void);
+char		**split_line(char *str, char *set[2]);
+bool		validate_envkey(char *key);
 
 //parse
 t_command		*get_commandline(char **list);
