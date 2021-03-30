@@ -9,7 +9,7 @@ int main(void)
 
 	store_exitstatus(SAVE, 1);
 	cmd = create_new_tcommand();
-	cmd->argv = ft_split("$?,'$?',\"$?\",\"world's end\",'$HOME' aaaa\"$TEST\" $PWD,'\"tes\"t' $USER\"",',');
+	cmd->argv = ft_split("'$?',$?,\"$?\",\"world's end\",'$HOME'aaaa\"$TEST\",$PWD",',');
 	///*while (cmd->argv[i] != NULL)
 	//	puts(cmd->argv[i++]);*/
 	ret = preprocess_command(cmd);
