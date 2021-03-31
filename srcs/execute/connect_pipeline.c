@@ -1,23 +1,38 @@
 #include "minishell.h"
 
-void		send_pipeline(t_command *cmds, int newpipe[2])
+static bool	error_piping(void)
 {
-	if (cmds->op != PIPELINE)
-		return ;
-	close(newpipe[0]);
-	dup2(newpipe[1], STDOUT_FILENO);
-	close(newpipe[1]);
-	return ;
+	ft_putstr_fd("minishell: pipe: ", 2);
+	ft_putstr_fd(strerror(errno), 2);
+	return (false);
 }
 
-void		receive_pipeline(t_command *cmds)
+bool		send_pipeline(t_command *cmd, int newpipe[2])
 {
-	if (cmds->receive_pipe == false)
+	if (cmd->op != PIPELINE)
 		return ;
-	close(cmds->lastfd[1]);
-	dup2(cmds->lastfd[0], STDIN_FILENO);
-	close(cmds->lastfd[0]);
-	return ;
+	if (close(newpipe[0]) == -1)
+		return (error_piping());
+	if (dup2(newpipe[1], STDOUT_FILENO) == -1)
+		return (error_piping());
+	if (close(newpipe[1]) == -1)
+		return (error_piping());
+	return (true);
+}
+
+bool		receive_pipeline(t_command *cmd)
+{
+	int	ret;
+
+	if (cmd->receive_pipe == false)
+		return ;
+	if (close(cmd->lastfd[1]) == -1)
+		return (error_piping());
+	if (dup2(cmd->lastfd[0], STDIN_FILENO) == -1)
+		return (error_piping());
+	if (close(cmd->lastfd[0]) == -1)
+		return (error_piping());
+	return (true);
 }
 
 /*
