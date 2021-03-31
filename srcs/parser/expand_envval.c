@@ -10,7 +10,6 @@ static int	has_dollar(char *line)
 	bool	inquote;
 
 	ret = 0;
-	puts(line);
 	inquote = false;
 	while (*line != '\0')
 	{
@@ -28,8 +27,7 @@ static int	has_dollar(char *line)
 				line++;
 			line++;
 		}
-		if (*line == '$')
-			ret++;
+		ret += (*line == '$');
 		line++;
 	}
 	return (ret);

@@ -28,7 +28,8 @@ int main(void)
 	print_env();
 	puts("-------------");
 	cmd = create_new_tcommand();
-	cmd->argv = ft_split("unset,HOME,USER,INVALID",',');
+	cmd->argv = ft_split("unset,\"\",\"\",INVALID",',');
+	preprocess_command(cmd);
 	ret = execute_unset(cmd);
 	printf("%d\n", ret);
 	print_env();
