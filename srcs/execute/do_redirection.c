@@ -22,7 +22,7 @@ static long		check_fd(char *arg)
 	return (fd);
 }
 
-static int	is_appending(char *arg)
+static int		is_appending(char *arg)
 {
 	int i;
 

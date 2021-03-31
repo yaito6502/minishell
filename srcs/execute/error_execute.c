@@ -16,3 +16,10 @@ int		error_execute(char *path)
 		return (127);
 	return (1);
 }
+
+int		error_fork(void)
+{
+	ft_putstr_fd("minishell: fork: ", 2);
+	ft_putstr_fd(strerror(errno), 2);
+	return (1);
+}

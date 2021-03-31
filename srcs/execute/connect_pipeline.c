@@ -1,40 +1,44 @@
 #include "minishell.h"
 
-static bool	error_piping(void)
+static bool	error_piping(char *str)
 {
-	ft_putstr_fd("minishell: pipe: ", 2);
+	ft_putstr_fd("minishell: connect_pipeline: ", 2);
+	ft_putstr_fd(str, 2);
 	ft_putstr_fd(strerror(errno), 2);
 	return (false);
 }
 
-bool		send_pipeline(t_command *cmd, int newpipe[2])
+static bool	send_pipeline(t_command *cmd, int newpipe[2])
 {
 	if (cmd->op != PIPELINE)
-		return ;
+		return (true);
 	if (close(newpipe[0]) == -1)
-		return (error_piping());
+		return (error_piping("close: "));
 	if (dup2(newpipe[1], STDOUT_FILENO) == -1)
-		return (error_piping());
+		return (error_piping("dup2: "));
 	if (close(newpipe[1]) == -1)
-		return (error_piping());
+		return (error_piping("close: "));
 	return (true);
 }
 
-bool		receive_pipeline(t_command *cmd)
+static bool	receive_pipeline(t_command *cmd)
 {
-	int	ret;
-
 	if (cmd->receive_pipe == false)
-		return ;
+		return (true);
 	if (close(cmd->lastfd[1]) == -1)
-		return (error_piping());
+		return (error_piping("close: "));
 	if (dup2(cmd->lastfd[0], STDIN_FILENO) == -1)
-		return (error_piping());
+		return (error_piping("dup2: "));
 	if (close(cmd->lastfd[0]) == -1)
-		return (error_piping());
+		return (error_piping("close: "));
 	return (true);
 }
 
-/*
-** dup2のエラーキャッチが必要かも。要検討
-*/
+bool		connect_pipeline(t_command *cmd, int newpipe[2])
+{
+	if (!send_pipeline(cmd, newpipe))
+		return (false);
+	if (!receive_pipeline(cmd))
+		return (false);
+	return (true);
+}

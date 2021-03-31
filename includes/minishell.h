@@ -49,16 +49,16 @@ typedef struct	s_command {
 }				t_command;
 
 //utils
-t_command	*create_new_tcommand(void);
-void		free_commandslist(t_command **cmds);
-int			is_builtin(t_command *cmds);
-bool		create_newenv(void);
-bool		add_newval_to_env(const char *str);
-bool		has_slash(char *cmd);
-char		**add_str_to_list(char **list, const char *str);
-char		*read_command(void);
-char		**split_line(char *str, char *set[2]);
-bool		validate_envkey(char *key);
+t_command		*create_new_tcommand(void);
+void			free_commandslist(t_command **cmds);
+int				is_builtin(t_command *cmds);
+bool			create_newenv(void);
+bool			add_newval_to_env(const char *str);
+bool			has_slash(char *cmd);
+char			**add_str_to_list(char **list, const char *str);
+char			*read_command(void);
+char			**split_line(char *str, char *set[2]);
+bool			validate_envkey(char *key);
 
 //parse
 t_command		*get_commandline(char **list);
@@ -70,8 +70,7 @@ bool			set_redirection_list(t_command *cmd, char **list);
 
 //execute
 char			*get_cmd_frompath(t_command *cmd);
-void			send_pipeline(t_command *cmds, int newpipe[2]);
-void			receive_pipeline(t_command *cmds);
+bool			connect_pipeline(t_command *cmd, int newpipe[2]);
 bool			do_redirection(t_command *cmd);
 bool			reconnect_stdfd(int mode);
 char			*get_cmd_frompath(t_command *cmd);
@@ -103,6 +102,7 @@ void			free_history(t_history *history);
 
 //error output
 int				error_execute(char *path);
+int				error_fork(void);
 bool			redirect_error(char *key, char *errmsg);
 bool			fd_error(long fd, char *errmsg);
 
