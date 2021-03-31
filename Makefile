@@ -21,6 +21,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/parser/expand_envval.c \
 			srcs/execute/connect_pipeline.c \
 			srcs/execute/do_redirection.c \
+			srcs/execute/error_redirect.c \
 			srcs/execute/get_cmd_frompath.c \
 			srcs/execute/join_path.c \
 			srcs/execute/reconnect_stdfd.c \
