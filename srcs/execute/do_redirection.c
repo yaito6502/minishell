@@ -5,7 +5,7 @@
 ** fd自体はopenで確認するので、当関数ではエラーチェックしない。
 */
 
-static long	check_fd(char *arg)
+static long		check_fd(char *arg)
 {
 	long	fd;
 
@@ -37,7 +37,7 @@ static int	is_appending(char *arg)
 ** open失敗はその場で中断、空ファイルも出来ない。
 */
 
-bool		redirect_input(t_command *cmd)
+static bool		redirect_input(t_command *cmd)
 {
 	int		i;
 	long	target_fd;
@@ -60,7 +60,7 @@ bool		redirect_input(t_command *cmd)
 	return (true);
 }
 
-bool		redirect_output(t_command *cmd)
+static bool		redirect_output(t_command *cmd)
 {
 	int		i;
 	long	target_fd;
@@ -84,7 +84,7 @@ bool		redirect_output(t_command *cmd)
 	return (true);
 }
 
-bool		do_redirection(t_command *cmd)
+bool			do_redirection(t_command *cmd)
 {
 	bool	ret;
 

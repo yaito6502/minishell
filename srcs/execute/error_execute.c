@@ -2,6 +2,7 @@
 
 int		error_execute(char *path)
 {
+	printf("%d\n", errno);
 	ft_putstr_fd("bash: ", 2);
 	ft_putstr_fd(path, 2);
 	ft_putstr_fd(": ", 2);
@@ -11,7 +12,7 @@ int		error_execute(char *path)
 		ft_putendl_fd(strerror(errno), 2);
 	if (errno == EACCES)
 		return (126);
-	if (errno == EFAULT)
+	if (errno == ENOENT || errno == EFAULT)
 		return (127);
 	return (1);
 }

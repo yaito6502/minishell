@@ -72,18 +72,17 @@ bool			set_redirection_list(t_command *cmd, char **list);
 char			*get_cmd_frompath(t_command *cmd);
 void			send_pipeline(t_command *cmds, int newpipe[2]);
 void			receive_pipeline(t_command *cmds);
-bool			redirect_input(t_command *cmds);
-bool			redirect_output(t_command *cmds);
+bool			do_redirection(t_command *cmd);
 bool			reconnect_stdfd(int mode);
 char			*get_cmd_frompath(t_command *cmd);
 char			*join_path(char *cmd);
-void			execute_sequential(t_command *cmd);
-void			execute_parallel(t_command *cmd);
+int				execute_sequential(t_command *cmd);
+int				execute_parallel(t_command *cmd);
 void			start_commands(t_command *cmd);
 int				store_exitstatus(int mode, int last_status);
 
 //builtin
-void			execute_builtin(t_command *cmd);
+int				execute_builtin(t_command *cmd);
 int				execute_echo(t_command *cmd);
 int				execute_env(t_command *cmd);
 int				execute_unset(t_command *cmd);
