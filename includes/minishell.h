@@ -98,6 +98,7 @@ bool			preprocess_command(t_command *cmd);
 void			print_tcommand(t_command cmd);
 
 char			**tokenize(char *line);
+bool			validate_quote(char *line);
 
 //history
 t_history		*add_history(t_history *last_history, char *line);
