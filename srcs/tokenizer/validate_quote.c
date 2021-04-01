@@ -21,7 +21,10 @@ bool	validate_quote(char *line)
 				line++;
 			}
 			if (*line == '\0')
+			{
+				ft_putendl_fd("minishell: Quote is not closed.", 2);
 				return (false);
+			}
 		}
 		line++;
 	}
