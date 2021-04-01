@@ -15,5 +15,7 @@ int main(void)
 		printf("{%s} ", tokens[i]);
 		i++;
 	}
+	free(line);
+	ft_free_split(tokens);
 	return 0;
 }
