@@ -21,7 +21,12 @@ int		main(int argc, char **argv)
 	free_commandslist(&cmd);
 	printf("status[%d]\n\n", status);
 
-	cmd = get_commandline(tokenize("cd ~"));
+	cmd = get_commandline(tokenize("cd -"));
+	status = execute_cd(cmd);
+	free_commandslist(&cmd);
+	printf("status[%d]\n\n", status);
+
+	cmd = get_commandline(tokenize("cd ~/Desktop"));
 	status = execute_cd(cmd);
 	free_commandslist(&cmd);
 	printf("status[%d]\n\n", status);

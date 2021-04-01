@@ -1,3 +1,5 @@
+cd ../../minishell
+make execute_cd
 echo ""
 ./test
 echo ""
@@ -18,3 +20,6 @@ echo "unset CDPATH"
 unset CDPATH
 ./test execute
 echo ""
+./test ~
+echo ""
+./test ~/Desktop

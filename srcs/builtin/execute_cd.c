@@ -1,106 +1,108 @@
 #include "minishell.h"
 
-int		print_error(char *message)
+static int	print_error(char *message)
 {
-	message = ft_strjoin("minishell: cd: ", message);
-	if (message == NULL)
-		printf("%s\n", strerror(errno));
-	else
-		printf("%s\n", message);
+	printf("minishell: cd: ");
+	printf("%s", message);
 	return (EXIT_FAILURE);
 }
 
-bool	update_oldpwd(char *pwd)
+static bool	update_env(char *key, char *value)
 {
 	extern char	**environ;
-	char		*tmp;
-	int			i;
+	char		*env;
+	size_t		i;
+	bool		status;
 
-	tmp = ft_strjoin("OLDPWD=", pwd);
-	if (tmp == NULL)
+	if (!key || !value) //validate_envkeyを追加する
+		return (false);
+	env = ft_strjoin(key, value);
+	if (env == NULL)
 		return (false);
 	i = 0;
-	while (environ[i] != NULL && ft_strncmp(environ[i], "OLDPWD=", 7))
+	while (environ[i] != NULL && ft_strncmp(environ[i], key, ft_strlen(key)))
 		i++;
+	status = true;
 	if (environ[i] == NULL)
-	{
-		if (!add_newval_to_env(tmp))
-		{
-			free(tmp);
-			return (false);
-		}
-	}
-	else
-	{
-		free(environ[i]);
-		environ[i] = tmp;
-	}
-	return (true);
+		status = add_newval_to_env(env);
+	(environ[i] == NULL ? free(env) : free(environ[i]));
+	if (environ[i] != NULL)
+		environ[i] = env;
+	return (status);
 }
 
-int		set_path(char *path)
+static int	set_path(char *path)
 {
-	int			status;
-	char		*pwd;
-	t_command	*cmd;
+	char		*newpath;
 
-	printf("path[%s]\n", join_path(path)); //デバッグ用
-	status = chdir(join_path(path));
-	if (status == -1)
-		return (print_error(ft_strjoin(path, ": No such file or directory")));
-	pwd = getenv("PWD");
-	if (pwd == NULL)
+	newpath = join_path(path);
+	if (chdir(newpath) == -1)
+	{
+		print_error(path);
+		printf("%s\n", ":No such file or directory");
 		return (EXIT_FAILURE);
-	status = update_oldpwd(pwd);
-	if (status == 0)
+	}
+	if (!update_env("OLDPWD=", getenv("PWD")) || !update_env("PWD=", path))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-bool	cdpath(char *path)
+static bool	set_cdpath_iterate(char *path)
 {
 	char	*newpath;
 	char	**split_path;
-	int		status;
 
 	split_path = ft_split(getenv("CDPATH"), ':');
 	if (split_path == NULL)
 		return (false);
 	while (*split_path != NULL)
 	{
-		if (set_path(ft_strjoin(*split_path, path)) == 0)
+		newpath = ft_strjoin(*split_path, path);
+		if (set_path(newpath) == 0)
+		{
+			free(newpath);
+			ft_free_split(split_path);
 			return (true);
+		}
+		free(newpath);
 		split_path++;
 	}
+	ft_free_split(split_path);
 	return (false);
 }
 
 /*
-**　pathの指定がない場合、環境変数HOMEへ移動
-**　HOMEが設定されていない場合エラーを返す
-**　cd - の場合
+**　normの行数オーバーは未解決
+**　getenvはmallocを伴わないのか、freeするとエラーが起きる。
 */
+
 int		execute_cd(t_command *cmd)
 {
 	char		*path;
 	int			status;
 
 	path = cmd->argv[1];
-	if (path == NULL || (path[0] == '~' && path[1] == '\0'))
+	if (path == NULL || *path == '~')
 	{
 		path = getenv("HOME");
 		if (path == NULL)
-			return (print_error("HOME not set"));
+			return (print_error("HOME not set\n"));
+		if (cmd->argv[1])
+		{
+			path = ft_strjoin(path, cmd->argv[1] + 1);
+			status = set_path(path);
+			free(path);
+			return (status);
+		}
 	}
 	else if (!ft_strncmp(path, "-", 2))
 	{
 		path = getenv("OLDPWD");
 		if (path == NULL)
-			return (print_error("OLDPWD not set"));
+			return (print_error("OLDPWD not set\n"));
 		printf("%s\n", path);
 	}
-	else if (ft_strncmp(path, "/", 1))
-		if (cdpath(path))
-			return (EXIT_SUCCESS);
+	else if (ft_strncmp(path, "/", 1) && set_cdpath_iterate(path))
+		return (EXIT_SUCCESS);
 	return (set_path(path));
 }
