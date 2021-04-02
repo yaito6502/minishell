@@ -14,6 +14,8 @@
 # include <fcntl.h>
 # include <dirent.h>
 # include <string.h>
+# include <termios.h>
+# include <termcap.h>
 
 # define SAVE 0
 # define LOAD 1
@@ -99,6 +101,10 @@ void			print_tcommand(t_command cmd);
 
 char			**tokenize(char *line);
 
+char		**tokenize(char *line);
+char		*read_line(void);
+bool		set_terminal_setting(void);
+bool		reset_terminal_setting(void);
 //history
 t_history		*add_history(t_history *last_history, char *line);
 void			free_history(t_history *history);
