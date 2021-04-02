@@ -17,6 +17,8 @@ static void	wait_command()
 
 	write(1, "\033[34mminishell\033[m > ",21);
 	line = read_line();
+	if (line == NULL)
+		return ;
 	//add_history(NULL, line);
 	tokens = tokenize(line);
 	cmd = get_commandline(tokens);

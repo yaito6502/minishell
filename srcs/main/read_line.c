@@ -36,7 +36,9 @@ static char	*check_input(char *line, char *c, int *i, int rc)
 {
 	if (*i == BUFFER_SIZE)
 	{
+		write(1, "\n", 1);
 		ft_putendl_fd("minishell: read_line: Too long line", 2);
+		c[0] = '\n';
 		return (NULL);
 	}
 	//if (!ft_strncmp(c, UPKEY, 4) || !ft_strncmp(c, DOWNKEY, 4))
@@ -99,3 +101,4 @@ char		*read_line(void)
 	write(1, "\n", 1);
 	signal(SIGINT, SIG_DFL);
 	return (line);
+}
