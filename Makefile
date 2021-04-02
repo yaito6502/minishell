@@ -18,6 +18,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/utils/has_slash.c \
 			srcs/utils/add_str_to_list.c \
 			srcs/utils/split_line.c \
+			srcs/utils/validate_envkey.c \
 			srcs/parser/parser.c \
 			srcs/parser/parser_utils.c \
 			srcs/parser/expander.c \
@@ -53,6 +54,7 @@ TESTFILE =	tests/print_tcommand.c \
 			tests/utils/test_has_slash.c \
 			tests/utils/test_add_str_to_list.c \
 			tests/utils/test_split_line.c \
+			tests/utils/test_validate_envkey.c \
 			tests/parser/test_parser.c \
 			tests/parser/test_expander.c \
 			tests/parser/test_expand_envval.c \
