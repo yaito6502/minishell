@@ -8,6 +8,8 @@ LIBFT = ./libft/libft.a
 SRCFILE =	srcs/main/main.c \
 			srcs/main/read_line.c \
 			srcs/main/terminal_setting.c \
+			srcs/main/termcap_setting.c \
+			srcs/main/ft_putchar.c \
 			srcs/utils/create_new_tcommand.c \
 			srcs/utils/free_commandslist.c \
 			srcs/utils/is_builtin.c \
@@ -43,6 +45,7 @@ SRCFILE =	srcs/main/main.c \
 
 TESTFILE =	tests/print_tcommand.c \
 			tests/main/test_read_line.c \
+			tests/main/test_termcap_setting.c \
 			tests/utils/test_create_new_tcommand.c \
 			tests/utils/test_free_commandslist.c \
 			tests/utils/test_is_builtin.c \
@@ -85,11 +88,11 @@ $(LIBFT):
 	$(MAKE) bonus -C ./libft
 
 $(NAME): $(OBJECTS) $(LIBFT)
-	gcc -g $(CFLAGS) -ltermcap $^ $(INCLUDES) -o $@
+	gcc -g $(CFLAGS) $^ $(INCLUDES) -ltermcap -o $@
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(BINDIRS)
-	gcc $(CFLAGS) $(INCLUDES) -o $@ -c $<
+	gcc -g $(CFLAGS) $(INCLUDES) -c $< -ltermcap -o $@
 
 $(TEST): $(LIBFT)
 	gcc -g $(filter tests/%/test_$@.c, $(TESTFILE)) tests/print_tcommand.c \

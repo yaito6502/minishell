@@ -7,7 +7,6 @@
 
 bool	set_terminal_setting(void)
 {
-	extern short	ospeed;
 	struct termios	termios_p;
 	int				ret;
 
@@ -18,7 +17,6 @@ bool	set_terminal_setting(void)
 		return (false);
 	}
 	termios_p.c_lflag &= ~(ICANON | ECHO);
-	ospeed = (short)termios_p.c_ospeed;
 	ret = tcsetattr(STDIN_FILENO, TCSANOW, &termios_p);
 	if (ret == -1)
 	{
