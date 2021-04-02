@@ -99,4 +99,3 @@ char		*read_line(void)
 	write(1, "\n", 1);
 	signal(SIGINT, SIG_DFL);
 	return (line);
-}
