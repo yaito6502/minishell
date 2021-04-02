@@ -10,6 +10,7 @@ int		execute_pwd(t_command *cmd)
 {
 	char *path;
 
+	(void)cmd;
 	path = getenv("PWD");
 	if (path == NULL)
 		return (EXIT_FAILURE);
