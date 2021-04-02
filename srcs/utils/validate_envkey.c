@@ -7,6 +7,8 @@
 
 bool	validate_envkey(char *key)
 {
+	if (*key == '\0')
+		return (false);
 	if (ft_isdigit(*key))
 		return (false);
 	key++;

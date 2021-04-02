@@ -59,6 +59,7 @@ char		**add_str_to_list(char **list, const char *str);
 char		*read_command(void);
 char		**split_line(char *str, char *set[2]);
 bool		validate_envkey(char *key);
+bool		update_env(char *key, char *value);
 
 //parse
 t_command		*get_commandline(char **list);
@@ -89,6 +90,7 @@ int				execute_echo(t_command *cmd);
 int				execute_env(t_command *cmd);
 int			  execute_unset(t_command *cmd);
 int				execute_pwd(t_command *cmd);
+int				execute_cd(t_command *cmd);
 
 //parser
 char			*expand_envval(char *line);

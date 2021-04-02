@@ -57,6 +57,7 @@ int		main(int argc, char **argv)
 	printf("OLDPWD is %s\n", env);
 	printf("status[%d]\n\n", status);
 
+	system("leaks test");
 	return (0);
 
 }
