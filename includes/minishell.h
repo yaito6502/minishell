@@ -102,8 +102,9 @@ int				store_exitstatus(int mode, int last_status);
 void			execute_builtin(t_command *cmd);
 int				execute_echo(t_command *cmd);
 int				execute_env(t_command *cmd);
-int			  execute_unset(t_command *cmd);
+int				execute_unset(t_command *cmd);
 int				execute_pwd(t_command *cmd);
+int				execute_export(t_command *cmd);
 
 //parser
 char			*expand_envval(char *line);
