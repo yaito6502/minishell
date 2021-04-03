@@ -14,6 +14,8 @@
 # include <fcntl.h>
 # include <dirent.h>
 # include <string.h>
+# include <termios.h>
+# include <termcap.h>
 
 # define SAVE 0
 # define LOAD 1
@@ -48,6 +50,17 @@ typedef struct	s_command {
 	int					exitstatus;
 }				t_command;
 
+typedef struct	s_termcap {
+	char *term_buf;
+	char *string_buf;
+	char *buf_ptr;
+	char *dc;
+	char *DC;
+	char *le;
+}				t_termcap;
+
+t_termcap term;
+
 //utils
 t_command	*create_new_tcommand(void);
 void		free_commandslist(t_command **cmds);
@@ -61,6 +74,7 @@ char		**split_line(char *str, char *set[2]);
 bool		validate_envkey(char *key);
 
 //parse
+char			**tokenize(char *line);
 t_command		*get_commandline(char **list);
 char			*get_laststr(char **list);
 char			**get_strs(char **list, int len);
@@ -98,10 +112,24 @@ bool			preprocess_command(t_command *cmd);
 //for debug
 void			print_tcommand(t_command cmd);
 
-char			**tokenize(char *line);
 
+char		**tokenize(char *line);
+char		*read_line(void);
+bool		set_terminal_setting(void);
+bool		reset_terminal_setting(void);
 //history
 t_history		*add_history(t_history *last_history, char *line);
 void			free_history(t_history *history);
+
+//terminal setting and termcap
+char		*read_line(void);
+bool		set_terminal_setting(void);
+bool		reset_terminal_setting(void);
+bool		init_tterm(void);
+bool		get_terminal_description(void);
+bool		set_termcapsettings(t_termcap term);
+char		*wrap_tgetstr(char *stored_cap, char *cap, char **bufaddr);
+void		free_tterm(t_termcap term);
+int			ft_putchar(int n);
 
 #endif
