@@ -36,7 +36,7 @@ int main(void)
 	init_tterm();
 	get_terminal_description();
 	set_termcapsettings(term);
-	printf("Generating shell environment valiables ... %s[OK]%s\n", GREEN, RESET);
+	printf("Generating shell environment variables ... %s[OK]%s\n", GREEN, RESET);
 	printf("Hello, welcome to our minishell!\n");
 	while(1)
 		wait_command(&hist);
