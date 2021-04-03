@@ -9,14 +9,14 @@
 #define WHITE	"\033[37m"
 #define RESET	"\033[m"
 
-static void	wait_command(t_hist *hist)
+static void	wait_command(t_hist **hist)
 {
 	char		*line;
 	char		**tokens;
 	t_command	*cmd;
 
 	write(1, "\033[34mminishell\033[m > ",21);
-	hist = add_newelm_to_hist(hist);
+	*hist = add_newelm_to_hist(*hist);
 	line = read_line(hist);
 	if (line == NULL)
 		return ;
@@ -39,6 +39,6 @@ int main(void)
 	printf("Generating shell environment valiables ... %s[OK]%s\n", GREEN, RESET);
 	printf("Hello, welcome to our minishell!\n");
 	while(1)
-		wait_command(hist);
+		wait_command(&hist);
 	return (0);
 }

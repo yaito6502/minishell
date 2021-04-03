@@ -66,3 +66,13 @@ void				free_history(t_hist *hist)
 		free(tmp);
 	}
 }
+
+void				free_one_elm(t_hist *hist)
+{
+	if (hist->line != NULL)
+		free(hist->line);
+	if (hist->modified_line != NULL)
+		free(hist->modified_line);
+	free(hist);
+	return ;
+}

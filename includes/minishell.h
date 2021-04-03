@@ -34,10 +34,10 @@ typedef enum	e_dir {
 }				t_dir;
 
 typedef struct	s_hist {
-	struct s_history	*next;
-	struct s_history	*prev;
-	char				*line;
-	char				*modified_line;
+	struct s_hist	*next;
+	struct s_hist	*prev;
+	char			*line;
+	char			*modified_line;
 }				t_hist;
 
 typedef struct	s_command {
@@ -119,9 +119,12 @@ void			print_tcommand(t_command cmd);
 t_hist			*add_newelm_to_hist(t_hist *hist);
 t_hist			*add_history(t_hist *last_hist, char *line);
 void			free_history(t_hist *history);
+void			free_one_elm(t_hist *hist);
+char			*display_history(char *line, char *c, int *i, t_hist **hist);
+bool			update_history(char *line, t_hist **hist_p);
 
 //terminal setting and termcap
-char		*read_line(t_hist *hist);
+char		*read_line(t_hist **hist);
 char		*get_eof(char *line, char *c, int i);
 char		*get_sigint(char *line, char *c);
 bool		set_terminal_setting(void);

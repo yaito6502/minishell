@@ -41,7 +41,9 @@ SRCFILE =	srcs/main/main.c \
 			srcs/builtin/execute_pwd.c \
 			srcs/builtin/execute_echo.c \
 			srcs/tokenizer/tokenize.c \
-			srcs/history/history.c
+			srcs/history/history.c \
+			srcs/history/display_history.c \
+			srcs/history/update_history.c
 
 
 TESTFILE =	tests/print_tcommand.c \

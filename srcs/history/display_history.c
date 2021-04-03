@@ -6,11 +6,9 @@
 /*
 ** 現在のlineをhistoryのmodified_lineへ、キー入力の方向へhistoryを参照して表示、lineへコピー
 ** **histは参照したhisotryをそのまま返す。
-** コマンドが実行される前に、実行されるlineは新しいhistoryのlineへ
-** 実行されなかったhistoryのmodified_lineはlineへ更新する。
 */
 
-char	*error_return(char *c, char *str)
+static char	*error_return(char *c, char *str)
 {
 	write(1, "\n", 1);
 	ft_putstr_fd("minishell: display_history: ", 2);
@@ -19,36 +17,45 @@ char	*error_return(char *c, char *str)
 	return (NULL);
 }
 
-void	put_line(char *line, int *i)
+t_dir		get_dir(char *c)
+{
+	if (!ft_strncmp(c, UPKEY, 4))
+		return (NEXT);
+	else if (!ft_strncmp(c, DOWNKEY, 4))
+		return (PREV);
+	return (-1);
+}
+
+void		put_line(char *line, int *i)
 {
 	extern t_termcap term;
 
-	//カーソル位置を文字列頭へ
 	term.le = wrap_tgetstr(term.le, "le", &term.buf_ptr);
-	while (i > 0)
+	while (*i > 0)
 	{
 		tputs(term.le, 1, ft_putchar);
-		i--;
+		(*i)--;
 	}
-	//文字列削除
 	term.ce = wrap_tgetstr(term.ce, "ce", &term.buf_ptr);
 	tputs(term.ce, 1, ft_putchar);
+	*i = (int)ft_strlen(line);
+	write(STDOUT_FILENO, line, *i);
+	return ;
 }
 
-char	*display_history(char *line, char *c, int *i, t_hist **hist)
+char		*display_history(char *line, char *c, int *i, t_hist **hist)
 {
 	t_dir dir;
 
-	if (!ft_strncmp(c, UPKEY, 4))
-		dir = NEXT;
-	else
-		dir = PREV;
+	dir = get_dir(c);
 	if ((dir == NEXT && (*hist)->next == NULL) ||
 		(dir == PREV && (*hist)->prev == NULL))
 	{
 		write(1, "\007", 1);
 		return (line);
 	}
+	if ((*hist)->modified_line != NULL)
+		free((*hist)->modified_line);
 	(*hist)->modified_line = ft_strdup(line);
 	if ((*hist)->modified_line == NULL)
 		return (error_return(c, "malloc error"));
@@ -63,16 +70,3 @@ char	*display_history(char *line, char *c, int *i, t_hist **hist)
 	put_line(line, i);
 	return (line);
 }
-
-/*
-	//カーソル位置を文字列頭へ
-	term.le = wrap_tgetstr(term.le, "le", &term.buf_ptr);
-	while (i > 0)
-	{
-		tputs(term.le, 1, ft_putchar);
-		i--;
-	}
-	//文字列削除
-	term.ce = wrap_tgetstr(term.ce, "ce", &term.buf_ptr);
-	tputs(term.ce, 1, ft_putchar);
-*/
