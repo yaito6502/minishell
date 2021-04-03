@@ -13,7 +13,7 @@ int		main(int argc, char **argv)
 	wait(&status);
 	if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
-	printf("status[%d]\n", status);
+	printf("$? = %d\n", status);
 	free_commandslist(&cmd);
 	return (0);
 }

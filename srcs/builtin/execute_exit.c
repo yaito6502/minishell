@@ -5,7 +5,6 @@ static int			print_error(char *message)
 	ft_putendl_fd("exit", STDERR_FILENO);
 	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 	ft_putstr_fd(message, STDERR_FILENO);
-	store_exitstatus(SAVE, 255);
 	return (255);
 }
 
@@ -74,7 +73,6 @@ int					execute_exit(t_command *cmd)
 	if (str == NULL)
 	{
 		ft_putendl_fd("exit", STDOUT_FILENO);
-		store_exitstatus(SAVE, EXIT_SUCCESS);
 		exit(EXIT_SUCCESS);
 	}
 	if (!is_digits(str))
@@ -87,6 +85,5 @@ int					execute_exit(t_command *cmd)
 		exit(print_error("too many arguments\n"));
 	exit_status = ft_atoll(str);
 	ft_putendl_fd("exit", STDOUT_FILENO);
-	store_exitstatus(SAVE, exit_status % 256);
 	exit(exit_status % 256);
 }
