@@ -20,6 +20,8 @@
 # define SAVE 0
 # define LOAD 1
 
+#define BUFFER_SIZE	2048
+
 typedef enum	e_op {
 	EOS,
 	PIPELINE,
@@ -31,11 +33,12 @@ typedef enum	e_dir {
 	NEXT
 }				t_dir;
 
-typedef struct	s_history {
+typedef struct	s_hist {
 	struct s_history	*next;
 	struct s_history	*prev;
 	char				*line;
-}				t_history;
+	char				*modified_line;
+}				t_hist;
 
 typedef struct	s_command {
 	struct s_command	*next;
@@ -82,6 +85,8 @@ char			**get_strs(char **list, int len);
 int				strschr(char **strs, char *set);
 void			*wrap_free_commands_list(t_command *cmds);
 bool			set_redirection_list(t_command *cmd, char **list);
+char			*expand_envval(char *line);
+bool			preprocess_command(t_command *cmd);
 
 //execute
 char			*get_cmd_frompath(t_command *cmd);
@@ -105,24 +110,18 @@ int				execute_env(t_command *cmd);
 int			  execute_unset(t_command *cmd);
 int				execute_pwd(t_command *cmd);
 
-//parser
-char			*expand_envval(char *line);
-bool			preprocess_command(t_command *cmd);
-
 //for debug
 void			print_tcommand(t_command cmd);
 
 
-char		**tokenize(char *line);
-char		*read_line(void);
-bool		set_terminal_setting(void);
-bool		reset_terminal_setting(void);
+
 //history
-t_history		*add_history(t_history *last_history, char *line);
-void			free_history(t_history *history);
+t_hist			*add_newelm_to_hist(t_hist *hist);
+t_hist			*add_history(t_hist *last_hist, char *line);
+void			free_history(t_hist *history);
 
 //terminal setting and termcap
-char		*read_line(void);
+char		*read_line(t_hist *hist);
 char		*get_eof(char *line, char *c, int i);
 char		*get_sigint(char *line, char *c);
 bool		set_terminal_setting(void);

@@ -9,17 +9,17 @@
 #define WHITE	"\033[37m"
 #define RESET	"\033[m"
 
-static void	wait_command()
+static void	wait_command(t_hist *hist)
 {
 	char		*line;
 	char		**tokens;
 	t_command	*cmd;
 
 	write(1, "\033[34mminishell\033[m > ",21);
-	line = read_line();
+	hist = add_newelm_to_hist(hist);
+	line = read_line(hist);
 	if (line == NULL)
 		return ;
-	//add_history(NULL, line);
 	tokens = tokenize(line);
 	cmd = get_commandline(tokens);
 	start_commands(cmd);
@@ -28,14 +28,10 @@ static void	wait_command()
 
 int main(void)
 {
-	extern t_termcap term;
+	extern t_termcap	term;
+	t_hist				*hist;
 
-	//printf("this is color test.\n");
-	//printf("%sRED%s     %sGREEN%s\n", RED, RESET, GREEN, RESET);
-	//printf("%sYELLOW%s  %sBLUE%s\n", YELLOW, RESET, BLUE, RESET);
-	//printf("%sMAGENTA%s %sCYAN%s\n", MAGENTA, RESET, CYAN, RESET);
-	//printf("%sWHITE%s   RESET\n", WHITE, RESET);
-
+	hist = NULL;
 	create_newenv();
 	init_tterm();
 	get_terminal_description();
@@ -43,6 +39,6 @@ int main(void)
 	printf("Generating shell environment valiables ... %s[OK]%s\n", GREEN, RESET);
 	printf("Hello, welcome to our minishell!\n");
 	while(1)
-		wait_command();
+		wait_command(hist);
 	return (0);
 }

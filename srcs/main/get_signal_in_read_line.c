@@ -23,16 +23,3 @@ char	*get_sigint(char *line, char *c)
 	ft_strlcpy(c, "\n", 8);
 	return (line);
 }
-
-/*
-	//カーソル位置を文字列頭へ
-	term.le = wrap_tgetstr(term.le, "le", &term.buf_ptr);
-	while (i > 0)
-	{
-		tputs(term.le, 1, ft_putchar);
-		i--;
-	}
-	//文字列削除
-	term.ce = wrap_tgetstr(term.ce, "ce", &term.buf_ptr);
-	tputs(term.ce, 1, ft_putchar);
-*/

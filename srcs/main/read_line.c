@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-#define BUFFER_SIZE	2048
-
 #define UPKEY		"\033[A"
 #define DOWNKEY		"\033[B"
 #define RIGHTKEY	"\033[C"
@@ -55,7 +53,7 @@ static char	*check_input(char *line, char *c, int *i, int rc)
 	return (line);
 }
 
-static char	*get_line(char *line)
+static char	*get_line(char *line, t_hist *hist)
 {
 	char	c[8];
 	int		i;
@@ -73,18 +71,22 @@ static char	*get_line(char *line)
 			line = get_sigint(line, c);
 		if (rc != 0 && !ft_strncmp(c, CTRL_D, 2))
 			line = get_eof(line, c, i);
+		if (!ft_strncmp(c, UPKEY, 4) || !ft_strncmp(c, DOWNKEY, 4))
+			line = display_history(line, c, &i, &hist);
 		else if (rc != 0)
 			line = check_input(line, c, &i, rc);
 	}
 	return (line);
 }
 
-char		*read_line(void)
+char		*read_line(t_hist *hist)
 {
 	char	*line;
 	char	*tmp;
+	t_hist	*hist_p;
 
 	signal(SIGINT, SIG_IGN);
+	hist_p = hist;
 	line = malloc(sizeof(char) * BUFFER_SIZE);
 	if (!line || !set_terminal_setting())
 	{
@@ -92,7 +94,7 @@ char		*read_line(void)
 		return (NULL);
 	}
 	tmp = line;
-	line = get_line(line);
+	line = get_line(line, hist_p);
 	if (!line || !reset_terminal_setting())
 	{
 		free(tmp);
@@ -100,5 +102,6 @@ char		*read_line(void)
 	}
 	write(1, "\n", 1);
 	signal(SIGINT, SIG_DFL);
+	//hist = update_history(hist);
 	return (line);
 }

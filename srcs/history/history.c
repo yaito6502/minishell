@@ -5,22 +5,38 @@
 ** historyは新しい入力順に格納される。直前の入力が先頭に来る。
 */
 
-static t_history	*create_newhistory(void)
+static t_hist	*create_newhistory(void)
 {
-	t_history *history;
+	t_hist *hist;
 
-	history = malloc(sizeof(t_history));
-	if (history == NULL)
+	hist = malloc(sizeof(t_hist));
+	if (hist == NULL)
 		return (NULL);
-	history->next = NULL;
-	history->prev = NULL;
-	history->line = NULL;
-	return (history);
+	hist->next = NULL;
+	hist->prev = NULL;
+	hist->line = NULL;
+	hist->modified_line = NULL;
+	return (hist);
 }
 
-t_history			*add_history(t_history *last_history, char *line)
+t_hist			*add_newelm_to_hist(t_hist *hist)
 {
-	t_history	*new_elm;
+	t_hist	*new_elm;
+
+	new_elm = create_newhistory();
+	if (new_elm == NULL)
+		return (NULL);
+	if (hist != NULL)
+	{
+		new_elm->next = hist;
+		hist->prev = new_elm;
+	}
+	return (new_elm);
+}
+
+t_hist			*add_history(t_hist *last_hist, char *line)
+{
+	t_hist		*new_elm;
 	char		*copy;
 
 	copy = ft_strdup(line);
@@ -30,23 +46,23 @@ t_history			*add_history(t_history *last_history, char *line)
 	if (new_elm == NULL)
 		return (NULL);
 	new_elm->line = copy;
-	if (last_history != NULL)
+	if (last_hist != NULL)
 	{
-		new_elm->next = last_history;
-		last_history->prev = new_elm;
+		new_elm->next = last_hist;
+		last_hist->prev = new_elm;
 	}
 	return (new_elm);
 }
 
-void				free_history(t_history *history)
+void				free_history(t_hist *hist)
 {
-	t_history *tmp;
+	t_hist *tmp;
 
-	while (history != NULL)
+	while (hist != NULL)
 	{
-		free(history->line);
-		tmp = history;
-		history = history->next;
+		free(hist->line);
+		tmp = hist;
+		hist = hist->next;
 		free(tmp);
 	}
 }
