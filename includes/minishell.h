@@ -72,6 +72,7 @@ char		**add_str_to_list(char **list, const char *str);
 char		*read_command(void);
 char		**split_line(char *str, char *set[2]);
 bool		validate_envkey(char *key);
+bool		update_env(char *key, char *value);
 
 //parse
 char			**tokenize(char *line);
