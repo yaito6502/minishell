@@ -85,10 +85,10 @@ bool			set_redirection_list(t_command *cmd, char **list);
 
 //execute
 char			*get_cmd_frompath(t_command *cmd);
-void			send_pipeline(t_command *cmds, int newpipe[2]);
-void			receive_pipeline(t_command *cmds);
-bool			redirect_input(t_command *cmds);
-bool			redirect_output(t_command *cmds);
+bool			send_pipeline(t_command *cmds, int newpipe[2]);
+bool			receive_pipeline(t_command *cmds);
+void			redirect_input(t_command *cmds);
+void			redirect_output(t_command *cmds);
 bool			reconnect_stdfd(int mode);
 char			*get_cmd_frompath(t_command *cmd);
 char			*join_path(char *cmd);
