@@ -7,7 +7,9 @@ int		main(int argc, char **argv)
 	t_command	*cmd;
 	int			status;
 	extern char	**environ;
+	char **old_envrion;
 
+	old_envrion = environ;
 	create_newenv();
 	cmd = get_commandline(argv);
 	status = execute_cd(cmd);
@@ -69,8 +71,9 @@ int		main(int argc, char **argv)
 	printf("OLDPWD is %s\n", env);
 	printf("status[%d]\n\n", status);
 
-	system("leaks test");
 	ft_free_split(environ);
+	environ = old_envrion;
+	system("leaks test");
 	return (0);
 
 }
