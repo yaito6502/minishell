@@ -37,6 +37,7 @@ static bool	update_env(char *key, char *value)
 static int	set_path(char *path)
 {
 	char		*newpath;
+	int			ret;
 
 	if (!path)
 		return (EXIT_FAILURE);
@@ -48,10 +49,9 @@ static int	set_path(char *path)
 		printf("%s\n", ":No such file or directory");
 		return (EXIT_FAILURE);
 	}
+	ret = (!update_env("OLDPWD", getenv("PWD")) || !update_env("PWD", newpath));
 	free(newpath);
-	if (!update_env("OLDPWD", getenv("PWD")) || !update_env("PWD", path))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	return (ret ? EXIT_FAILURE : EXIT_SUCCESS);
 }
 
 static bool	set_cdpath_iterate(char *path)
