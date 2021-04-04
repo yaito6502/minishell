@@ -60,10 +60,9 @@ void				free_history(t_hist *hist)
 
 	while (hist != NULL)
 	{
-		free(hist->line);
-		tmp = hist;
-		hist = hist->next;
-		free(tmp);
+		tmp = hist->next;
+		free_one_elm(hist);
+		hist = tmp;
 	}
 }
 
