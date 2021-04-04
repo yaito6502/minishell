@@ -102,6 +102,7 @@ int				execute_echo(t_command *cmd);
 int				execute_env(t_command *cmd);
 int				execute_unset(t_command *cmd);
 int				execute_pwd(t_command *cmd);
+int				execute_cd(t_command *cmd);
 int				execute_exit(t_command *cmd);
 
 //parser
