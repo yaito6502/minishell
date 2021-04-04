@@ -7,33 +7,6 @@ static int	print_error(char *message)
 	return (EXIT_FAILURE);
 }
 
-static bool	update_env(char *key, char *value)
-{
-	extern char	**environ;
-	char		*env;
-	char		*tmp;
-	bool		status;
-	size_t		i;
-
-	if (!validate_envkey(key))
-		return (false);
-	tmp = ft_strjoin(key, "=");
-	if (!tmp)
-		return (false);
-	env = ft_strjoin(tmp, value);
-	free(tmp);
-	if (!env)
-		return (false);
-	i = 0;
-	while (environ[i] != NULL && ft_strncmp(environ[i], key, ft_strlen(key)))
-		i++;
-	status = (environ[i] == NULL ? add_newval_to_env(env) : true);
-	(environ[i] == NULL ? free(env) : free(environ[i]));
-	if (environ[i] != NULL)
-		environ[i] = env;
-	return (status);
-}
-
 static int	set_path(char *path)
 {
 	char		*newpath;

@@ -6,6 +6,7 @@ int		main(int argc, char **argv)
 	char		*env;
 	t_command	*cmd;
 	int			status;
+	extern char	**environ;
 
 	create_newenv();
 	cmd = get_commandline(argv);
@@ -69,6 +70,7 @@ int		main(int argc, char **argv)
 	printf("status[%d]\n\n", status);
 
 	system("leaks test");
+	ft_free_split(environ);
 	return (0);
 
 }
