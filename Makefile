@@ -19,12 +19,14 @@ SRCFILE =	srcs/main/main.c \
 			srcs/utils/add_str_to_list.c \
 			srcs/utils/split_line.c \
 			srcs/utils/validate_envkey.c \
+			srcs/utils/update_env.c \
 			srcs/parser/parser.c \
 			srcs/parser/parser_utils.c \
 			srcs/parser/expander.c \
 			srcs/parser/expand_envval.c \
 			srcs/execute/connect_pipeline.c \
 			srcs/execute/do_redirection.c \
+			srcs/execute/error_redirect.c \
 			srcs/execute/get_cmd_frompath.c \
 			srcs/execute/join_path.c \
 			srcs/execute/reconnect_stdfd.c \
@@ -40,6 +42,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/builtin/execute_pwd.c \
 			srcs/builtin/execute_echo.c \
 			srcs/builtin/execute_cd.c \
+			srcs/builtin/execute_exit.c \
 			srcs/tokenizer/tokenize.c \
 			srcs/history/history.c
 
@@ -56,6 +59,7 @@ TESTFILE =	tests/print_tcommand.c \
 			tests/utils/test_add_str_to_list.c \
 			tests/utils/test_split_line.c \
 			tests/utils/test_validate_envkey.c \
+			tests/utils/test_update_env.c \
 			tests/parser/test_parser.c \
 			tests/parser/test_expander.c \
 			tests/parser/test_expand_envval.c \
@@ -74,6 +78,7 @@ TESTFILE =	tests/print_tcommand.c \
 			tests/builtin/test_execute_pwd.c \
 			tests/builtin/test_execute_echo.c \
 			tests/builtin/test_execute_cd.c \
+			tests/builtin/test_execute_exit.c \
 			tests/tokenizer/test_tokenize.c \
 			tests/history/test_history.c
 
