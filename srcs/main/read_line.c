@@ -41,6 +41,12 @@ static char	*check_input(char *line, char *c, int *i, int rc)
 	}
 	if (!ft_strncmp(c, BACKSPACE, 2))
 		back_line(line, i);
+	if (!ft_strncmp(c, "\v", 2) || !ft_strncmp(c, "\r", 2) ||
+		!ft_strncmp(c, "\f", 2) || !ft_strncmp(c, "\t", 2))
+	{
+		write(1, "\007", 1);
+		return (line);
+	}
 	else if (rc == 1 && c[0] != '\n')
 	{
 		ft_putchar_fd(c[0], STDOUT_FILENO);
