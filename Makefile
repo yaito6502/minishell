@@ -43,6 +43,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/builtin/execute_echo.c \
 			srcs/builtin/execute_exit.c \
 			srcs/tokenizer/tokenize.c \
+			srcs/tokenizer/validate_line.c \
 			srcs/history/history.c
 
 
@@ -78,6 +79,7 @@ TESTFILE =	tests/print_tcommand.c \
 			tests/builtin/test_execute_echo.c \
 			tests/builtin/test_execute_exit.c \
 			tests/tokenizer/test_tokenize.c \
+			tests/tokenizer/test_validate_line.c \
 			tests/history/test_history.c
 
 

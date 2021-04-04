@@ -76,6 +76,7 @@ bool			update_env(char *key, char *value);
 
 //parse
 char			**tokenize(char *line);
+bool			validate_line(char *line);
 t_command		*get_commandline(char **list);
 char			*get_laststr(char **list);
 char			**get_strs(char **list, int len);
