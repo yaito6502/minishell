@@ -1,37 +1,42 @@
 #include "minishell.h"
 
+static int	error_pipe(void)
+{
+	ft_putstr_fd("minishell: pipe: ", 2);
+	ft_putstr_fd(strerror(errno), 2);
+	return (1);
+}
+
 static void	parallel_childproc(t_command *cmd, int newpipe[2])
 {
 	extern char	**environ;
-	int			ret;
 
-	send_pipeline(cmd, newpipe);
-	receive_pipeline(cmd);
-	redirect_input(cmd);
-	redirect_output(cmd);
+	if (!connect_pipeline(cmd, newpipe))
+		exit(1);
+	if (!do_redirection(cmd))
+		exit(1);
 	if (is_builtin(cmd) != -1)
-	{
-		execute_builtin(cmd);
-		exit(cmd->exitstatus);
-	}
+		exit(execute_builtin(cmd));
 	if (has_slash(cmd->argv[0]))
-		ret = execve(cmd->argv[0], cmd->argv, environ);
+		execve(cmd->argv[0], cmd->argv, environ);
 	else
-		ret = execve(get_cmd_frompath(cmd), cmd->argv, environ);
-	ret = error_execute(cmd->argv[0]);
-	exit(ret);
+		execve(get_cmd_frompath(cmd), cmd->argv, environ);
+	exit(error_execute(cmd->argv[0]));
 }
 
-void		execute_parallel(t_command *cmd)
+int			execute_parallel(t_command *cmd)
 {
 	int			newpipe[2];
 
 	if (cmd->op == PIPELINE)
-		pipe(newpipe);
+		if (pipe(newpipe) == -1)
+			return (error_pipe());
 	cmd->pid = fork();
+	if (cmd->pid == -1)
+		return (error_fork());
+	cmd->has_childproc = true;
 	if (cmd->pid == 0)
 		parallel_childproc(cmd, newpipe);
-	cmd->has_childproc = true;
 	if (cmd->receive_pipe == true)
 	{
 		close(cmd->lastfd[0]);
@@ -42,5 +47,5 @@ void		execute_parallel(t_command *cmd)
 		cmd->next->lastfd[0] = newpipe[0];
 		cmd->next->lastfd[1] = newpipe[1];
 	}
-	return ;
+	return (0);
 }
