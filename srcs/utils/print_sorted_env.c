@@ -51,7 +51,7 @@ static void	merge(char **a, char **b, size_t index[3])
 
 void		sort_environ(char **a, char **b, size_t front, size_t end)
 {
-	int mid;
+	size_t mid;
 	size_t index[3];
 
 	if (front == end || front+ 1 == end)
