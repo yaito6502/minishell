@@ -54,6 +54,7 @@ typedef struct	s_termcap {
 	char *term_buf;
 	char *string_buf;
 	char *buf_ptr;
+	char *ce;
 	char *dc;
 	char *DC;
 	char *le;
@@ -126,14 +127,16 @@ bool			redirect_error(char *key, char *errmsg);
 bool			fd_error(long fd, char *errmsg);
 
 //terminal setting and termcap
-char			*read_line(void);
-bool			set_terminal_setting(void);
-bool			reset_terminal_setting(void);
-bool			init_tterm(void);
-bool			get_terminal_description(void);
-bool			set_termcapsettings(t_termcap term);
-char			*wrap_tgetstr(char *stored_cap, char *cap, char **bufaddr);
-void			free_tterm(t_termcap term);
-int				ft_putchar(int n);
+char		*read_line(void);
+char		*get_eof(char *line, char *c, int i);
+char		*get_sigint(char *line, char *c);
+bool		set_terminal_setting(void);
+bool		reset_terminal_setting(void);
+bool		init_tterm(void);
+bool		get_terminal_description(void);
+bool		set_termcapsettings(t_termcap term);
+char		*wrap_tgetstr(char *stored_cap, char *cap, char **bufaddr);
+void		free_tterm(t_termcap term);
+int			ft_putchar(int n);
 
 #endif

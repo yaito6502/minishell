@@ -8,6 +8,7 @@
 #define LEFTKEY		"\033[D"
 #define BACKSPACE	"\177"
 #define CTRL_D		"\004"
+#define CTRL_C		"\003"
 
 /*
 ** 端末のカノニカルモードを無効化し、read関数から入力を即時受け取る。
@@ -35,7 +36,9 @@ static char	*check_input(char *line, char *c, int *i, int rc)
 {
 	if (*i == BUFFER_SIZE)
 	{
+		write(1, "\n", 1);
 		ft_putendl_fd("minishell: read_line: Too long line", 2);
+		c[0] = '\n';
 		return (NULL);
 	}
 	//if (!ft_strncmp(c, UPKEY, 4) || !ft_strncmp(c, DOWNKEY, 4))
@@ -66,14 +69,10 @@ static char	*get_line(char *line)
 		if (rc == -1)
 			return (NULL);
 		c[rc] = '\0';
-		if (rc != 0 && c[0] == '\004' && c[1] == '\0')
-			if (i == 0)
-			{
-				ft_strlcpy(line, "exit", BUFFER_SIZE);
-				return (line);
-			}
-			else
-				write(1, "\007", 1);
+		if (rc != 0 && !ft_strncmp(c, CTRL_C, 2))
+			line = get_sigint(line, c);
+		if (rc != 0 && !ft_strncmp(c, CTRL_D, 2))
+			line = get_eof(line, c, i);
 		else if (rc != 0)
 			line = check_input(line, c, &i, rc);
 	}
@@ -85,6 +84,7 @@ char		*read_line(void)
 	char	*line;
 	char	*tmp;
 
+	signal(SIGINT, SIG_IGN);
 	line = malloc(sizeof(char) * BUFFER_SIZE);
 	if (!line || !set_terminal_setting())
 	{
@@ -99,5 +99,6 @@ char		*read_line(void)
 		return (NULL);
 	}
 	write(1, "\n", 1);
+	signal(SIGINT, SIG_DFL);
 	return (line);
 }
