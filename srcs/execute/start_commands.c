@@ -37,10 +37,10 @@ void		start_commands(t_command *cmd)
 	while (cmd != NULL)
 	{
 		if (cmd->op == PIPELINE || cmd->receive_pipe == true)
-			execute_parallel(cmd);
+			cmd->exitstatus = execute_parallel(cmd);
 		else
 		{
-			execute_sequential(cmd);
+			cmd->exitstatus = execute_sequential(cmd);
 			reconnect_stdfd(LOAD);
 		}
 		if (cmd->op == SCOLON || cmd->op == EOS)
