@@ -44,6 +44,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/builtin/execute_cd.c \
 			srcs/builtin/execute_exit.c \
 			srcs/tokenizer/tokenize.c \
+			srcs/tokenizer/validate_quote.c \
 			srcs/history/history.c
 
 
@@ -77,9 +78,10 @@ TESTFILE =	tests/print_tcommand.c \
 			tests/builtin/test_execute_unset.c \
 			tests/builtin/test_execute_pwd.c \
 			tests/builtin/test_execute_echo.c \
-			tests/builtin/test_execute_cd.c \
+      tests/builtin/test_execute_cd.c \
 			tests/builtin/test_execute_exit.c \
 			tests/tokenizer/test_tokenize.c \
+			tests/tokenizer/test_validate_quote.c \
 			tests/history/test_history.c
 
 
