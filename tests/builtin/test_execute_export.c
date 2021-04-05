@@ -7,6 +7,7 @@ int		main(int argc, char **argv)
 	int			status;
 	char		*key;
 	char		*env;
+	extern char	**environ;
 
 	create_newenv();
 	cmd = get_commandline(argv);
@@ -27,6 +28,7 @@ int		main(int argc, char **argv)
 		free(key);
 		i++;
 	}
-	system("leaks test");
+	ft_free_split(environ);
+	while (1);
 	return (status);
 }

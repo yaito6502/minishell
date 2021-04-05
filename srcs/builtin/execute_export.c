@@ -6,30 +6,7 @@
 ** export [key=value]
 */
 
-int		print_env()
-{
-	extern char **environ;
-	char		**sorted;
-	size_t		i;
-
-	/*i = 1;
-	while (environ[i] != NULL)
-		i++;
-	sorted = (char **)malloc(sizeof(char *) * i);
-	if (sorted == NULL)
-		return (false);
-	sort_environ(environ);
-	*/
-	sorted = environ;
-	i = 0;
-	while (sorted[i] != NULL)
-		printf("declare -x %s\n", sorted[i++]);
-	return (EXIT_SUCCESS);
-}
-
-//ここから上で１ファイル
-
-int		print_error(char *message)
+static int	print_error(char *message)
 {
 	ft_putstr_fd("minishell : export: `", STDERR_FILENO);
 	ft_putstr_fd(message, STDERR_FILENO);
@@ -37,7 +14,7 @@ int		print_error(char *message)
 	return (EXIT_FAILURE);
 }
 
-bool	set_keyvalue(char *str, char **key, char **value)
+static bool	set_keyvalue(char *str, char **key, char **value)
 {
 	char	*equal;
 
@@ -59,7 +36,7 @@ bool	set_keyvalue(char *str, char **key, char **value)
 	return (true);
 }
 
-int		execute_export(t_command *cmd)
+int			execute_export(t_command *cmd)
 {
 	size_t	i;
 	int		status;
@@ -69,7 +46,7 @@ int		execute_export(t_command *cmd)
 	i = 1;
 	status = EXIT_SUCCESS;
 	if (cmd->argv[1] == NULL)
-		return (print_env());
+		return (print_sorted_env());
 	while (cmd->argv[i] != NULL)
 	{
 		key = NULL;

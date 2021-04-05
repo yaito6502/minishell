@@ -20,6 +20,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/utils/split_line.c \
 			srcs/utils/validate_envkey.c \
 			srcs/utils/update_env.c \
+			srcs/utils/print_sorted_env.c \
 			srcs/parser/parser.c \
 			srcs/parser/parser_utils.c \
 			srcs/parser/expander.c \
