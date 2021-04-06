@@ -12,19 +12,7 @@
 ** 端末のカノニカルモードを無効化し、read関数から入力を即時受け取る。
 */
 
-static void	exit_while_read(char *line)
-{
-	extern char			**environ;
-	extern t_termcap	term;
 
-	ft_free_split(environ);
-	free(line);
-	//free hist
-	reset_terminal_setting();
-	free_tterm(term);
-	write(STDOUT_FILENO, "exit\n", 5);
-	exit(EXIT_SUCCESS);
-}
 
 static void	back_line(char *line, int *i)
 {
@@ -82,11 +70,14 @@ static char	*get_line(char *line, t_hist **hist)
 		if (rc == -1)
 			return (NULL);
 		c[rc] = '\0';
-		if (rc != 0 && !ft_strncmp(c, CTRL_C, 2))
-			line = get_sigint(line, c);
 		if (rc != 0 && !ft_strncmp(c, CTRL_D, 2))
-			line = get_eof(line, c, i);
-		if (!ft_strncmp(c, UPKEY, 4) || !ft_strncmp(c, DOWNKEY, 4))
+			if (i == 0)
+				get_eof(line, hist);
+			else
+				write(1, "\007", 1);
+		else if (rc != 0 && !ft_strncmp(c, CTRL_C, 2))
+			line = get_sigint(line, c);
+		else if (!ft_strncmp(c, UPKEY, 4) || !ft_strncmp(c, DOWNKEY, 4))
 			line = display_history(line, c, &i, hist);
 		else if (rc != 0)
 			line = check_input(line, c, &i, rc);
@@ -99,7 +90,7 @@ char		*read_line(t_hist **hist)
 	char	*line;
 	char	*tmp;
 
-	signal(SIGINT, SIG_IGN);
+	//signal(SIGINT, SIG_IGN);
 	line = malloc(sizeof(char) * BUFFER_SIZE);
 	if (!line || !set_terminal_setting())
 	{
@@ -114,7 +105,7 @@ char		*read_line(t_hist **hist)
 		return (NULL);
 	}
 	write(STDOUT_FILENO, "\n", 1);
-	signal(SIGINT, SIG_DFL);
+	//signal(SIGINT, SIG_DFL);
 	if (!update_history(line, hist))
 		return (NULL);
 	return (line);

@@ -1,18 +1,17 @@
 #include "minishell.h"
 
-#define BUFFER_SIZE	2048
-
-char	*get_eof(char *line, char *c, int i)
+void	get_eof(char *line, t_hist ** hist)
 {
-	if (i != 0)
-	{
-		write(STDOUT_FILENO, "\007", 1);
-		return (line);
-	}
-	ft_strlcpy(line, "exit", BUFFER_SIZE);
-	write(STDOUT_FILENO, line, 4);
-	ft_strlcpy(c, "\n", 8);
-	return (line);
+	extern char			**environ;
+	extern t_termcap	term;
+
+	ft_free_split(environ);
+	free(line);
+	free_history(*hist);
+	reset_terminal_setting();
+	free_tterm(term);
+	write(STDOUT_FILENO, "exit\n", 5);
+	exit(EXIT_SUCCESS);
 }
 
 char	*get_sigint(char *line, char *c)

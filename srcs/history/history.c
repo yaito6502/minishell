@@ -58,6 +58,8 @@ void				free_history(t_hist *hist)
 {
 	t_hist *tmp;
 
+	while (hist->prev != NULL)
+		hist = hist->prev;
 	while (hist != NULL)
 	{
 		tmp = hist->next;
