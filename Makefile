@@ -21,6 +21,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/utils/validate_envkey.c \
 			srcs/utils/update_env.c \
 			srcs/utils/print_sorted_env.c \
+			srcs/utils/ft_str_sandwich.c \
 			srcs/parser/parser.c \
 			srcs/parser/parser_utils.c \
 			srcs/parser/expander.c \

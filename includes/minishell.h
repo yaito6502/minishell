@@ -76,6 +76,7 @@ bool			update_env(char *key, char *value);
 void			sort_environ(char **a, char **b, size_t front, size_t end);
 char			**get_sorted_environ();
 int				print_sorted_env();
+char			*ft_str_sandwich(char *filling, char *bread);
 
 //parse
 char			**tokenize(char *line);
