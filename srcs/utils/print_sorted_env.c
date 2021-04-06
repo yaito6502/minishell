@@ -1,24 +1,24 @@
 #include "minishell.h"
 
 #define FRONT 0
-#define	MID 1
+#define MID 1
 #define END 2
 
 static char	*get_str_literal(char *str)
 {
 	char *ptr;
-	char *value;
+	char *literal;
 
 	ptr = ft_strchr(str, '=');
 	if (ptr)
 	{
 		ptr = ft_strdup(ptr + 1);
-		value = ft_str_sandwich(ptr, "\"");
+		literal = ft_str_sandwich(ptr, "\"");
 		free(ptr);
 	}
 	else
-		value = ft_strdup(str);
-	return (value);
+		literal = ft_strdup(str);
+	return (literal);
 }
 
 static void	merge(char **a, char **b, size_t index[3])
@@ -54,7 +54,7 @@ void		sort_environ(char **a, char **b, size_t front, size_t end)
 	size_t mid;
 	size_t index[3];
 
-	if (front == end || front+ 1 == end)
+	if (front == end || front + 1 == end)
 		return ;
 	mid = (front + end) / 2;
 	sort_environ(a, b, front, mid);
@@ -65,7 +65,7 @@ void		sort_environ(char **a, char **b, size_t front, size_t end)
 	merge(a, b, index);
 }
 
-char		**get_sorted_environ()
+char		**get_sorted_environ(void)
 {
 	extern char **environ;
 	char		**sorted;
@@ -83,20 +83,14 @@ char		**get_sorted_environ()
 		free(buf);
 		return (NULL);
 	}
-	i = 0;
-	while (environ[i] != NULL)
-	{
-		sorted[i] = environ[i];
-		i++;
-	}
-	//ft_memcpy(sorted, environ, i);
+	ft_memcpy(sorted, environ, sizeof(char *) * i);
 	sorted[i] = NULL;
 	sort_environ(sorted, buf, 0, i);
 	free(buf);
 	return (sorted);
 }
 
-int			print_sorted_env()
+int			print_sorted_env(void)
 {
 	char	**sorted;
 	char	*value;

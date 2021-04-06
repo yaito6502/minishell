@@ -7,28 +7,28 @@ int		main(int argc, char **argv)
 	int			status;
 	char		*key;
 	char		*env;
-	extern char	**environ;
 
 	create_newenv();
-	cmd = get_commandline(argv);
+	//cmd = get_commandline(argv);
+	cmd = create_new_tcommand();
+	cmd->argv = ft_split(argv[1], ',');
 	status = execute_export(cmd);
-	free_commandslist(&cmd);
 
 	i = 1;
-	while (i < argc)
+	while (cmd->argv[i] != NULL)
 	{
-		key = ft_strchr(argv[i], '=');
+		key = ft_strchr(cmd->argv[i], '=');
 		if (!key)
-			key = ft_strdup(argv[i]);
+			key = ft_strdup(cmd->argv[i]);
 		else
-			key = ft_substr(argv[i], 0, key - argv[i]);
+			key = ft_substr(cmd->argv[i], 0, key - cmd->argv[i]);
 		env = getenv(key);
 		if (env)
 			printf("%s=%s\n", key, env);
 		free(key);
 		i++;
 	}
-	ft_free_split(environ);
-	while (1);
+	free_commandslist(&cmd);
+	system("leaks test");
 	return (status);
 }
