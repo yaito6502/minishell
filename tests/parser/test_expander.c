@@ -7,7 +7,7 @@ int main(int argc, char **argv)
 
 	store_exitstatus(SAVE, 1);
 	cmd = create_new_tcommand();
-	cmd->argv = ft_split("'$?'", ',');
+	cmd->argv = ft_split("\"$?\",$PWD", ',');
 	//cmd->argv = ft_split("'$?',$?,\"$?\",\"world's end\",'$HOME'aaaa\"$TEST\",$PWD",',');
 	//cmd->argv = ft_split("\"'$?$?'\",'$?',$??,\"world's end\",'$HOME'aaaa\"$TEST\",$PWD",',');
 	int i = 0;

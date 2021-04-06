@@ -20,13 +20,15 @@ static int	has_dollar(char *line)
 		if (*line == '\'' && inquote == false)
 		{
 			line++;
-			while (*line != '\'')
+			while (*line != '\'' && *line != '\0')
 				line++;
-			line++;
+			if (*line != '\0')
+				line++;
 		}
 		if (*line == '$' && *(line + 1) != '\0')
 			ret++;
-		line++;
+		if (*line != '\0')
+			line++;
 	}
 	return (ret);
 }
