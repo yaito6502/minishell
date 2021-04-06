@@ -12,17 +12,28 @@
 static void	wait_command(t_hist **hist)
 {
 	char		*line;
+	char		*tmp;
 	char		**tokens;
 	t_command	*cmd;
 
 	write(STDOUT_FILENO, "\033[34mminishell\033[m > ",21);
 	*hist = add_newelm_to_hist(*hist);
 	line = read_line(hist);
+	tmp = line;
+	line = ft_strtrim(line, "\v\r\f\t\n ");
+	free(tmp);
 	if (line == NULL)
 		return ;
 	tokens = tokenize(line);
+	free(line);
+	if (tokens == NULL)
+		return ;
 	cmd = get_commandline(tokens);
+	ft_free_split(tokens);
+	if (cmd == NULL)
+		return ;
 	start_commands(cmd);
+	free_commandslist(&cmd);
 	return ;
 }
 

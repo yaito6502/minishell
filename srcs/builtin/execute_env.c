@@ -13,7 +13,8 @@ int	execute_env(t_command *cmd)
 	i = 0;
 	while (environ[i] != NULL)
 	{
-		printf("%s\n", environ[i]);
+		if (ft_strchr(environ[i], '='))
+			printf("%s\n", environ[i]);
 		i++;
 	}
 	return (0);

@@ -12,6 +12,20 @@
 ** 端末のカノニカルモードを無効化し、read関数から入力を即時受け取る。
 */
 
+static void	exit_while_read(char *line)
+{
+	extern char			**environ;
+	extern t_termcap	term;
+
+	ft_free_split(environ);
+	free(line);
+	//free hist
+	reset_terminal_setting();
+	free_tterm(term);
+	write(STDOUT_FILENO, "exit\n", 5);
+	exit(EXIT_SUCCESS);
+}
+
 static void	back_line(char *line, int *i)
 {
 	extern t_termcap term;

@@ -15,8 +15,6 @@ char	*get_eof(char *line, char *c, int i)
 	return (line);
 }
 
-
-//lineクリア、\n送信
 char	*get_sigint(char *line, char *c)
 {
 	line[0] = '\0';
