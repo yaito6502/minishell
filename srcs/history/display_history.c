@@ -10,9 +10,9 @@
 
 static char	*error_return(char *c, char *str)
 {
-	write(1, "\n", 1);
-	ft_putstr_fd("minishell: display_history: ", 2);
-	ft_putendl_fd(str, 2);
+	write(STDOUT_FILENO, "\n", 1);
+	ft_putstr_fd("minishell: display_history: ", STDERR_FILENO);
+	ft_putendl_fd(str, STDERR_FILENO);
 	c[0] = '\n';
 	return (NULL);
 }
@@ -51,7 +51,7 @@ char		*display_history(char *line, char *c, int *i, t_hist **hist)
 	if ((dir == NEXT && (*hist)->next == NULL) ||
 		(dir == PREV && (*hist)->prev == NULL))
 	{
-		write(1, "\007", 1);
+		write(STDOUT_FILENO, "\007", 1);
 		return (line);
 	}
 	if ((*hist)->modified_line != NULL)

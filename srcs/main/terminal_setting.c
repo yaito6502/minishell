@@ -13,14 +13,14 @@ bool	set_terminal_setting(void)
 	ret = tcgetattr(STDIN_FILENO, &termios_p);
 	if (ret == -1)
 	{
-		ft_putendl_fd(strerror(errno), 2);
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		return (false);
 	}
 	termios_p.c_lflag &= ~(ICANON | ECHO);
 	ret = tcsetattr(STDIN_FILENO, TCSANOW, &termios_p);
 	if (ret == -1)
 	{
-		ft_putendl_fd(strerror(errno), 2);
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		return (false);
 	}
 	return (true);
@@ -38,14 +38,14 @@ bool	reset_terminal_setting(void)
 	ret = tcgetattr(STDIN_FILENO, &termios_p);
 	if (ret == -1)
 	{
-		ft_putendl_fd(strerror(errno), 2);
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		return (false);
 	}
 	termios_p.c_lflag &= ICANON | ECHO;
 	ret = tcsetattr(STDIN_FILENO, TCSANOW, &termios_p);
 	if (ret == -1)
 	{
-		ft_putendl_fd(strerror(errno), 2);
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		return (false);
 	}
 	return (true);

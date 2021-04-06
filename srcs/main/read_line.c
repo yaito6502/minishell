@@ -18,7 +18,7 @@ static void	back_line(char *line, int *i)
 
 	if (*i == 0)
 	{
-		write(1, "\007", 1);
+		write(STDOUT_FILENO, "\007", 1);
 		return ;
 	}
 	line[*i - 1] = '\0';
@@ -34,8 +34,8 @@ static char	*check_input(char *line, char *c, int *i, int rc)
 {
 	if (*i == BUFFER_SIZE)
 	{
-		write(1, "\n", 1);
-		ft_putendl_fd("minishell: read_line: Too long line", 2);
+		write(STDOUT_FILENO, "\n", 1);
+		ft_putendl_fd("minishell: read_line: Too long line", STDERR_FILENO);
 		c[0] = '\n';
 		return (NULL);
 	}
@@ -43,7 +43,7 @@ static char	*check_input(char *line, char *c, int *i, int rc)
 		back_line(line, i);
 	else if (!ft_strncmp(c, "\v", 2) || !ft_strncmp(c, "\r", 2) ||
 		!ft_strncmp(c, "\f", 2) || !ft_strncmp(c, "\t", 2))
-		write(1, "\007", 1);
+		write(STDOUT_FILENO, "\007", 1);
 	else if (rc == 1 && c[0] != '\n')
 	{
 		ft_putchar_fd(c[0], STDOUT_FILENO);
@@ -99,7 +99,7 @@ char		*read_line(t_hist **hist)
 		free(tmp);
 		return (NULL);
 	}
-	write(1, "\n", 1);
+	write(STDOUT_FILENO, "\n", 1);
 	signal(SIGINT, SIG_DFL);
 	if (!update_history(line, hist))
 		return (NULL);

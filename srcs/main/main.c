@@ -15,7 +15,7 @@ static void	wait_command(t_hist **hist)
 	char		**tokens;
 	t_command	*cmd;
 
-	write(1, "\033[34mminishell\033[m > ",21);
+	write(STDOUT_FILENO, "\033[34mminishell\033[m > ",21);
 	*hist = add_newelm_to_hist(*hist);
 	line = read_line(hist);
 	if (line == NULL)

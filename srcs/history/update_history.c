@@ -7,9 +7,9 @@
 
 static bool		error_return(char *str)
 {
-	write(1, "\n", 1);
-	ft_putstr_fd("minishell: update_history: ", 2);
-	ft_putendl_fd(str, 2);
+	write(STDOUT_FILENO, "\n", 1);
+	ft_putstr_fd("minishell: update_history: ", STDERR_FILENO);
+	ft_putendl_fd(str, STDERR_FILENO);
 	return (false);
 }
 
