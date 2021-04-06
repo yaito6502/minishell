@@ -15,3 +15,14 @@ char	*expand_exitstatus(char *ret, int *i)
 	free(tmp);
 	return (ret);
 }
+
+char	*output_dollar(char *ret, int *i)
+{
+	char	*tmp;
+
+	*i = 0;
+	tmp = ret;
+	ret = ft_strjoin(ret, "$");
+	free(tmp);
+	return (ret);
+}

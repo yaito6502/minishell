@@ -24,7 +24,7 @@ static int	has_dollar(char *line)
 				line++;
 			line++;
 		}
-		if (*line == '$')
+		if (*line == '$' && *(line + 1) != '\0')
 			ret++;
 		line++;
 	}
@@ -84,6 +84,8 @@ static char	*get_key(char *line, char *ret, int *i)
 
 	*i = 0;
 	line++;
+	if (*line == '\0')
+		return (output_dollar(ret, i));
 	if (*line == '?')
 		return (expand_exitstatus(ret, i));
 	while (ft_isalnum(line[*i]) || line[*i] == '_')
