@@ -8,6 +8,7 @@
 #define LEFTKEY		"\033[D"
 #define BACKSPACE	"\177"
 #define CTRL_D		"\004"
+#define CTRL_C		"\003"
 
 /*
 ** 端末のカノニカルモードを無効化し、read関数から入力を即時受け取る。
@@ -49,7 +50,9 @@ static char	*check_input(char *line, char *c, int *i, int rc)
 {
 	if (*i == BUFFER_SIZE)
 	{
+		write(1, "\n", 1);
 		ft_putendl_fd("minishell: read_line: Too long line", 2);
+		c[0] = '\n';
 		return (NULL);
 	}
 	//if (!ft_strncmp(c, UPKEY, 4) || !ft_strncmp(c, DOWNKEY, 4))
@@ -96,6 +99,7 @@ char		*read_line(void)
 	char	*line;
 	char	*tmp;
 
+	signal(SIGINT, SIG_IGN);
 	line = malloc(sizeof(char) * BUFFER_SIZE);
 	if (!line || !set_terminal_setting())
 	{
@@ -110,5 +114,6 @@ char		*read_line(void)
 		return (NULL);
 	}
 	write(1, "\n", 1);
+	signal(SIGINT, SIG_DFL);
 	return (line);
 }

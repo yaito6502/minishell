@@ -13,6 +13,7 @@ bool		init_tterm(void)
 		return (false);
 	}
 	term.buf_ptr = term.string_buf;
+	term.ce = NULL;
 	term.dc = NULL;
 	term.DC = NULL;
 	term.le = NULL;

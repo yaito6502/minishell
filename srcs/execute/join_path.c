@@ -87,7 +87,7 @@ char	*join_path(char *cmd)
 	char	*buf;
 
 	if (*cmd == '/')
-		return (cmd);
+		return (ft_strdup(cmd));
 	buf = NULL;
 	path = get_cwd_with_slash();
 	if (path == NULL)
