@@ -12,20 +12,34 @@
 static void	wait_command()
 {
 	char		*line;
+	char		*tmp;
 	char		**tokens;
 	t_command	*cmd;
 
 	write(1, "\033[34mminishell\033[m > ",21);
-	line = read_command();
-	//add_history(NULL, line);
+	line = read_line();
+	tmp = line;
+	line = ft_strtrim(line, "\v\r\f\t\n ");
+	free(tmp);
+	if (line == NULL)
+		return ;
 	tokens = tokenize(line);
+	free(line);
+	if (tokens == NULL)
+		return ;
 	cmd = get_commandline(tokens);
+	ft_free_split(tokens);
+	if (cmd == NULL)
+		return ;
 	start_commands(cmd);
+	free_commandslist(&cmd);
 	return ;
 }
 
 int main(void)
 {
+	extern t_termcap term;
+
 	//printf("this is color test.\n");
 	//printf("%sRED%s     %sGREEN%s\n", RED, RESET, GREEN, RESET);
 	//printf("%sYELLOW%s  %sBLUE%s\n", YELLOW, RESET, BLUE, RESET);
@@ -33,6 +47,9 @@ int main(void)
 	//printf("%sWHITE%s   RESET\n", WHITE, RESET);
 
 	create_newenv();
+	init_tterm();
+	get_terminal_description();
+	set_termcapsettings(term);
 	printf("Generating shell environment valiables ... %s[OK]%s\n", GREEN, RESET);
 	printf("Hello, welcome to our minishell!\n");
 	while(1)
