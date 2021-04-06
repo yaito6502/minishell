@@ -93,7 +93,7 @@ int				execute_pwd(t_command *cmd);
 char			*expand_envval(char *line);
 char			*expand_exitstatus(char *ret, int *i);
 char			*output_dollar(char *ret, int *i);
-bool			preprocess_command(t_command *cmd);
+bool			preprocess_command(char **strs);
 
 //for debug
 void			print_tcommand(t_command cmd);

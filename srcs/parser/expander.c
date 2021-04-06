@@ -55,7 +55,7 @@ static char	*trim_quote(char *arg)
 	char	*tmp;
 	char	*ret;
 
-	tmp = malloc(sizeof(char) * get_len(arg));
+	tmp = malloc(sizeof(char) * (get_len(arg) + 1));
 	if (tmp == NULL)
 		return (NULL);
 	i = 0;
@@ -74,22 +74,26 @@ static char	*trim_quote(char *arg)
 	return (ret);
 }
 
-bool		preprocess_command(t_command *cmd)
+bool		preprocess_command(char **strs)
 {
 	int		i;
 	char	*ret;
+	char	*tmp;
 
 	i = 0;
-	while (cmd->argv[i] != NULL)
+	while (strs[i] != NULL)
 	{
-		ret = expand_envval(cmd->argv[i]);
+		ret = expand_envval(strs[i]);
 		if (ret == NULL)
 			return (false);
+		tmp = ret;
 		ret = trim_quote(ret);
+		if (tmp != strs[i])
+			free(tmp);
 		if (ret == NULL)
 			return (false);
-		free(cmd->argv[i]);
-		cmd->argv[i] = ret;
+		free(strs[i]);
+		strs[i] = ret;
 		i++;
 	}
 	return (true);

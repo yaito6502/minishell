@@ -12,7 +12,10 @@ static void	print_splits(char *str[])
 	}
 	while (str[i] != NULL)
 	{
-		printf("%s, ",str[i]);
+		if (str[i + 1] == NULL)
+			printf("%s",str[i]);
+		else
+			printf("%s, ",str[i]);
 		i++;
 	}
 	printf("\n");
