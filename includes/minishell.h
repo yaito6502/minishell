@@ -74,6 +74,10 @@ char			*read_command(void);
 char			**split_line(char *str, char *set[2]);
 bool			validate_envkey(char *key);
 bool			update_env(char *key, char *value);
+void			sort_environ(char **a, char **b, size_t front, size_t end);
+char			**get_sorted_environ();
+int				print_sorted_env();
+char			*ft_str_sandwich(char *filling, char *bread);
 
 //parse
 char			**tokenize(char *line);
@@ -103,6 +107,7 @@ int				execute_echo(t_command *cmd);
 int				execute_env(t_command *cmd);
 int				execute_unset(t_command *cmd);
 int				execute_pwd(t_command *cmd);
+int				execute_export(t_command *cmd);
 int				execute_cd(t_command *cmd);
 int				execute_exit(t_command *cmd);
 
@@ -138,5 +143,6 @@ bool		set_termcapsettings(t_termcap term);
 char		*wrap_tgetstr(char *stored_cap, char *cap, char **bufaddr);
 void		free_tterm(t_termcap term);
 int			ft_putchar(int n);
+
 
 #endif

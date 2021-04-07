@@ -21,6 +21,8 @@ SRCFILE =	srcs/main/main.c \
 			srcs/utils/split_line.c \
 			srcs/utils/validate_envkey.c \
 			srcs/utils/update_env.c \
+			srcs/utils/print_sorted_env.c \
+			srcs/utils/ft_str_sandwich.c \
 			srcs/parser/parser.c \
 			srcs/parser/parser_utils.c \
 			srcs/parser/expander.c \
@@ -42,6 +44,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/builtin/execute_unset.c \
 			srcs/builtin/execute_pwd.c \
 			srcs/builtin/execute_echo.c \
+			srcs/builtin/execute_export.c \
 			srcs/builtin/execute_cd.c \
 			srcs/builtin/execute_exit.c \
 			srcs/tokenizer/tokenize.c \
@@ -79,6 +82,7 @@ TESTFILE =	tests/print_tcommand.c \
 			tests/builtin/test_execute_unset.c \
 			tests/builtin/test_execute_pwd.c \
 			tests/builtin/test_execute_echo.c \
+			tests/builtin/test_execute_export.c \
       tests/builtin/test_execute_cd.c \
 			tests/builtin/test_execute_exit.c \
 			tests/tokenizer/test_tokenize.c \
