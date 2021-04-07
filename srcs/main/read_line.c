@@ -12,8 +12,6 @@
 ** 端末のカノニカルモードを無効化し、read関数から入力を即時受け取る。
 */
 
-
-
 static void	back_line(char *line, int *i)
 {
 	extern t_termcap term;
@@ -90,22 +88,21 @@ char		*read_line(t_hist **hist)
 	char	*line;
 	char	*tmp;
 
-	//signal(SIGINT, SIG_IGN);
 	line = malloc(sizeof(char) * BUFFER_SIZE);
 	if (!line || !set_terminal_setting())
 	{
 		free(line);
 		return (NULL);
 	}
+	line[0] = '\0';
 	tmp = line;
 	line = get_line(line, hist);
-	if (!line || !reset_terminal_setting())
+	write(STDOUT_FILENO, "\n", 1);
+	if (!reset_terminal_setting() || !line)
 	{
 		free(tmp);
 		return (NULL);
 	}
-	write(STDOUT_FILENO, "\n", 1);
-	//signal(SIGINT, SIG_DFL);
 	if (!update_history(line, hist))
 		return (NULL);
 	return (line);

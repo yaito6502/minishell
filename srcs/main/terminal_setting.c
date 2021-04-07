@@ -2,7 +2,6 @@
 
 /*
 ** read_line用に端末のカノニカルモードを変更する。
-** termcapで使用するospeedを設定。
 */
 
 bool	set_terminal_setting(void)
