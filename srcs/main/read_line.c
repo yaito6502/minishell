@@ -88,6 +88,8 @@ static char	*get_line(char *line)
 				exit_while_read(line);
 			else
 				write(1, "\007", 1);
+		else if (rc != 0 && !ft_strncmp(c, CTRL_C, 2))
+			line = get_sigint(line, c);
 		else if (rc != 0)
 			line = check_input(line, c, &i, rc);
 	}
