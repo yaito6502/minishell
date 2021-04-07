@@ -54,6 +54,7 @@ typedef struct	s_termcap {
 	char *term_buf;
 	char *string_buf;
 	char *buf_ptr;
+	char *ce;
 	char *dc;
 	char *DC;
 	char *le;
@@ -89,26 +90,26 @@ bool			set_redirection_list(t_command *cmd, char **list);
 
 //execute
 char			*get_cmd_frompath(t_command *cmd);
-void			send_pipeline(t_command *cmds, int newpipe[2]);
-void			receive_pipeline(t_command *cmds);
-void			redirect_input(t_command *cmds);
-void			redirect_output(t_command *cmds);
+bool			connect_pipeline(t_command *cmd, int newpipe[2]);
+bool			do_redirection(t_command *cmd);
 bool			reconnect_stdfd(int mode);
 char			*get_cmd_frompath(t_command *cmd);
 char			*join_path(char *cmd);
-void			execute_sequential(t_command *cmd);
-void			execute_parallel(t_command *cmd);
+int				execute_sequential(t_command *cmd);
+int				execute_parallel(t_command *cmd);
 void			start_commands(t_command *cmd);
-int				error_execute(char *path);
 int				store_exitstatus(int mode, int last_status);
+char			*read_line(void);
 
 //builtin
-void			execute_builtin(t_command *cmd);
+int				execute_builtin(t_command *cmd);
 int				execute_echo(t_command *cmd);
 int				execute_env(t_command *cmd);
 int				execute_unset(t_command *cmd);
 int				execute_pwd(t_command *cmd);
 int				execute_export(t_command *cmd);
+int				execute_cd(t_command *cmd);
+int				execute_exit(t_command *cmd);
 
 //parser
 char			*expand_envval(char *line);
@@ -117,24 +118,31 @@ bool			preprocess_command(t_command *cmd);
 //for debug
 void			print_tcommand(t_command cmd);
 
-
 char			**tokenize(char *line);
-char			*read_line(void);
-bool			set_terminal_setting(void);
-bool			reset_terminal_setting(void);
+bool			validate_quote(char *line);
+
 //history
 t_history		*add_history(t_history *last_history, char *line);
 void			free_history(t_history *history);
 
+//error output
+int				error_execute(char *path);
+int				error_fork(void);
+bool			redirect_error(char *key, char *errmsg);
+bool			fd_error(long fd, char *errmsg);
+
 //terminal setting and termcap
-char			*read_line(void);
-bool			set_terminal_setting(void);
-bool			reset_terminal_setting(void);
-bool			init_tterm(void);
-bool			get_terminal_description(void);
-bool			set_termcapsettings(t_termcap term);
-char			*wrap_tgetstr(char *stored_cap, char *cap, char **bufaddr);
-void			free_tterm(t_termcap term);
-int				ft_putchar(int n);
+char		*read_line(void);
+char		*get_eof(char *line, char *c, int i);
+char		*get_sigint(char *line, char *c);
+bool		set_terminal_setting(void);
+bool		reset_terminal_setting(void);
+bool		init_tterm(void);
+bool		get_terminal_description(void);
+bool		set_termcapsettings(t_termcap term);
+char		*wrap_tgetstr(char *stored_cap, char *cap, char **bufaddr);
+void		free_tterm(t_termcap term);
+int			ft_putchar(int n);
+
 
 #endif

@@ -7,6 +7,7 @@ LIBFT = ./libft/libft.a
 
 SRCFILE =	srcs/main/main.c \
 			srcs/main/read_line.c \
+			srcs/main/get_signal_in_read_line.c \
 			srcs/main/terminal_setting.c \
 			srcs/main/termcap_setting.c \
 			srcs/main/ft_putchar.c \
@@ -28,6 +29,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/parser/expand_envval.c \
 			srcs/execute/connect_pipeline.c \
 			srcs/execute/do_redirection.c \
+			srcs/execute/error_redirect.c \
 			srcs/execute/get_cmd_frompath.c \
 			srcs/execute/join_path.c \
 			srcs/execute/reconnect_stdfd.c \
@@ -43,7 +45,10 @@ SRCFILE =	srcs/main/main.c \
 			srcs/builtin/execute_pwd.c \
 			srcs/builtin/execute_echo.c \
 			srcs/builtin/execute_export.c \
+			srcs/builtin/execute_cd.c \
+			srcs/builtin/execute_exit.c \
 			srcs/tokenizer/tokenize.c \
+			srcs/tokenizer/validate_quote.c \
 			srcs/history/history.c
 
 
@@ -78,7 +83,10 @@ TESTFILE =	tests/print_tcommand.c \
 			tests/builtin/test_execute_pwd.c \
 			tests/builtin/test_execute_echo.c \
 			tests/builtin/test_execute_export.c \
+      tests/builtin/test_execute_cd.c \
+			tests/builtin/test_execute_exit.c \
 			tests/tokenizer/test_tokenize.c \
+			tests/tokenizer/test_validate_quote.c \
 			tests/history/test_history.c
 
 
