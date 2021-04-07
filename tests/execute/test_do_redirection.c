@@ -8,11 +8,10 @@ int main(void)
 	int fd;
 
 	cmd = create_new_tcommand();
-	cmd->redirect_in = ft_split("<,./testinout/infile1,9999999999999<,./testinout/infile2",',');
+	cmd->redirect_in = ft_split("<,./testinout/infile1,50<,./testinout/infile2",',');
 	cmd->redirect_out = ft_split(">,testinout/outfile1,99999999>>,testinout/outfile500",',');
 	print_tcommand(*cmd);
-	redirect_input(cmd);
-	redirect_output(cmd);
+	do_redirection(cmd);
 
 	//fd 0 to 1
 	rc = read(STDIN_FILENO, buf, 24);

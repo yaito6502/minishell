@@ -8,10 +8,25 @@
 #define LEFTKEY		"\033[D"
 #define BACKSPACE	"\177"
 #define CTRL_D		"\004"
+#define CTRL_C		"\003"
 
 /*
 ** 端末のカノニカルモードを無効化し、read関数から入力を即時受け取る。
 */
+
+static void	exit_while_read(char *line)
+{
+	extern char			**environ;
+	extern t_termcap	term;
+
+	ft_free_split(environ);
+	free(line);
+	//free hist
+	reset_terminal_setting();
+	free_tterm(term);
+	write(STDOUT_FILENO, "exit\n", 5);
+	exit(EXIT_SUCCESS);
+}
 
 static void	back_line(char *line, int *i)
 {
@@ -35,7 +50,9 @@ static char	*check_input(char *line, char *c, int *i, int rc)
 {
 	if (*i == BUFFER_SIZE)
 	{
+		write(1, "\n", 1);
 		ft_putendl_fd("minishell: read_line: Too long line", 2);
+		c[0] = '\n';
 		return (NULL);
 	}
 	//if (!ft_strncmp(c, UPKEY, 4) || !ft_strncmp(c, DOWNKEY, 4))
@@ -68,10 +85,7 @@ static char	*get_line(char *line)
 		c[rc] = '\0';
 		if (rc != 0 && c[0] == '\004' && c[1] == '\0')
 			if (i == 0)
-			{
-				ft_strlcpy(line, "exit", BUFFER_SIZE);
-				return (line);
-			}
+				exit_while_read(line);
 			else
 				write(1, "\007", 1);
 		else if (rc != 0)
@@ -85,6 +99,7 @@ char		*read_line(void)
 	char	*line;
 	char	*tmp;
 
+	signal(SIGINT, SIG_IGN);
 	line = malloc(sizeof(char) * BUFFER_SIZE);
 	if (!line || !set_terminal_setting())
 	{
@@ -99,5 +114,6 @@ char		*read_line(void)
 		return (NULL);
 	}
 	write(1, "\n", 1);
+	signal(SIGINT, SIG_DFL);
 	return (line);
 }
