@@ -10,7 +10,6 @@ SRCFILE =	srcs/main/main.c \
 			srcs/main/get_signal_in_read_line.c \
 			srcs/main/terminal_setting.c \
 			srcs/main/termcap_setting.c \
-			srcs/main/ft_putchar.c \
 			srcs/utils/create_new_tcommand.c \
 			srcs/utils/free_commandslist.c \
 			srcs/utils/is_builtin.c \
@@ -22,7 +21,6 @@ SRCFILE =	srcs/main/main.c \
 			srcs/utils/validate_envkey.c \
 			srcs/utils/update_env.c \
 			srcs/utils/print_sorted_env.c \
-			srcs/utils/ft_str_sandwich.c \
 			srcs/parser/parser.c \
 			srcs/parser/parser_utils.c \
 			srcs/parser/expander.c \
@@ -85,7 +83,7 @@ TESTFILE =	tests/print_tcommand.c \
 			tests/builtin/test_execute_pwd.c \
 			tests/builtin/test_execute_echo.c \
 			tests/builtin/test_execute_export.c \
-      tests/builtin/test_execute_cd.c \
+			tests/builtin/test_execute_cd.c \
 			tests/builtin/test_execute_exit.c \
 			tests/tokenizer/test_tokenize.c \
 			tests/tokenizer/test_validate_line.c \
