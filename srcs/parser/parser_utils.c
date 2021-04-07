@@ -1,18 +1,16 @@
 #include "minishell.h"
 
-char	*get_laststr(char **list)
+t_command	*get_lastcommand(t_command *cmds)
 {
-	size_t i;
+	t_command *head;
 
-	if (!list)
-		return (NULL);
-	i = 0;
-	while (list[i] != NULL)
-		i++;
-	return (list[i - 1]);
+	head = cmds;
+	while (head->next)
+		head = head->next;
+	return (head);
 }
 
-char	**get_strs(char **list, int len)
+char		**get_strs(char **list, int len)
 {
 	char	**newlist;
 	size_t	i;
@@ -35,7 +33,7 @@ char	**get_strs(char **list, int len)
 	return (newlist);
 }
 
-int		strschr(char **strs, char *set)
+int			strschr(char **strs, char *set)
 {
 	size_t i;
 	size_t j;
@@ -54,31 +52,14 @@ int		strschr(char **strs, char *set)
 	return (-1);
 }
 
-void	*wrap_free_commands_list(t_command *cmds)
+void		*wrap_free_commands_list(t_command *cmds)
 {
 	free_commandslist(&cmds);
 	return (NULL);
 }
 
-bool	set_redirection_list(t_command *cmd, char **list)
+void		*wrap_ft_free_split(char **strs)
 {
-	char	**target;
-
-	if (ft_strchr(*list, '<'))
-		target = cmd->redirect_in;
-	else if (ft_strchr(*list, '>'))
-		target = cmd->redirect_out;
-	else
-		return (false);
-	target = add_str_to_list(target, list[0]);
-	if (target == NULL)
-		return (false);
-	target = add_str_to_list(target, list[1]);
-	if (target == NULL)
-		return (false);
-	if (ft_strchr(*list, '<'))
-		cmd->redirect_in = target;
-	else
-		cmd->redirect_out = target;
-	return (true);
+	ft_free_split(strs);
+	return (NULL);
 }
