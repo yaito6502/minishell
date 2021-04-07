@@ -90,7 +90,6 @@ int				strschr(char **strs, char *set);
 void			*wrap_free_commands_list(t_command *cmds);
 bool			set_redirection_list(t_command *cmd, char **list);
 char			*expand_envval(char *line);
-bool			preprocess_command(t_command *cmd);
 
 //execute
 char			*get_cmd_frompath(t_command *cmd);
