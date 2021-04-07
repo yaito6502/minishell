@@ -80,9 +80,9 @@ bool			update_env(char *key, char *value);
 void			sort_environ(char **a, char **b, size_t front, size_t end);
 char			**get_sorted_environ();
 int				print_sorted_env();
-char			*ft_str_sandwich(char *filling, char *bread);
 
 //parse
+bool			validate_quote(char *line);
 char			**tokenize(char *line);
 bool			validate_line(char *line);
 bool			validate_quote(char *line);
@@ -151,7 +151,5 @@ bool			get_terminal_description(void);
 bool			set_termcapsettings(t_termcap term);
 char			*wrap_tgetstr(char *stored_cap, char *cap, char **bufaddr);
 void			free_tterm(t_termcap term);
-int				ft_putchar(int n);
-
 
 #endif
