@@ -30,7 +30,7 @@ char	**get_strs(char **list, int len)
 	{
 		newlist = add_str_to_list(newlist, list[i++]);
 		if (newlist == NULL)
-			return (NULL);
+			break ;
 	}
 	return (newlist);
 }
@@ -70,11 +70,6 @@ bool	set_redirection_list(t_command *cmd, char **list)
 		target = cmd->redirect_out;
 	else
 		return (false);
-	if (ft_strchr(list[1], '<') || ft_strchr(list[1], '>'))
-	{
-		printf("bash: syntax error near unexpected token `%s'\n", list[1]);
-		return (false);
-	}
 	target = add_str_to_list(target, list[0]);
 	if (target == NULL)
 		return (false);

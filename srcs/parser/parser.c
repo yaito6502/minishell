@@ -37,21 +37,20 @@ static t_command	*get_pipeline(char **strs)
 	if (!strs)
 		return (NULL);
 	if ((i = strschr(strs, "|")) < 0)
-		return (get_command(strs));
-	pipeline = NULL;
-	if (i == 0)
-		printf("bash: syntax error near unexpected token `%s'\n", strs[i]);
-	else
-		pipeline = get_pipeline(get_strs(strs, i));
-	if (pipeline == NULL)
-		return (NULL);
-	pipeline->op = PIPELINE;
-	if (strs[i + 1] == NULL)
 	{
-		printf("bash: syntax error near unexpected token `%s'\n", strs[i]);
+		pipeline = get_command(strs);
+		ft_free_split(strs);
+		return (pipeline);
+	}
+	pipeline = get_pipeline(get_strs(strs, i));
+	if (pipeline == NULL)
+	{
+		ft_free_split(strs);
 		return (NULL);
 	}
+	pipeline->op = PIPELINE;
 	pipeline->next = get_pipeline(get_strs(strs + i + 1, 0));
+	ft_free_split(strs);
 	if (pipeline->next == NULL)
 		return (wrap_free_commands_list(pipeline));
 	pipeline->next->receive_pipe = true;
@@ -67,25 +66,23 @@ static t_command	*get_andor(char **strs)
 		return (NULL);
 	if ((i = strschr(strs, "&|")) < 0 || (!ft_strchr(strs[i + 1], '&') && \
 	!ft_strchr(strs[i + 1], '|')))
-		return (get_pipeline(strs));
-	andor = NULL;
-	if (i == 0)
-		printf("bash: syntax error near unexpected token `%s'\n", strs[i]);
-	else
-		andor = get_andor(get_strs(strs, i));
+	{
+		andor = get_pipeline(get_strs(strs, 0));
+		ft_free_split(strs);
+		return (andor);
+	}
+	andor = get_andor(get_strs(strs, i));
 	if (andor == NULL)
+	{
+		ft_free_split(strs);
 		return (NULL);
+	}
 	/*if (ft_strchr(strs[i + 1], '&'))
 	**	andor.? = AND;
 	**else
-	**	andor.? = PIPELINE;
-	*/
-	if (strs[i + 1] == NULL)
-	{
-		printf("bash: syntax error near unexpected token `%s'\n", strs[i]);
-		return (NULL);
-	}
+	**	andor.? = PIPELINE;*/
 	andor->next = get_andor(get_strs(strs + i + 1, 0));
+	ft_free_split(strs);
 	if (andor->next == NULL)
 		return (wrap_free_commands_list(andor));
 	return (andor);
@@ -99,29 +96,29 @@ static t_command	*get_list(char **strs)
 	if (!strs)
 		return (NULL);
 	if ((i = strschr(strs, ";&")) < 0)
-		return (get_andor(strs));
-	list = NULL;
-	if (i == 0)
-		printf("bash: syntax error near unexpected token `%s'\n", strs[i]);
-	else
-		list = get_list(get_strs(strs, i));
+	{
+		list = get_andor(get_strs(strs, 0));
+		ft_free_split(strs);
+		return (list);
+	}
+	list = get_list(get_strs(strs, i));
 	if (list == NULL)
+	{
+		ft_free_split(strs);
 		return (NULL);
+	}
 	if (ft_strchr(strs[i], ';'))
 		list->op = SCOLON;
 	/*else
-	**	list->op = AND;
-	*/
-	if (strs[i + 1] == NULL)
-		printf("bash: syntax error near unexpected token `%s'\n", strs[i]);
-	else
-		list->next = get_list(get_strs(strs + i + 1, 0));
+	**	list->op = AND;*/
+	list->next = get_list(get_strs(strs + i + 1, 0));
+	ft_free_split(strs);
 	if (list->next == NULL)
 		return (wrap_free_commands_list(list));
 	return (list);
 }
 
-t_command			*get_commandline(char **strs)
+t_command			*parse(char **strs)
 {
 	t_command	*cmds;
 	t_command	*head;
@@ -133,7 +130,7 @@ t_command			*get_commandline(char **strs)
 	if (ft_strchr(last, ';') || ft_strchr(last, '&'))
 		cmds = get_list(get_strs(strs, -1));
 	else
-		cmds = get_list(strs);
+		cmds = get_list(get_strs(strs, 0));
 	if (cmds == NULL)
 		return (NULL);
 	head = cmds;
@@ -142,7 +139,6 @@ t_command			*get_commandline(char **strs)
 	if (ft_strchr(last, ';'))
 		cmds->op = SCOLON;
 	/*if (ft_strchr(last, '&'))
-	**	cmds->op = AND;
-	*/
+	**	cmds->op = AND;*/
 	return (head);
 }

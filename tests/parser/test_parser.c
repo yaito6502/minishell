@@ -29,9 +29,10 @@ int		main(int argc, char **argv)
 
 	token = tokenize(argv[1]);
 	print_strs(token);
-	if ((cmd = get_commandline(token)) != NULL)
+	if ((cmd = parse(token)) != NULL)
 		print_tcommand_iterate(cmd);
-	free_commandslist(&cmd);
 	ft_free_split(token);
+	free_commandslist(&cmd);
+	system("leaks test");
 	return (0);
 }

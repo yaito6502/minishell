@@ -77,7 +77,9 @@ bool			update_env(char *key, char *value);
 
 //parse
 char			**tokenize(char *line);
-t_command		*get_commandline(char **list);
+bool			validate_line(char *line);
+bool			validate_quote(char *line);
+t_command		*parse(char **list);
 char			*get_laststr(char **list);
 char			**get_strs(char **list, int len);
 int				strschr(char **strs, char *set);
