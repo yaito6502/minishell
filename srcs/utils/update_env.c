@@ -12,6 +12,8 @@ static char	*generate_keyvalue(char *key, char *value)
 
 	if (!validate_envkey(key))
 		return (NULL);
+	if (!value)
+		return (ft_strdup(key));
 	tmp = ft_strjoin(key, "=");
 	if (!tmp)
 		return (NULL);
