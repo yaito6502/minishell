@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-#define BUFFER_SIZE 1024
 #define ERROR -1
 
 char	*read_command(void)

@@ -10,7 +10,6 @@ SRCFILE =	srcs/main/main.c \
 			srcs/main/get_signal_in_read_line.c \
 			srcs/main/terminal_setting.c \
 			srcs/main/termcap_setting.c \
-			srcs/main/ft_putchar.c \
 			srcs/utils/create_new_tcommand.c \
 			srcs/utils/free_commandslist.c \
 			srcs/utils/is_builtin.c \
@@ -21,10 +20,12 @@ SRCFILE =	srcs/main/main.c \
 			srcs/utils/split_line.c \
 			srcs/utils/validate_envkey.c \
 			srcs/utils/update_env.c \
+			srcs/utils/print_sorted_env.c \
 			srcs/parser/parser.c \
 			srcs/parser/parser_utils.c \
 			srcs/parser/expander.c \
 			srcs/parser/expand_envval.c \
+			srcs/parser/expand_utils.c \
 			srcs/execute/connect_pipeline.c \
 			srcs/execute/do_redirection.c \
 			srcs/execute/error_redirect.c \
@@ -42,11 +43,15 @@ SRCFILE =	srcs/main/main.c \
 			srcs/builtin/execute_unset.c \
 			srcs/builtin/execute_pwd.c \
 			srcs/builtin/execute_echo.c \
+			srcs/builtin/execute_export.c \
 			srcs/builtin/execute_cd.c \
 			srcs/builtin/execute_exit.c \
 			srcs/tokenizer/tokenize.c \
+			srcs/tokenizer/validate_line.c \
 			srcs/tokenizer/validate_quote.c \
-			srcs/history/history.c
+			srcs/history/history.c \
+			srcs/history/display_history.c \
+			srcs/history/update_history.c
 
 
 TESTFILE =	tests/print_tcommand.c \
@@ -79,9 +84,11 @@ TESTFILE =	tests/print_tcommand.c \
 			tests/builtin/test_execute_unset.c \
 			tests/builtin/test_execute_pwd.c \
 			tests/builtin/test_execute_echo.c \
-      tests/builtin/test_execute_cd.c \
+			tests/builtin/test_execute_export.c \
+			tests/builtin/test_execute_cd.c \
 			tests/builtin/test_execute_exit.c \
 			tests/tokenizer/test_tokenize.c \
+			tests/tokenizer/test_validate_line.c \
 			tests/tokenizer/test_validate_quote.c \
 			tests/history/test_history.c
 

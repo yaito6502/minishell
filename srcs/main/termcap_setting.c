@@ -28,7 +28,7 @@ bool		get_terminal_description(void)
 	termtype = getenv("TERM");
 	if (!termtype || tgetent(term.term_buf, termtype) <= 0)
 	{
-		ft_putendl_fd(strerror(errno), 2);
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		return (false);
 	}
 	return (true);
@@ -48,7 +48,7 @@ bool	set_termcapsettings(t_termcap term)
 
 	if (tcgetattr(STDOUT_FILENO, &termios_p) == -1)
 	{
-		ft_putendl_fd(strerror(errno), 2);
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		return (false);
 	}
 	ospeed = (short)termios_p.c_ospeed;
