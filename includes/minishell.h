@@ -83,6 +83,9 @@ int				print_sorted_env();
 char			*ft_str_sandwich(char *filling, char *bread);
 
 //parse
+char			**tokenize(char *line);
+bool			validate_line(char *line);
+bool			validate_quote(char *line);
 t_command		*get_commandline(char **list);
 char			*get_laststr(char **list);
 char			**get_strs(char **list, int len);
@@ -122,9 +125,6 @@ bool			preprocess_command(char **strs);
 
 //for debug
 void			print_tcommand(t_command cmd);
-
-char			**tokenize(char *line);
-bool			validate_quote(char *line);
 
 //history
 t_hist			*add_newelm_to_hist(t_hist *hist);
