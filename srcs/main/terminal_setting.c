@@ -41,7 +41,7 @@ bool	reset_terminal_setting(void)
 		ft_putendl_fd(strerror(errno), 2);
 		return (false);
 	}
-	termios_p.c_lflag &= ICANON | ECHO;
+	termios_p.c_lflag |= ICANON | ECHO;
 	ret = tcsetattr(STDIN_FILENO, TCSANOW, &termios_p);
 	if (ret == -1)
 	{

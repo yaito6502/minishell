@@ -111,9 +111,11 @@ int				execute_export(t_command *cmd);
 int				execute_cd(t_command *cmd);
 int				execute_exit(t_command *cmd);
 
-//parser
+//expander
 char			*expand_envval(char *line);
-bool			preprocess_command(t_command *cmd);
+char			*expand_exitstatus(char *ret, int *i);
+char			*output_dollar(char *ret, int *i);
+bool			preprocess_command(char **strs);
 
 //for debug
 void			print_tcommand(t_command cmd);
