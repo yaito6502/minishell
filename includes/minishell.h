@@ -81,6 +81,7 @@ char			*ft_str_sandwich(char *filling, char *bread);
 
 //parse
 char			**tokenize(char *line);
+bool			validate_line(char *line);
 t_command		*get_commandline(char **list);
 char			*get_laststr(char **list);
 char			**get_strs(char **list, int len);
