@@ -20,6 +20,8 @@
 # define SAVE 0
 # define LOAD 1
 
+#define BUFFER_SIZE	2048
+
 typedef enum	e_op {
 	EOS,
 	PIPELINE,
@@ -31,11 +33,12 @@ typedef enum	e_dir {
 	NEXT
 }				t_dir;
 
-typedef struct	s_history {
-	struct s_history	*next;
-	struct s_history	*prev;
-	char				*line;
-}				t_history;
+typedef struct	s_hist {
+	struct s_hist	*next;
+	struct s_hist	*prev;
+	char			*line;
+	char			*modified_line;
+}				t_hist;
 
 typedef struct	s_command {
 	struct s_command	*next;
@@ -82,12 +85,14 @@ int				print_sorted_env();
 bool			validate_quote(char *line);
 char			**tokenize(char *line);
 bool			validate_line(char *line);
+bool			validate_quote(char *line);
 t_command		*get_commandline(char **list);
 char			*get_laststr(char **list);
 char			**get_strs(char **list, int len);
 int				strschr(char **strs, char *set);
 void			*wrap_free_commands_list(t_command *cmds);
 bool			set_redirection_list(t_command *cmd, char **list);
+char			*expand_envval(char *line);
 
 //execute
 char			*get_cmd_frompath(t_command *cmd);
@@ -100,7 +105,7 @@ int				execute_sequential(t_command *cmd);
 int				execute_parallel(t_command *cmd);
 void			start_commands(t_command *cmd);
 int				store_exitstatus(int mode, int last_status);
-char			*read_line(void);
+
 
 //builtin
 int				execute_builtin(t_command *cmd);
@@ -122,8 +127,12 @@ bool			preprocess_command(char **strs);
 void			print_tcommand(t_command cmd);
 
 //history
-t_history		*add_history(t_history *last_history, char *line);
-void			free_history(t_history *history);
+t_hist			*add_newelm_to_hist(t_hist *hist);
+t_hist			*add_history(t_hist *last_hist, char *line);
+void			free_history(t_hist *history);
+void			free_one_elm(t_hist *hist);
+char			*display_history(char *line, char *c, int *i, t_hist **hist);
+bool			update_history(char *line, t_hist **hist_p);
 
 //error output
 int				error_execute(char *path);
@@ -132,16 +141,15 @@ bool			redirect_error(char *key, char *errmsg);
 bool			fd_error(long fd, char *errmsg);
 
 //terminal setting and termcap
-char		*read_line(void);
-char		*get_eof(char *line, char *c, int i);
-char		*get_sigint(char *line, char *c);
-bool		set_terminal_setting(void);
-bool		reset_terminal_setting(void);
-bool		init_tterm(void);
-bool		get_terminal_description(void);
-bool		set_termcapsettings(t_termcap term);
-char		*wrap_tgetstr(char *stored_cap, char *cap, char **bufaddr);
-void		free_tterm(t_termcap term);
-
+char			*read_line(t_hist **hist);
+void			get_eof(char *line, t_hist **hist);
+char			*get_sigint(char *line, char *c);
+bool			set_terminal_setting(void);
+bool			reset_terminal_setting(void);
+bool			init_tterm(void);
+bool			get_terminal_description(void);
+bool			set_termcapsettings(t_termcap term);
+char			*wrap_tgetstr(char *stored_cap, char *cap, char **bufaddr);
+void			free_tterm(t_termcap term);
 
 #endif

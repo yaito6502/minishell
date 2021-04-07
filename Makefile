@@ -49,7 +49,9 @@ SRCFILE =	srcs/main/main.c \
 			srcs/tokenizer/tokenize.c \
 			srcs/tokenizer/validate_line.c \
 			srcs/tokenizer/validate_quote.c \
-			srcs/history/history.c
+			srcs/history/history.c \
+			srcs/history/display_history.c \
+			srcs/history/update_history.c
 
 
 TESTFILE =	tests/print_tcommand.c \
