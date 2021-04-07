@@ -2,8 +2,7 @@
 
 int		error_execute(char *path)
 {
-	printf("%d\n", errno);
-	ft_putstr_fd("bash: ", 2);
+	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(path, 2);
 	ft_putstr_fd(": ", 2);
 	if (errno == EFAULT)

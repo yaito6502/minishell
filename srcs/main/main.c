@@ -9,25 +9,40 @@
 #define WHITE	"\033[37m"
 #define RESET	"\033[m"
 
+static char	*check_validline(char *line)
+{
+	char *tmp;
+
+	if (!line)
+		return (NULL);
+	tmp = ft_strtrim(line, "\v\r\f\t\n ");
+	if (tmp == NULL)
+		return (NULL);
+	if (!validate_line(tmp) || !validate_quote(tmp))
+	{
+		free(tmp);
+		free(line);
+		return (NULL);
+	}
+	free(line);
+	line = tmp;
+	return (line);
+}
+
 static void	wait_command(t_hist **hist)
 {
 	char		*line;
-	char		*tmp;
 	char		**tokens;
 	t_command	*cmd;
 
 	write(STDOUT_FILENO, "\033[34mminishell\033[m > ",21);
 	*hist = add_newelm_to_hist(*hist);
 	line = read_line(hist);
-	tmp = line;
-	line = ft_strtrim(line, "\v\r\f\t\n ");
-	free(tmp);
+	line = check_validline(line);
 	if (line == NULL)
 		return ;
 	tokens = tokenize(line);
 	free(line);
-	if (tokens == NULL)
-		return ;
 	cmd = get_commandline(tokens);
 	ft_free_split(tokens);
 	if (cmd == NULL)
@@ -47,7 +62,6 @@ int main(void)
 	init_tterm();
 	get_terminal_description();
 	set_termcapsettings(term);
-	printf("Generating shell environment variables ... %s[OK]%s\n", GREEN, RESET);
 	printf("Hello, welcome to our minishell!\n");
 	while(1)
 		wait_command(&hist);

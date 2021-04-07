@@ -82,7 +82,6 @@ char			**get_sorted_environ();
 int				print_sorted_env();
 
 //parse
-bool			validate_quote(char *line);
 char			**tokenize(char *line);
 bool			validate_line(char *line);
 bool			validate_quote(char *line);
@@ -121,14 +120,13 @@ int				execute_exit(t_command *cmd);
 char			*expand_envval(char *line);
 char			*expand_exitstatus(char *ret, int *i);
 char			*output_dollar(char *ret, int *i);
-bool			preprocess_command(char **strs);
+bool			preprocess_command(t_command *cmd);
 
 //for debug
 void			print_tcommand(t_command cmd);
 
 //history
 t_hist			*add_newelm_to_hist(t_hist *hist);
-t_hist			*add_history(t_hist *last_hist, char *line);
 void			free_history(t_hist *history);
 void			free_one_elm(t_hist *hist);
 char			*display_history(char *line, char *c, int *i, t_hist **hist);
