@@ -16,7 +16,7 @@ bool	set_terminal_setting(void)
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		return (false);
 	}
-	termios_p.c_lflag &= ~(ICANON | ECHO);
+	termios_p.c_lflag &= ~(ICANON | ECHO | ISIG);
 	ret = tcsetattr(STDIN_FILENO, TCSANOW, &termios_p);
 	if (ret == -1)
 	{
@@ -41,7 +41,7 @@ bool	reset_terminal_setting(void)
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		return (false);
 	}
-	termios_p.c_lflag |= ICANON | ECHO;
+	termios_p.c_lflag |= ICANON | ECHO | ISIG;
 	ret = tcsetattr(STDIN_FILENO, TCSANOW, &termios_p);
 	if (ret == -1)
 	{
