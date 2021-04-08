@@ -47,6 +47,8 @@ static void	wait_command(t_hist **hist)
 	ft_free_split(tokens);
 	if (cmd == NULL)
 		return ;
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, sigquit_handler);
 	start_commands(cmd);
 	free_commandslist(&cmd);
 	return ;
