@@ -107,8 +107,8 @@ bool		preprocess_command(t_command *cmd)
 		!preprocess_tokens(cmd->redirect_in) ||
 		!preprocess_tokens(cmd->redirect_out))
 	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putendl_fd(strerror(errno), 2);
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		return (false);
 	}
 	return (true);
