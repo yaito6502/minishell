@@ -34,7 +34,9 @@ static t_command	*get_command(char **strs)
 	i = 0;
 	while (strs[i] != NULL)
 	{
-		if (ft_strchr(strs[i], '<') || ft_strchr(strs[i], '>'))
+		if (!ft_strncmp(strs[i], "<", 2) ||
+			!ft_strncmp(strs[i], ">", 2) ||
+			!ft_strncmp(strs[i], ">>", 3))
 		{
 			if (!set_redirection_list(cmd, strs + i))
 				return (wrap_free_commands_list(cmd));
@@ -58,7 +60,7 @@ static t_command	*get_pipeline(char **strs)
 
 	if (!strs)
 		return (NULL);
-	i = strschr(strs, "|");
+	i = strsncmp(strs, "|");
 	if (i < 0)
 	{
 		pipeline = get_command(strs);
@@ -87,7 +89,7 @@ static t_command	*get_pipeline(char **strs)
 
 	if (!strs)
 		return (NULL);
-	i = strschr(strs, "&|");
+	i = strsncmp(strs, "&|");
 	if (i < 0 || (ft_strncmp(strs, "&&", 3) && ft_strncmp(strs, "||", 3)))
 	{
 		andor = get_pipeline(get_strs(strs, 0));
@@ -113,7 +115,7 @@ static t_command	*get_list(char **strs)
 
 	if (!strs)
 		return (NULL);
-	i = strschr(strs, ";&");
+	i = strsncmp(strs, ";");
 	if (i < 0)
 	{
 		list = get_pipeline(get_strs(strs, 0));
@@ -123,8 +125,7 @@ static t_command	*get_list(char **strs)
 	list = get_list(get_strs(strs, i));
 	if (list == NULL)
 		return (wrap_ft_free_split(strs));
-	if (!ft_strncmp(strs[i], ";", 2))
-		list->op = SCOLON;
+	list->op = SCOLON;
 	last = get_lastcommand(list);
 	last->next = get_list(get_strs(strs + i + 1, 0));
 	ft_free_split(strs);
@@ -146,14 +147,13 @@ t_command			*parse(char **strs)
 	while (strs[i] != NULL)
 		i++;
 	last_str = strs[i - 1];
-	if (!ft_strncmp(last_str, ";", 2) || !ft_strncmp(last_str, "&", 2))
+	if (!ft_strncmp(last_str, ";", 2))
 		cmds = get_list(get_strs(strs, -1));
 	else
 		cmds = get_list(get_strs(strs, 0));
 	if (cmds == NULL)
 		return (NULL);
 	last_cmd = get_lastcommand(cmds);
-	if (!ft_strncmp(last_str, ";", 2))
-		last_cmd->op = SCOLON;
+	last_cmd->op = SCOLON;
 	return (cmds);
 }

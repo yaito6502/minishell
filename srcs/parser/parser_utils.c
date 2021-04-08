@@ -33,7 +33,7 @@ char		**get_strs(char **list, int len)
 	return (newlist);
 }
 
-int			strschr(char **strs, char *set)
+int			strsncmp(char **strs, char *set)
 {
 	size_t i;
 	size_t j;
@@ -44,9 +44,8 @@ int			strschr(char **strs, char *set)
 	while (strs[i] != NULL)
 	{
 		j = 0;
-		while (set[j])
-			if (ft_strchr(strs[i], set[j++]))
-				return (i);
+		if (!ft_strncmp(strs[i], set, 2))
+			return (i);
 		i++;
 	}
 	return (-1);
