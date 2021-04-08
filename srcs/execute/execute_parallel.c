@@ -2,8 +2,8 @@
 
 static int	error_pipe(void)
 {
-	ft_putstr_fd("minishell: pipe: ", 2);
-	ft_putstr_fd(strerror(errno), 2);
+	ft_putstr_fd("minishell: pipe: ", STDERR_FILENO);
+	ft_putstr_fd(strerror(errno), STDERR_FILENO);
 	return (1);
 }
 

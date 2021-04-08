@@ -74,12 +74,14 @@ static char	*trim_quote(char *arg)
 	return (ret);
 }
 
-bool		preprocess_command(char **strs)
+static bool	preprocess_tokens(char **strs)
 {
 	int		i;
 	char	*ret;
 	char	*tmp;
 
+	if (strs == NULL)
+		return (true);
 	i = 0;
 	while (strs[i] != NULL)
 	{
@@ -95,6 +97,19 @@ bool		preprocess_command(char **strs)
 		free(strs[i]);
 		strs[i] = ret;
 		i++;
+	}
+	return (true);
+}
+
+bool		preprocess_command(t_command *cmd)
+{
+	if (!preprocess_tokens(cmd->argv) ||
+		!preprocess_tokens(cmd->redirect_in) ||
+		!preprocess_tokens(cmd->redirect_out))
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
+		return (false);
 	}
 	return (true);
 }
