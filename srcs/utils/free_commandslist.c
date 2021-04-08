@@ -10,12 +10,12 @@ static void	free_command(t_command *cmd)
 	free(cmd);
 }
 
-void		free_commandslist(t_command **cmds)
+void		*free_commandslist(t_command **cmds)
 {
 	t_command *lst_ptr;
 
 	if (!cmds || !*cmds)
-		return ;
+		return (NULL);
 	lst_ptr = *cmds;
 	while (*cmds)
 	{
@@ -23,4 +23,6 @@ void		free_commandslist(t_command **cmds)
 		free_command(*cmds);
 		*cmds = lst_ptr;
 	}
+	cmds = NULL;
+	return (NULL);
 }
