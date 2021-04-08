@@ -2,9 +2,9 @@
 
 static bool	error_piping(char *str)
 {
-	ft_putstr_fd("minishell: connect_pipeline: ", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(strerror(errno), 2);
+	ft_putstr_fd("minishell: connect_pipeline: ", STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putstr_fd(strerror(errno), STDERR_FILENO);
 	return (false);
 }
 

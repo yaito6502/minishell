@@ -9,9 +9,9 @@
 
 void		error_unset(char *key, char *errmsg)
 {
-	ft_putstr_fd("bash: unset: `", 2);
-	ft_putstr_fd(key, 2);
-	ft_putendl_fd(errmsg, 2);
+	ft_putstr_fd("bash: unset: `", STDERR_FILENO);
+	ft_putstr_fd(key, STDERR_FILENO);
+	ft_putendl_fd(errmsg, STDERR_FILENO);
 	return ;
 }
 

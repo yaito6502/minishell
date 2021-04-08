@@ -17,10 +17,9 @@
 # include <termios.h>
 # include <termcap.h>
 
-# define SAVE 0
-# define LOAD 1
-
-#define BUFFER_SIZE	2048
+# define SAVE			0
+# define LOAD			1
+# define BUFFER_SIZE	2048
 
 typedef enum	e_op {
 	EOS,
@@ -104,7 +103,6 @@ int				execute_sequential(t_command *cmd);
 int				execute_parallel(t_command *cmd);
 void			start_commands(t_command *cmd);
 int				store_exitstatus(int mode, int last_status);
-
 
 //builtin
 int				execute_builtin(t_command *cmd);
