@@ -30,26 +30,6 @@ static char	*check_validline(char *line)
 	return (line);
 }
 
-static char	*check_validline(char *line)
-{
-	char *tmp;
-
-	if (!line)
-		return (NULL);
-	tmp = ft_strtrim(line, "\v\r\f\t\n ");
-	if (tmp == NULL)
-		return (NULL);
-	if (!validate_line(tmp) || !validate_quote(tmp))
-	{
-		free(tmp);
-		free(line);
-		return (NULL);
-	}
-	free(line);
-	line = tmp;
-	return (line);
-}
-
 static void	wait_command(t_hist **hist)
 {
 	char		*line;
