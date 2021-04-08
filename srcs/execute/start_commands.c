@@ -22,7 +22,6 @@ static void	confirm_child(t_command *cmd_ptr, t_command *cmd)
 		}
 		else
 			store_exitstatus(SAVE, cmd_ptr->exitstatus);
-		printf("%d\n", store_exitstatus(LOAD, 0));//for debug
 		cmd_ptr = cmd_ptr->next;
 	}
 	return ;
@@ -32,6 +31,8 @@ void		start_commands(t_command *cmd)
 {
 	t_command	*cmd_ptr;
 
+	if (!preprocess_command(cmd))
+		return ;
 	reconnect_stdfd(SAVE);
 	cmd_ptr = cmd;
 	while (cmd != NULL)

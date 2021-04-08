@@ -34,26 +34,6 @@ t_hist			*add_newelm_to_hist(t_hist *hist)
 	return (new_elm);
 }
 
-t_hist			*add_history(t_hist *last_hist, char *line)
-{
-	t_hist		*new_elm;
-	char		*copy;
-
-	copy = ft_strdup(line);
-	if (copy == NULL)
-		return (NULL);
-	new_elm = create_newhistory();
-	if (new_elm == NULL)
-		return (NULL);
-	new_elm->line = copy;
-	if (last_hist != NULL)
-	{
-		new_elm->next = last_hist;
-		last_hist->prev = new_elm;
-	}
-	return (new_elm);
-}
-
 void				free_history(t_hist *hist)
 {
 	t_hist *tmp;
