@@ -88,8 +88,7 @@ t_command		*parse(char **list);
 t_command		*get_lastcommand(t_command *cmds);
 char			**get_strs(char **list, int len);
 int				strsncmp(char **strs, char *set);
-void			*wrap_free_commands_list(t_command *cmds);
-void			*wrap_ft_free_split(char **strs);
+bool			endswith(char *str, char *end);
 char			*expand_envval(char *line);
 
 //execute

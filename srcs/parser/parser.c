@@ -34,19 +34,17 @@ static t_command	*get_command(char **strs)
 	i = 0;
 	while (strs[i] != NULL)
 	{
-		if (!ft_strncmp(strs[i], "<", 2) ||
-			!ft_strncmp(strs[i], ">", 2) ||
-			!ft_strncmp(strs[i], ">>", 3))
+		if (endswith(strs[i], "<") || endswith(strs[i], ">"))
 		{
 			if (!set_redirection_list(cmd, strs + i))
-				return (wrap_free_commands_list(cmd));
+				return (free_commandslist(&cmd));
 			i += 2;
 		}
 		else
 		{
 			cmd->argv = add_str_to_list(cmd->argv, strs[i++]);
 			if (cmd->argv == NULL)
-				return (wrap_free_commands_list(cmd));
+				return (free_commandslist(&cmd));
 		}
 	}
 	return (cmd);
@@ -69,13 +67,13 @@ static t_command	*get_pipeline(char **strs)
 	}
 	pipeline = get_pipeline(get_strs(strs, i));
 	if (pipeline == NULL)
-		return (wrap_ft_free_split(strs));
+		return (ft_free_split(strs));
 	pipeline->op = PIPELINE;
 	last = get_lastcommand(pipeline);
 	last->next = get_pipeline(get_strs(strs + i + 1, 0));
 	ft_free_split(strs);
 	if (last->next == NULL)
-		return (wrap_free_commands_list(pipeline));
+		return (free_commandslist(&pipeline));
 	last->next->receive_pipe = true;
 	return (pipeline);
 }
@@ -124,13 +122,13 @@ static t_command	*get_list(char **strs)
 	}
 	list = get_list(get_strs(strs, i));
 	if (list == NULL)
-		return (wrap_ft_free_split(strs));
+		return (ft_free_split(strs));
 	list->op = SCOLON;
 	last = get_lastcommand(list);
 	last->next = get_list(get_strs(strs + i + 1, 0));
 	ft_free_split(strs);
 	if (last->next == NULL)
-		return (wrap_free_commands_list(list));
+		return (free_commandslist(&list));
 	return (list);
 }
 

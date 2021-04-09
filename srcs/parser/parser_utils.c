@@ -51,14 +51,10 @@ int			strsncmp(char **strs, char *set)
 	return (-1);
 }
 
-void		*wrap_free_commands_list(t_command *cmds)
+bool	endswith(char *str, char *end)
 {
-	free_commandslist(&cmds);
-	return (NULL);
-}
+	char elen;
 
-void		*wrap_ft_free_split(char **strs)
-{
-	ft_free_split(strs);
-	return (NULL);
+	elen = ft_strlen(end);
+	return (!ft_strncmp(str + (ft_strlen(str) - elen), end, elen + 1));
 }

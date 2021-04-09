@@ -7,7 +7,7 @@
 
 #define AMP		'&'
 #define OPS		"|;&<>"
-#define NEXT	"|;<"
+#define NEXT	"|;<>"
 #define SPACES	"\v\r\f\t\n "
 
 static bool	error_return(char *line, char last_op, bool has_space)
@@ -41,15 +41,16 @@ static bool	check_operator(char *line, char last_op)
 	line++;
 	while (*line != '\0')
 	{
-		if (!ft_strchr(NEXT, *line) && !ft_strchr(SPACES, *line) &&
-		line[1] != '>')
+		if (!ft_strchr(NEXT, *line) && !ft_strchr(SPACES, *line))
 			return (true);
 		if (ft_strchr(SPACES, *line))
 			has_space = true;
-		else if (ft_strchr(NEXT, *line))
-			return (error_return(line, last_op, has_space));
+		else if (*line == '<')
+			return (error_return(line, last_op, (line[1] != '<')));
 		else if (line[1] == '>')
 			return (error_return(line, last_op, (line[2] != '>')));
+		else if (ft_strchr(NEXT, *line))
+			return (error_return(line, last_op, has_space));
 		line++;
 	}
 	if (last_op == ';')
