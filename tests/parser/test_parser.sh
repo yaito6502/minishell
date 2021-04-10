@@ -18,7 +18,6 @@
 
 #　正常なリダイレクション
 ./test "ls 2>outfile"
-./test "ls 2>>outfile"
 ./test "ls <infile"
 
 # クオートと区切り文字
@@ -32,3 +31,11 @@
 ./test "ls \"2>outfile"
 ./test "ls 2>outfile\""
 ./test "ls \"2>outfile\""
+
+
+echo error
+./test "ls >>outfile"
+./test "ls 2>>outfile"
+./test ">outfile ls"
+./test "2>>outfile ls"
+./test "echo hello; > outfile ls"

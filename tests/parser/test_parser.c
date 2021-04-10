@@ -148,14 +148,17 @@ int		main(int argc, char **argv)
 	puts("");
 	line = check_validline(ft_strdup(argv[1]));
 	if (line == NULL)
+	{
+		puts("==========================================================================");
 		return (1);
+	}
 	token = tokenize(line);
 	print_strs(token);
 	if ((cmd = parse(token)) != NULL)
 		print_tcommand_iterate(cmd);
 	ft_free_split(token);
 	free_commandslist(&cmd);
-	system("leaks test");
-	puts("\n\n\n\n\n\n\n\n\n\n");
+	//system("leaks test");
+	puts("==========================================================================");
 	return (0);
 }
