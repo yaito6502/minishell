@@ -37,7 +37,7 @@ static int	get_option(char **argv, bool *flag)
 	return (i);
 }
 
-int			execute_echo(t_command *cmd)
+int	execute_echo(t_command *cmd)
 {
 	bool	op_flag;
 	int		i;
