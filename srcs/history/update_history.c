@@ -5,7 +5,7 @@
 ** 実行されなかったhistoryのmodified_lineはlineへ更新する。
 */
 
-static bool		error_return(char *str)
+static bool	error_return(char *str)
 {
 	write(STDOUT_FILENO, "\n", 1);
 	ft_putstr_fd("minishell: update_history: ", STDERR_FILENO);
@@ -15,7 +15,7 @@ static bool		error_return(char *str)
 
 static t_hist	*delete_added_elm(t_hist *hist_p)
 {
-	t_hist *tmp;
+	t_hist	*tmp;
 
 	while (hist_p->prev != NULL)
 		hist_p = hist_p->prev;
@@ -40,7 +40,7 @@ static t_hist	*add_line_to_front(char *line, t_hist *hist_p)
 	return (hist_p);
 }
 
-static void		replace_modified_line(t_hist *hist_p)
+static void	replace_modified_line(t_hist *hist_p)
 {
 	while (hist_p != NULL)
 	{
@@ -55,7 +55,7 @@ static void		replace_modified_line(t_hist *hist_p)
 	return ;
 }
 
-bool			update_history(char *line, t_hist **hist)
+bool	update_history(char *line, t_hist **hist)
 {
 	t_hist	*hist_p;
 

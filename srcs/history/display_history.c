@@ -17,7 +17,7 @@ static char	*error_return(char *c, char *str)
 	return (NULL);
 }
 
-t_dir		get_dir(char *c)
+t_dir	get_dir(char *c)
 {
 	if (!ft_strncmp(c, UPKEY, 4))
 		return (NEXT);
@@ -26,9 +26,9 @@ t_dir		get_dir(char *c)
 	return (-1);
 }
 
-void		put_line(char *line, int *i)
+void	put_line(char *line, int *i)
 {
-	extern t_termcap term;
+	extern t_termcap	term;
 
 	term.le = wrap_tgetstr(term.le, "le", &term.buf_ptr);
 	while (*i > 0)
@@ -43,13 +43,13 @@ void		put_line(char *line, int *i)
 	return ;
 }
 
-char		*display_history(char *line, char *c, int *i, t_hist **hist)
+char	*display_history(char *line, char *c, int *i, t_hist **hist)
 {
-	t_dir dir;
+	t_dir	dir;
 
 	dir = get_dir(c);
-	if ((dir == NEXT && (*hist)->next == NULL) ||
-		(dir == PREV && (*hist)->prev == NULL))
+	if ((dir == NEXT && (*hist)->next == NULL)
+		|| (dir == PREV && (*hist)->prev == NULL))
 	{
 		write(STDOUT_FILENO, "\007", 1);
 		return (line);
