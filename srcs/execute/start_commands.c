@@ -6,8 +6,6 @@ static void	confirm_child(t_command *cmd_ptr, t_command *cmd)
 	int			ret;
 	t_command	*end;
 
-	if (cmd->next == NULL)
-		end = NULL;
 	end = cmd->next;
 	while (cmd_ptr != end)
 	{
@@ -19,6 +17,9 @@ static void	confirm_child(t_command *cmd_ptr, t_command *cmd)
 				ret = WEXITSTATUS(status);
 				store_exitstatus(SAVE, ret);
 			}
+			if (WIFSIGNALED(status) && WTERMSIG(status) == 3
+				&& cmd_ptr->next == NULL)
+				write(STDOUT_FILENO, "Quit\n", 5);
 		}
 		else
 			store_exitstatus(SAVE, cmd_ptr->exitstatus);
