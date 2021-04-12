@@ -6,8 +6,8 @@
 
 static char	*get_str_literal(char *str)
 {
-	char *ptr;
-	char *literal;
+	char	*ptr;
+	char	*literal;
 
 	ptr = ft_strchr(str, '=');
 	if (ptr)
@@ -23,18 +23,20 @@ static char	*get_str_literal(char *str)
 
 static void	merge(char **a, char **b, size_t index[3])
 {
-	size_t		i;
-	size_t		j;
-	size_t		k;
+	size_t	i;
+	size_t	j;
+	size_t	k;
 
 	i = index[FRONT];
 	j = index[MID];
 	k = 0;
 	while (i < index[MID] && j < index[END])
+	{
 		if (ft_strncmp(a[i], a[j], ft_strlen(a[i])) < 0)
 			b[k++] = a[i++];
 		else
 			b[k++] = a[j++];
+	}
 	if (i == index[MID])
 		while (j < index[END])
 			b[k++] = a[j++];
@@ -43,16 +45,13 @@ static void	merge(char **a, char **b, size_t index[3])
 			b[k++] = a[i++];
 	i = 0;
 	while (i < k)
-	{
-		a[index[FRONT] + i] = b[i];
-		i++;
-	}
+		a[index[FRONT] + i] = b[i++];
 }
 
-void		sort_environ(char **a, char **b, size_t front, size_t end)
+void	sort_environ(char **a, char **b, size_t front, size_t end)
 {
-	size_t mid;
-	size_t index[3];
+	size_t	mid;
+	size_t	index[3];
 
 	if (front == end || front + 1 == end)
 		return ;
@@ -65,9 +64,9 @@ void		sort_environ(char **a, char **b, size_t front, size_t end)
 	merge(a, b, index);
 }
 
-char		**get_sorted_environ(void)
+char	**get_sorted_environ(void)
 {
-	extern char **environ;
+	extern char	**environ;
 	char		**sorted;
 	char		**buf;
 	size_t		i;
@@ -90,7 +89,7 @@ char		**get_sorted_environ(void)
 	return (sorted);
 }
 
-int			print_sorted_env(void)
+int	print_sorted_env(void)
 {
 	char	**sorted;
 	char	*value;
