@@ -35,8 +35,8 @@ static int	has_dollar(char *line)
 
 static char	*copy_literal(char *line, char *ret, int *i)
 {
-	char *tmp;
-	char *literal;
+	char	*tmp;
+	char	*literal;
 
 	*i = 1;
 	while (line[*i] != '\'')
@@ -53,8 +53,8 @@ static char	*copy_literal(char *line, char *ret, int *i)
 
 static char	*copy_normalchar(char *line, char *ret, int *i, bool inquote)
 {
-	char *tmp;
-	char *str;
+	char	*tmp;
+	char	*str;
 
 	*i = 0;
 	if (inquote == true)
@@ -110,7 +110,7 @@ static char	*get_key(char *line, char *ret, int *i)
 ** 環境変数の命名規則はアルファベット,数字とアンダースコアの組み合わせとする。(要検証)
 */
 
-char		*expand_envval(char *line)
+char	*expand_envval(char *line)
 {
 	char	*ret;
 	int		i;

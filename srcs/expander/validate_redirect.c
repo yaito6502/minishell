@@ -39,7 +39,7 @@ static bool	check_list(char **list)
 	int	i;
 
 	i = 0;
-	while(list[i] != NULL)
+	while (list[i] != NULL)
 	{
 		i++;
 		if (!check_token(list[i]))
@@ -49,7 +49,7 @@ static bool	check_list(char **list)
 	return (true);
 }
 
-bool		validate_redirect(t_command *cmd)
+bool	validate_redirect(t_command *cmd)
 {
 	bool	ret;
 

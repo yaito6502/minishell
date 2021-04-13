@@ -14,7 +14,7 @@
 
 static void	back_line(char *line, int *i)
 {
-	extern t_termcap term;
+	extern t_termcap	term;
 
 	if (*i == 0)
 	{
@@ -41,8 +41,8 @@ static char	*check_input(char *line, char *c, int *i, int rc)
 	}
 	if (!ft_strncmp(c, BACKSPACE, 2))
 		back_line(line, i);
-	else if (!ft_strncmp(c, "\v", 2) || !ft_strncmp(c, "\r", 2) ||
-		!ft_strncmp(c, "\f", 2) || !ft_strncmp(c, "\t", 2))
+	else if (!ft_strncmp(c, "\v", 2) || !ft_strncmp(c, "\r", 2)
+		|| !ft_strncmp(c, "\f", 2) || !ft_strncmp(c, "\t", 2))
 		write(STDOUT_FILENO, "\007", 1);
 	else if (rc == 1 && c[0] != '\n' && c[0] != '\034')
 	{
@@ -68,11 +68,10 @@ static char	*get_line(char *line, t_hist **hist)
 		if (rc == -1)
 			return (NULL);
 		c[rc] = '\0';
-		if (rc != 0 && !ft_strncmp(c, CTRL_D, 2))
-			if (i == 0)
-				get_eof(line, hist);
-			else
-				write(1, "\007", 1);
+		if (rc != 0 && !ft_strncmp(c, CTRL_D, 2) && i == 0)
+			get_eof(line, hist);
+		else if (rc != 0 && !ft_strncmp(c, CTRL_D, 2))
+			write(1, "\007", 1);
 		else if (rc != 0 && !ft_strncmp(c, CTRL_C, 2))
 			line = get_sigint(line, c);
 		else if (!ft_strncmp(c, UPKEY, 4) || !ft_strncmp(c, DOWNKEY, 4))
@@ -83,7 +82,7 @@ static char	*get_line(char *line, t_hist **hist)
 	return (line);
 }
 
-char		*read_line(t_hist **hist)
+char	*read_line(t_hist **hist)
 {
 	char	*line;
 	char	*tmp;

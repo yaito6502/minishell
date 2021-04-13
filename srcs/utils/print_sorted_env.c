@@ -45,7 +45,10 @@ static void	merge(char **a, char **b, size_t index[3])
 			b[k++] = a[i++];
 	i = 0;
 	while (i < k)
-		a[index[FRONT] + i] = b[i++];
+	{
+		a[index[FRONT] + i] = b[i];
+		i++;
+	}
 }
 
 void	sort_environ(char **a, char **b, size_t front, size_t end)
