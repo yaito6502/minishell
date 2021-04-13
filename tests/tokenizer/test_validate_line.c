@@ -49,5 +49,45 @@ int main(void)
 	output_ret(ret);
 	free(line);
 
+	line = ft_strdup("ls >");
+	ret = validate_line(line);
+	output_ret(ret);
+	free(line);
+
+	line = ft_strdup("ls >;");
+	ret = validate_line(line);
+	output_ret(ret);
+	free(line);
+
+	line = ft_strdup("ls |");
+	ret = validate_line(line);
+	output_ret(ret);
+	free(line);
+
+	line = ft_strdup("ls |;");
+	ret = validate_line(line);
+	output_ret(ret);
+	free(line);
+
+	line = ft_strdup("ls |&");
+	ret = validate_line(line);
+	output_ret(ret);
+	free(line);
+
+	line = ft_strdup("ls >>");
+	ret = validate_line(line);
+	output_ret(ret);
+	free(line);
+
+	line = ft_strdup("ls >>>>");
+	ret = validate_line(line);
+	output_ret(ret);
+	free(line);
+
+	line = ft_strdup("ls >>>");
+	ret = validate_line(line);
+	output_ret(ret);
+	free(line);
+
 	return 0;
 }

@@ -36,7 +36,7 @@ static bool	set_keyvalue(char *str, char **key, char **value)
 	return (true);
 }
 
-int			execute_export(t_command *cmd)
+int	execute_export(t_command *cmd)
 {
 	size_t	i;
 	int		status;

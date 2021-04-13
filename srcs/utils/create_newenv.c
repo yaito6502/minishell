@@ -16,13 +16,16 @@ bool	create_newenv(void)
 	while (environ[i] != NULL)
 		i++;
 	size = (i + 1) * sizeof(char *);
-	if (!(new_env = (char **)malloc(size)))
+	new_env = (char **)malloc(size);
+	if (!new_env)
 		return (false);
 	new_env[i] = NULL;
 	i = 0;
 	while (environ[i] != NULL)
 	{
 		new_env[i] = ft_strdup(environ[i]);
+		if (new_env == NULL)
+			return (false);
 		i++;
 	}
 	environ = new_env;

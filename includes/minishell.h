@@ -103,6 +103,8 @@ int				execute_sequential(t_command *cmd);
 int				execute_parallel(t_command *cmd);
 void			start_commands(t_command *cmd);
 int				store_exitstatus(int mode, int last_status);
+void			sigint_handler(int signal);
+void			sigquit_handler(int signal);
 
 //builtin
 int				execute_builtin(t_command *cmd);
@@ -119,6 +121,7 @@ char			*expand_envval(char *line);
 char			*expand_exitstatus(char *ret, int *i);
 char			*output_dollar(char *ret, int *i);
 bool			preprocess_command(t_command *cmd);
+bool			validate_redirect(t_command *cmd);
 
 //for debug
 void			print_tcommand(t_command cmd);

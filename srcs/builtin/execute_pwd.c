@@ -6,9 +6,9 @@
 **失敗時 1
 */
 
-int		execute_pwd(t_command *cmd)
+int	execute_pwd(t_command *cmd)
 {
-	char *path;
+	char	*path;
 
 	(void)cmd;
 	path = getenv("PWD");

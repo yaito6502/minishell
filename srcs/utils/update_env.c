@@ -22,7 +22,7 @@ static char	*generate_keyvalue(char *key, char *value)
 	return (env);
 }
 
-bool		update_env(char *key, char *value)
+bool	update_env(char *key, char *value)
 {
 	extern char	**environ;
 	char		*env;

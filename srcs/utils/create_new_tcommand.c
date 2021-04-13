@@ -6,9 +6,10 @@
 
 t_command	*create_new_tcommand(void)
 {
-	t_command *ptr;
+	t_command	*ptr;
 
-	if (!(ptr = malloc(sizeof(t_command))))
+	ptr = malloc(sizeof(t_command));
+	if (!ptr)
 		return (NULL);
 	ptr->next = NULL;
 	ptr->argv = NULL;
