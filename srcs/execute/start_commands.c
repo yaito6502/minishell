@@ -37,7 +37,7 @@ void	start_commands(t_command *cmd)
 	cmd_ptr = cmd;
 	while (cmd != NULL)
 	{
-		if (!preprocess_command(cmd))
+		if (!validate_redirect(cmd) && !preprocess_command(cmd))
 			return ;
 		if (cmd->op == PIPELINE || cmd->receive_pipe == true)
 			cmd->exitstatus = execute_parallel(cmd);

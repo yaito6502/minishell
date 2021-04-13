@@ -121,6 +121,7 @@ char			*expand_envval(char *line);
 char			*expand_exitstatus(char *ret, int *i);
 char			*output_dollar(char *ret, int *i);
 bool			preprocess_command(t_command *cmd);
+bool			validate_redirect(t_command *cmd);
 
 //for debug
 void			print_tcommand(t_command cmd);
