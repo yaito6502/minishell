@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		error_execute(char *path)
+int	error_execute(char *path)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(path, STDERR_FILENO);
@@ -16,7 +16,7 @@ int		error_execute(char *path)
 	return (1);
 }
 
-int		error_fork(void)
+int	error_fork(void)
 {
 	ft_putstr_fd("minishell: fork: ", STDERR_FILENO);
 	ft_putstr_fd(strerror(errno), STDERR_FILENO);

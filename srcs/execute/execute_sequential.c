@@ -11,7 +11,7 @@ static void	sequential_chlidproc(t_command *cmd)
 	exit(error_execute(cmd->argv[0]));
 }
 
-int			execute_sequential(t_command *cmd)
+int	execute_sequential(t_command *cmd)
 {
 	if (!do_redirection(cmd))
 		return (1);
