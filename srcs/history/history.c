@@ -7,7 +7,7 @@
 
 static t_hist	*create_newhistory(void)
 {
-	t_hist *hist;
+	t_hist	*hist;
 
 	hist = malloc(sizeof(t_hist));
 	if (hist == NULL)
@@ -19,7 +19,7 @@ static t_hist	*create_newhistory(void)
 	return (hist);
 }
 
-t_hist			*add_newelm_to_hist(t_hist *hist)
+t_hist	*add_newelm_to_hist(t_hist *hist)
 {
 	t_hist	*new_elm;
 
@@ -34,9 +34,9 @@ t_hist			*add_newelm_to_hist(t_hist *hist)
 	return (new_elm);
 }
 
-void				free_history(t_hist *hist)
+void	free_history(t_hist *hist)
 {
-	t_hist *tmp;
+	t_hist	*tmp;
 
 	while (hist->prev != NULL)
 		hist = hist->prev;
@@ -48,7 +48,7 @@ void				free_history(t_hist *hist)
 	}
 }
 
-void				free_one_elm(t_hist *hist)
+void	free_one_elm(t_hist *hist)
 {
 	if (hist->line != NULL)
 		free(hist->line);

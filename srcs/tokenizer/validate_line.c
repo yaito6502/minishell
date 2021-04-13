@@ -49,7 +49,7 @@ static bool	check_operator(char *line, char last_op)
 		return (error_return(line, last_op, false));
 }
 
-bool		validate_line(char *line)
+bool	validate_line(char *line)
 {
 	char	op;
 
