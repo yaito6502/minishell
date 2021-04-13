@@ -44,7 +44,7 @@ static char	*check_input(char *line, char *c, int *i, int rc)
 	else if (!ft_strncmp(c, "\v", 2) || !ft_strncmp(c, "\r", 2) ||
 		!ft_strncmp(c, "\f", 2) || !ft_strncmp(c, "\t", 2))
 		write(STDOUT_FILENO, "\007", 1);
-	else if (rc == 1 && c[0] != '\n')
+	else if (rc == 1 && c[0] != '\n' && c[0] != '\034')
 	{
 		ft_putchar_fd(c[0], STDOUT_FILENO);
 		line[*i] = c[0];
