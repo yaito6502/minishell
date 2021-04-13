@@ -7,7 +7,7 @@
 ** return後、execute_builtin関数で、コマンド終了時の処理を呼び出す想定で実装します。
 */
 
-void		error_unset(char *key, char *errmsg)
+void	error_unset(char *key, char *errmsg)
 {
 	ft_putstr_fd("bash: unset: `", STDERR_FILENO);
 	ft_putstr_fd(key, STDERR_FILENO);
@@ -77,7 +77,7 @@ static bool	delete_key(char *key)
 	return (true);
 }
 
-int			execute_unset(t_command *cmd)
+int	execute_unset(t_command *cmd)
 {
 	int		i;
 	int		ret;
@@ -92,11 +92,13 @@ int			execute_unset(t_command *cmd)
 			ret = 1;
 		}
 		else if (getenv(cmd->argv[i]))
+		{
 			if (!delete_key(cmd->argv[i]))
 			{
 				error_unset(cmd->argv[i], "':malloc error");
 				ret = 1;
 			}
+		}
 		i++;
 	}
 	return (ret);

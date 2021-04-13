@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int			print_error(char *message)
+static int	print_error(char *message)
 {
 	ft_putendl_fd("exit", STDERR_FILENO);
 	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
@@ -8,9 +8,9 @@ static int			print_error(char *message)
 	return (255);
 }
 
-static bool			is_digits(char *str)
+static bool	is_digits(char *str)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	if (*str == '-' || *str == '+')
@@ -23,7 +23,7 @@ static bool			is_digits(char *str)
 	return (true);
 }
 
-static bool			is_overflow(long long num, int bottom)
+static bool	is_overflow(long long num, int bottom)
 {
 	if (num > (LLONG_MAX / 10) || num < (LLONG_MIN / 10))
 		return (true);
@@ -62,7 +62,7 @@ static long long	ft_atoll(const char *nptr)
 	return (sign * num);
 }
 
-int					execute_exit(t_command *cmd)
+int	execute_exit(t_command *cmd)
 {
 	unsigned int	exit_status;
 	char			*str;
