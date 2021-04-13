@@ -54,7 +54,7 @@ static long long	ft_atoll(const char *nptr)
 		{
 			sign = print_error(copy);
 			ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
-			exit(sign);
+			wrap_exit(sign);
 		}
 		num = num * 10 + *nptr - '0';
 		nptr++;
@@ -73,17 +73,18 @@ int					execute_exit(t_command *cmd)
 	if (str == NULL)
 	{
 		ft_putendl_fd("exit", STDOUT_FILENO);
-		exit(EXIT_SUCCESS);
+		wrap_exit(EXIT_SUCCESS);
 	}
 	if (!is_digits(str))
 	{
 		exit_status = print_error(str);
 		ft_putendl_fd(": numeric argument required", STDERR_FILENO);
-		exit(exit_status);
+		wrap_exit(exit_status);
 	}
 	if (cmd->argv[(!ft_strncmp(cmd->argv[1], "--", 3)) + 2] != NULL)
-		exit(print_error("too many arguments\n"));
+		wrap_exit(print_error("too many arguments\n"));
 	exit_status = ft_atoll(str);
 	ft_putendl_fd("exit", STDOUT_FILENO);
-	exit(exit_status % 256);
+	wrap_exit(exit_status % 256);
+	return (EXIT_FAILURE);
 }
