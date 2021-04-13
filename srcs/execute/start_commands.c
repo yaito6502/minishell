@@ -6,8 +6,6 @@ static void	confirm_child(t_command *cmd_ptr, t_command *cmd)
 	int			ret;
 	t_command	*end;
 
-	if (cmd->next == NULL)
-		end = NULL;
 	end = cmd->next;
 	while (cmd_ptr != end)
 	{
@@ -15,19 +13,23 @@ static void	confirm_child(t_command *cmd_ptr, t_command *cmd)
 		{
 			ret = waitpid(cmd_ptr->pid, &status, 0);
 			if (WIFEXITED(status))
+				store_exitstatus(SAVE, WEXITSTATUS(status));
+			if (WIFSIGNALED(status) && WTERMSIG(status) == 3
+				&& cmd_ptr->next == NULL)
 			{
-				ret = WEXITSTATUS(status);
-				store_exitstatus(SAVE, ret);
+				if (WCOREDUMP(status))
+					write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
+				else
+					write(STDOUT_FILENO, "Quit\n", 5);
 			}
 		}
 		else
 			store_exitstatus(SAVE, cmd_ptr->exitstatus);
 		cmd_ptr = cmd_ptr->next;
 	}
-	return ;
 }
 
-void		start_commands(t_command *cmd)
+void	start_commands(t_command *cmd)
 {
 	t_command	*cmd_ptr;
 

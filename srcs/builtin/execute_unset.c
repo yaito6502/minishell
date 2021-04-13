@@ -39,13 +39,13 @@ static void	copy_environ(char **new_env, int target_i, int len)
 	int			i;
 
 	env_p = environ;
+	free(environ[target_i]);
 	i = 0;
 	while (i < len - 1)
 	{
 		if (i == target_i)
 		{
 			env_p++;
-			free(environ[i]);
 			target_i = -1;
 			continue ;
 		}
