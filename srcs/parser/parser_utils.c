@@ -2,7 +2,7 @@
 
 t_command	*get_lastcommand(t_command *cmds)
 {
-	t_command *head;
+	t_command	*head;
 
 	head = cmds;
 	while (head->next)
@@ -10,7 +10,7 @@ t_command	*get_lastcommand(t_command *cmds)
 	return (head);
 }
 
-char		**get_strs(char **list, int len)
+char	**get_strs(char **list, int len)
 {
 	char	**newlist;
 	size_t	i;
@@ -33,10 +33,10 @@ char		**get_strs(char **list, int len)
 	return (newlist);
 }
 
-int			strsncmp(char **strs, char *set)
+int	strsncmp(char **strs, char *set)
 {
-	size_t i;
-	size_t j;
+	size_t	i;
+	size_t	j;
 
 	if (!strs || !set)
 		return (-1);
@@ -53,7 +53,7 @@ int			strsncmp(char **strs, char *set)
 
 bool	endswith(char *str, char *end)
 {
-	char elen;
+	char	elen;
 
 	elen = ft_strlen(end);
 	return (!ft_strncmp(str + (ft_strlen(str) - elen), end, elen + 1));

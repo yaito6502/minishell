@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static bool			set_redirection_list(t_command *cmd, char **list)
+static bool	set_redirection_list(t_command *cmd, char **list)
 {
 	char	**target;
 
@@ -132,7 +132,7 @@ static t_command	*get_list(char **strs)
 	return (list);
 }
 
-t_command			*parse(char **strs)
+t_command	*parse(char **strs)
 {
 	t_command	*cmds;
 	t_command	*last_cmd;
