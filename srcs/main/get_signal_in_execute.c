@@ -10,6 +10,5 @@ void	sigint_handler(int signal)
 void	sigquit_handler(int signal)
 {
 	(void)signal;
-	//write(STDOUT_FILENO, "Quit\n", 5);
 	store_exitstatus(SAVE, 131);
 }

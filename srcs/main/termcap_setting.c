@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-bool		init_tterm(void)
+bool	init_tterm(void)
 {
-	extern t_termcap term;
+	extern t_termcap	term;
 
 	term.term_buf = malloc(2048);
 	term.string_buf = malloc(2048);
@@ -20,10 +20,10 @@ bool		init_tterm(void)
 	return (true);
 }
 
-bool		get_terminal_description(void)
+bool	get_terminal_description(void)
 {
-	extern t_termcap term;
-	char		*termtype;
+	extern t_termcap	term;
+	char				*termtype;
 
 	termtype = getenv("TERM");
 	if (!termtype || tgetent(term.term_buf, termtype) <= 0)

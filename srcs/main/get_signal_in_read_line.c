@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	get_eof(char *line, t_hist ** hist)
+void	get_eof(char *line, t_hist **hist)
 {
 	extern char			**environ;
 	extern t_termcap	term;
