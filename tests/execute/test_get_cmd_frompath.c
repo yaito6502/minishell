@@ -4,16 +4,24 @@
 ** execveを実行するとメモリリークが追えないためコメントアウトしています。
 */
 
-int main(void)
+int main(int argc, char **argv)
 {
-	extern char **environ;
-	t_command cmd;
+	char **tokens;
+	t_command *cmd;
 	char *path;
-	cmd.argv = ft_split("ls,./",',');
-	path = get_cmd_frompath(&cmd);
-	printf("%s\n", path);
+
+	(void)argc;
+	tokens = tokenize(argv[1]);
+	cmd = get_commandline(tokens);
+	puts(cmd->argv[0]);
+	path = get_cmd_frompath(cmd);
+	if (path != NULL)
+		printf("%s\n", path);
+	else
+		puts("NULL");
 	free(path);
-	ft_free_split(cmd.argv);
+	ft_free_split(tokens);
+	free_commandslist(&cmd);
 	//execve(path, cmd.argv, environ);
 	return 0;
 }

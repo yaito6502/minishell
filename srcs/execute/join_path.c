@@ -2,8 +2,8 @@
 
 char	*get_cwd_with_slash(void)
 {
-	char *path;
-	char *tmp;
+	char	*path;
+	char	*tmp;
 
 	path = getcwd(NULL, 0);
 	if (path == NULL)
@@ -21,7 +21,7 @@ char	*get_cwd_with_slash(void)
 
 char	*add_dir_topath(char *path, char *buf)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = path;
 	path = ft_strjoin(path, buf);
@@ -33,7 +33,7 @@ char	*add_dir_topath(char *path, char *buf)
 
 char	*check_buf(char *path, char *buf)
 {
-	char *tmp;
+	char	*tmp;
 
 	if (!ft_strncmp(buf, "./", 2))
 		return (path);
