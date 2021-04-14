@@ -6,12 +6,12 @@ static bool	is_leftend(int *i)
 
 	get_terminal_description();
 	col = tgetnum("col");
-	if((13 + *i) % col == 0)
+	if ((13 + *i) % col == 0)
 		return (true);
 	return (false);
 }
 
-static void	move_rightend()
+static void	move_rightend(void)
 {
 	extern t_termcap	term;
 	int					col;
@@ -24,7 +24,7 @@ static void	move_rightend()
 	term.dc = wrap_tgetstr(term.dc, "dc");
 	tputs(term.up, 1, ft_putchar);
 	i = 0;
-	while(i < col)
+	while (i < col)
 	{
 		tputs(term.nd, 1, ft_putchar);
 		i++;
@@ -32,7 +32,7 @@ static void	move_rightend()
 	tputs(term.dc, 1, ft_putchar);
 }
 
-void		back_line(char *line, int *i)
+void	back_line(char *line, int *i)
 {
 	extern t_termcap	term;
 

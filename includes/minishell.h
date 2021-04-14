@@ -56,12 +56,13 @@ typedef struct	s_termcap {
 	char *term_buf;
 	char *string_buf;
 	char *buf_ptr;
-	char *ce;
+	char *cd;
 	char *dc;
-	char *DC;
 	char *up;
 	char *nd;
 	char *le;
+	char *sc;
+	char *rc;
 }				t_termcap;
 
 t_termcap term;

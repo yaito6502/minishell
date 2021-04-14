@@ -13,9 +13,8 @@ bool	init_tterm(void)
 		return (false);
 	}
 	term.buf_ptr = term.string_buf;
-	term.ce = NULL;
+	term.cd = NULL;
 	term.dc = NULL;
-	term.DC = NULL;
 	term.up = NULL;
 	term.nd = NULL;
 	term.le = NULL;
