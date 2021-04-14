@@ -18,6 +18,9 @@ void	print_tcommand_iterate(t_command *cmds)
 void	print_strs(char **strs)
 {
 	size_t i = 0;
+
+	if (!strs)
+		return ;
 	while (strs[i] != NULL)
 		printf("%s, ", strs[i++]);
 	puts("\n");
