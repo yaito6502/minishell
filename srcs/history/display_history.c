@@ -30,13 +30,13 @@ void	put_line(char *line, int *i)
 {
 	extern t_termcap	term;
 
-	term.le = wrap_tgetstr(term.le, "le", &term.buf_ptr);
+	term.le = wrap_tgetstr(term.le, "le");
 	while (*i > 0)
 	{
 		tputs(term.le, 1, ft_putchar);
 		(*i)--;
 	}
-	term.ce = wrap_tgetstr(term.ce, "ce", &term.buf_ptr);
+	term.ce = wrap_tgetstr(term.ce, "ce");
 	tputs(term.ce, 1, ft_putchar);
 	*i = (int)ft_strlen(line);
 	write(STDOUT_FILENO, line, *i);

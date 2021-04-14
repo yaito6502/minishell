@@ -16,6 +16,8 @@ bool	init_tterm(void)
 	term.ce = NULL;
 	term.dc = NULL;
 	term.DC = NULL;
+	term.up = NULL;
+	term.nd = NULL;
 	term.le = NULL;
 	return (true);
 }
@@ -65,11 +67,13 @@ bool	set_termcapsettings(t_termcap term)
 ** 利用するcapabilityはtterm内にポインタを保存する
 */
 
-char	*wrap_tgetstr(char *stored_cap, char *cap, char **bufaddr)
+char	*wrap_tgetstr(char *stored_cap, char *cap)
 {
+	extern t_termcap	term;
+
 	if (stored_cap == NULL)
 	{
-		stored_cap = tgetstr(cap, bufaddr);
+		stored_cap = tgetstr(cap, &term.buf_ptr);
 		return (stored_cap);
 	}
 	return (stored_cap);

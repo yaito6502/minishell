@@ -8,28 +8,6 @@
 #define CTRL_D		"\004"
 #define CTRL_C		"\003"
 
-/*
-** 端末のカノニカルモードを無効化し、read関数から入力を即時受け取る。
-*/
-
-static void	back_line(char *line, int *i)
-{
-	extern t_termcap	term;
-
-	if (*i == 0)
-	{
-		write(STDOUT_FILENO, "\007", 1);
-		return ;
-	}
-	line[*i - 1] = '\0';
-	*i = *i - 1;
-	term.le = wrap_tgetstr(term.le, "le", &term.buf_ptr);
-	term.dc = wrap_tgetstr(term.dc, "dc", &term.buf_ptr);
-	tputs(term.le, 1, ft_putchar);
-	tputs(term.dc, 1, ft_putchar);
-	return ;
-}
-
 static char	*check_input(char *line, char *c, int *i, int rc)
 {
 	if (*i == BUFFER_SIZE)

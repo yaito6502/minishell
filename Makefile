@@ -7,6 +7,7 @@ LIBFT = ./libft/libft.a
 
 SRCFILE =	srcs/main/main.c \
 			srcs/main/read_line.c \
+			srcs/main/back_line.c \
 			srcs/main/get_signal_in_read_line.c \
 			srcs/main/terminal_setting.c \
 			srcs/main/termcap_setting.c \
