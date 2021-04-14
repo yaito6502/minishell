@@ -101,11 +101,11 @@ static bool	preprocess_tokens(char **strs)
 	return (true);
 }
 
-bool		preprocess_command(t_command *cmd)
+bool	preprocess_command(t_command *cmd)
 {
-	if (!preprocess_tokens(cmd->argv) ||
-		!preprocess_tokens(cmd->redirect_in) ||
-		!preprocess_tokens(cmd->redirect_out))
+	if (!preprocess_tokens(cmd->argv)
+		|| !preprocess_tokens(cmd->redirect_in)
+		|| !preprocess_tokens(cmd->redirect_out))
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);

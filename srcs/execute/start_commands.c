@@ -1,5 +1,16 @@
 #include "minishell.h"
 
+static void	print_signal_message(t_command *cmd, int status)
+{
+	if (WIFSIGNALED(status) && WTERMSIG(status) == 3 && cmd->next == NULL)
+	{
+		if (WCOREDUMP(status))
+			write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
+		else
+			write(STDOUT_FILENO, "Quit\n", 5);
+	}
+}
+
 static void	confirm_child(t_command *cmd_ptr, t_command *cmd)
 {
 	int			status;
@@ -12,16 +23,14 @@ static void	confirm_child(t_command *cmd_ptr, t_command *cmd)
 		if (cmd_ptr->has_childproc == true)
 		{
 			ret = waitpid(cmd_ptr->pid, &status, 0);
+			if (ret == -1)
+			{
+				ft_putstr_fd("minishell: waitpid: ", STDERR_FILENO);
+				ft_putendl_fd(strerror(errno), STDERR_FILENO);
+			}
 			if (WIFEXITED(status))
 				store_exitstatus(SAVE, WEXITSTATUS(status));
-			if (WIFSIGNALED(status) && WTERMSIG(status) == 3
-				&& cmd_ptr->next == NULL)
-			{
-				if (WCOREDUMP(status))
-					write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
-				else
-					write(STDOUT_FILENO, "Quit\n", 5);
-			}
+			print_signal_message(cmd_ptr, status);
 		}
 		else
 			store_exitstatus(SAVE, cmd_ptr->exitstatus);
