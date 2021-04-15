@@ -34,7 +34,7 @@ static bool	receive_pipeline(t_command *cmd)
 	return (true);
 }
 
-bool		connect_pipeline(t_command *cmd, int newpipe[2])
+bool	connect_pipeline(t_command *cmd, int newpipe[2])
 {
 	if (!send_pipeline(cmd, newpipe))
 		return (false);

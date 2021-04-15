@@ -22,9 +22,12 @@ static int	set_path(char *path)
 		printf("%s\n", ":No such file or directory");
 		return (EXIT_FAILURE);
 	}
-	ret = (!update_env("OLDPWD", getenv("PWD")) || !update_env("PWD", newpath));
+	ret = (!update_env("OLDPWD", getenv("PWD"))
+			|| !update_env("PWD", newpath));
 	free(newpath);
-	return (ret ? EXIT_FAILURE : EXIT_SUCCESS);
+	if (ret == true)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 static bool	set_cdpath_iterate(char *path)
@@ -55,8 +58,8 @@ static bool	set_cdpath_iterate(char *path)
 
 static char	*expand_tilde(char *path)
 {
-	char *home;
-	char *expd_path;
+	char	*home;
+	char	*expd_path;
 
 	if (path && path[1] != '\0' && path[1] != '/')
 	{
@@ -79,7 +82,7 @@ static char	*expand_tilde(char *path)
 	return (expd_path);
 }
 
-int			execute_cd(t_command *cmd)
+int	execute_cd(t_command *cmd)
 {
 	char		*path;
 	int			status;

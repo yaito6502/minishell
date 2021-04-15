@@ -12,7 +12,7 @@
 
 static char	*check_validline(char *line)
 {
-	char *tmp;
+	char	*tmp;
 
 	if (!line)
 		return (NULL);
@@ -36,7 +36,7 @@ static void	wait_command(t_hist **hist)
 	char		**tokens;
 	t_command	*cmd;
 
-	write(STDOUT_FILENO, "\033[34mminishell\033[m > ",21);
+	write(STDOUT_FILENO, "\033[34mminishell\033[m > ", 21);
 	*hist = add_newelm_to_hist(*hist);
 	line = read_line(hist);
 	line = check_validline(line);
@@ -48,12 +48,14 @@ static void	wait_command(t_hist **hist)
 	ft_free_split(tokens);
 	if (cmd == NULL)
 		return ;
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, sigquit_handler);
 	start_commands(cmd);
 	free_commandslist(&cmd);
 	return ;
 }
 
-int main(void)
+int	main(void)
 {
 	extern t_termcap	term;
 	t_hist				*hist;
@@ -64,7 +66,7 @@ int main(void)
 	get_terminal_description();
 	set_termcapsettings(term);
 	printf("Hello, welcome to our minishell!\n");
-	while(1)
+	while (1)
 		wait_command(&hist);
 	return (0);
 }

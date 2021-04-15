@@ -4,7 +4,7 @@
 ** t_command内、argv[0]を各ビルトインコマンドと比較、該当する場合、indexを返す。ない場合は、-1を返す。
 */
 
-int		is_builtin(t_command *cmds)
+int	is_builtin(t_command *cmds)
 {
 	int			i;
 	const char	builtin_list[][7] = {

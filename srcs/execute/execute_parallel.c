@@ -24,9 +24,9 @@ static void	parallel_childproc(t_command *cmd, int newpipe[2])
 	exit(error_execute(cmd->argv[0]));
 }
 
-int			execute_parallel(t_command *cmd)
+int	execute_parallel(t_command *cmd)
 {
-	int			newpipe[2];
+	int	newpipe[2];
 
 	if (cmd->op == PIPELINE)
 		if (pipe(newpipe) == -1)

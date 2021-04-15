@@ -11,7 +11,7 @@
 ** 現在読み込んだindexまでがクォート中にあるかないかを返す。
 */
 
-static bool		is_inquote(char *p, int len)
+static bool	is_inquote(char *p, int len)
 {
 	int		i;
 	int		j;
@@ -39,9 +39,9 @@ static bool		is_inquote(char *p, int len)
 ** スペース区切り文字を見つけてインデックスを返す。"'の中身はそのまま渡す。
 */
 
-static int		get_index(char *p)
+static int	get_index(char *p)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (p[i] != '\0')
@@ -65,7 +65,7 @@ static int		get_index(char *p)
 ** <>が来たとき前のトークンが数字のみor>が連続するときの場合結合する。
 */
 
-static char		**check_lasttoken(char **tokens, char *op)
+static char	**check_lasttoken(char **tokens, char *op)
 {
 	int		i;
 	int		j;
@@ -92,7 +92,7 @@ static char		**check_lasttoken(char **tokens, char *op)
 	return (tokens);
 }
 
-static char		*put_op_token(char ***tokens, char *p)
+static char	*put_op_token(char ***tokens, char *p)
 {
 	char	*tmp;
 
@@ -115,7 +115,7 @@ static char		*put_op_token(char ***tokens, char *p)
 	return (p + 1);
 }
 
-char			**tokenize(char *line)
+char	**tokenize(char *line)
 {
 	int		i;
 	char	**tokens;
