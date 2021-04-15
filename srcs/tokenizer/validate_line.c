@@ -12,7 +12,7 @@
 
 static bool	error_return(char *line, char last_op, bool has_space)
 {
-	const char *newline = "newline";
+	const char	*newline = "newline";
 
 	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 	if (*line == last_op && !has_space)

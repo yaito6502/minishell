@@ -44,7 +44,7 @@ static void	wait_command(t_hist **hist)
 		return ;
 	tokens = tokenize(line);
 	free(line);
-	cmd = get_commandline(tokens);
+	cmd = parse(tokens);
 	ft_free_split(tokens);
 	if (cmd == NULL)
 		return ;
