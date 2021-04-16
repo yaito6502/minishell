@@ -8,12 +8,18 @@ static char	**create_splitpath(void)
 	int			i;
 
 	i = 0;
-	while (ft_strncmp(environ[i], "PATH", 4) != 0)
+	while (environ[i] != NULL && ft_strncmp(environ[i], "PATH", 4) != 0)
 		i++;
+	if (environ[i] == NULL)
+		return (NULL);
 	split_path = ft_split(environ[i], ':');
+	if (split_path == NULL)
+		return (NULL);
 	tmp = split_path[0];
 	split_path[0] = ft_substr(split_path[0], 5, ft_strlen(split_path[0]) - 5);
 	free(tmp);
+	if (split_path[0] == NULL)
+		return (NULL);
 	return (split_path);
 }
 
@@ -35,21 +41,22 @@ static char	*search_path(char **split_path, char *cmdname)
 {
 	DIR				*dir;
 	struct dirent	*dp;
-	char			*path;
 
 	while (*split_path != NULL)
 	{
 		dir = opendir(*split_path);
 		if (dir == NULL)
+		{
+			split_path++;
 			continue ;
+		}
 		dp = readdir(dir);
 		while (dp != NULL)
 		{
 			if (!ft_strncmp(dp->d_name, cmdname, ft_strlen(cmdname) + 1))
 			{
 				closedir(dir);
-				path = join_cmd_and_path(*split_path, cmdname);
-				return (path);
+				return (join_cmd_and_path(*split_path, cmdname));
 			}
 			dp = readdir(dir);
 		}
@@ -69,7 +76,9 @@ char	*get_cmd_frompath(t_command *cmd)
 	char	*fullpath;
 
 	split_path = create_splitpath();
-	fullpath = search_path(split_path, cmd->argv[0]);
+	fullpath = NULL;
+	if (split_path)
+		fullpath = search_path(split_path, cmd->argv[0]);
 	ft_free_split(split_path);
 	return (fullpath);
 }

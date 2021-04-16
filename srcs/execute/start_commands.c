@@ -14,7 +14,6 @@ static void	print_signal_message(t_command *cmd, int status)
 static void	confirm_child(t_command *cmd_ptr, t_command *cmd)
 {
 	int			status;
-	int			ret;
 	t_command	*end;
 
 	end = cmd->next;
@@ -22,8 +21,7 @@ static void	confirm_child(t_command *cmd_ptr, t_command *cmd)
 	{
 		if (cmd_ptr->has_childproc == true)
 		{
-			ret = waitpid(cmd_ptr->pid, &status, 0);
-			if (ret == -1)
+			if (waitpid(cmd_ptr->pid, &status, 0) == -1)
 			{
 				ft_putstr_fd("minishell: waitpid: ", STDERR_FILENO);
 				ft_putendl_fd(strerror(errno), STDERR_FILENO);
