@@ -16,6 +16,8 @@ char	**copy_currentlist(char **list, size_t size)
 	new = malloc(size);
 	if (!new)
 		return (NULL);
+	if (list == NULL)
+		return (new);
 	i = 0;
 	while (list[i] != NULL)
 	{

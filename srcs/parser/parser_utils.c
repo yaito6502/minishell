@@ -36,14 +36,12 @@ char	**get_strs(char **list, int len)
 int	strsncmp(char **strs, char *set)
 {
 	size_t	i;
-	size_t	j;
 
 	if (!strs || !set)
 		return (-1);
 	i = 0;
 	while (strs[i] != NULL)
 	{
-		j = 0;
 		if (!ft_strncmp(strs[i], set, 2))
 			return (i);
 		i++;
