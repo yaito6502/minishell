@@ -85,12 +85,11 @@ void			wrap_exit(unsigned int status);
 char			**tokenize(char *line);
 bool			validate_line(char *line);
 bool			validate_quote(char *line);
-t_command		*get_commandline(char **list);
-char			*get_laststr(char **list);
+t_command		*parse(char **list);
+t_command		*get_lastcommand(t_command *cmds);
 char			**get_strs(char **list, int len);
-int				strschr(char **strs, char *set);
-void			*wrap_free_commands_list(t_command *cmds);
-bool			set_redirection_list(t_command *cmd, char **list);
+int				strsncmp(char **strs, char *set);
+bool			endswith(char *str, char *end);
 char			*expand_envval(char *line);
 
 //execute

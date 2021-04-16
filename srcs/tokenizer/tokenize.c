@@ -71,7 +71,7 @@ static char	**check_lasttoken(char **tokens, char *op)
 	int		j;
 	char	*tmp;
 
-	if (op == NULL)
+	if (op == NULL || tokens == NULL)
 		return (NULL);
 	i = 0;
 	while (tokens[i] != NULL)
@@ -105,10 +105,10 @@ static char	*put_op_token(char ***tokens, char *p)
 	tmp = ft_substr(p, 0, 1);
 	if (tmp == NULL)
 		return (NULL);
+	if (!(*p == '>' || *p == '<') || *tokens == NULL)
+		*tokens = add_str_to_list(*tokens, tmp);
 	if (*p == '>' || *p == '<')
 		*tokens = check_lasttoken(*tokens, tmp);
-	else
-		*tokens = add_str_to_list(*tokens, tmp);
 	free(tmp);
 	if (*tokens == NULL)
 		return (NULL);

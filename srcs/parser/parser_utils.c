@@ -1,15 +1,13 @@
 #include "minishell.h"
 
-char	*get_laststr(char **list)
+t_command	*get_lastcommand(t_command *cmds)
 {
-	size_t i;
+	t_command	*head;
 
-	if (!list)
-		return (NULL);
-	i = 0;
-	while (list[i] != NULL)
-		i++;
-	return (list[i - 1]);
+	head = cmds;
+	while (head->next)
+		head = head->next;
+	return (head);
 }
 
 char	**get_strs(char **list, int len)
@@ -30,15 +28,15 @@ char	**get_strs(char **list, int len)
 	{
 		newlist = add_str_to_list(newlist, list[i++]);
 		if (newlist == NULL)
-			return (NULL);
+			break ;
 	}
 	return (newlist);
 }
 
-int		strschr(char **strs, char *set)
+int	strsncmp(char **strs, char *set)
 {
-	size_t i;
-	size_t j;
+	size_t	i;
+	size_t	j;
 
 	if (!strs || !set)
 		return (-1);
@@ -46,44 +44,17 @@ int		strschr(char **strs, char *set)
 	while (strs[i] != NULL)
 	{
 		j = 0;
-		while (set[j])
-			if (ft_strchr(strs[i], set[j++]))
-				return (i);
+		if (!ft_strncmp(strs[i], set, 2))
+			return (i);
 		i++;
 	}
 	return (-1);
 }
 
-void	*wrap_free_commands_list(t_command *cmds)
+bool	endswith(char *str, char *end)
 {
-	free_commandslist(&cmds);
-	return (NULL);
-}
+	char	elen;
 
-bool	set_redirection_list(t_command *cmd, char **list)
-{
-	char	**target;
-
-	if (ft_strchr(*list, '<'))
-		target = cmd->redirect_in;
-	else if (ft_strchr(*list, '>'))
-		target = cmd->redirect_out;
-	else
-		return (false);
-	if (ft_strchr(list[1], '<') || ft_strchr(list[1], '>'))
-	{
-		printf("bash: syntax error near unexpected token `%s'\n", list[1]);
-		return (false);
-	}
-	target = add_str_to_list(target, list[0]);
-	if (target == NULL)
-		return (false);
-	target = add_str_to_list(target, list[1]);
-	if (target == NULL)
-		return (false);
-	if (ft_strchr(*list, '<'))
-		cmd->redirect_in = target;
-	else
-		cmd->redirect_out = target;
-	return (true);
+	elen = ft_strlen(end);
+	return (!ft_strncmp(str + (ft_strlen(str) - elen), end, elen + 1));
 }
