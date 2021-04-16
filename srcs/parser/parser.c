@@ -4,12 +4,11 @@ static bool	set_redirection_list(t_command *cmd, char **list)
 {
 	char	**target;
 
+	target = NULL;
 	if (ft_strchr(*list, '<'))
 		target = cmd->redirect_in;
 	else if (ft_strchr(*list, '>'))
 		target = cmd->redirect_out;
-	else
-		return (false);
 	target = add_str_to_list(target, list[0]);
 	if (target == NULL)
 		return (false);
@@ -150,7 +149,10 @@ t_command	*parse(char **strs)
 	else
 		cmds = get_list(get_strs(strs, 0));
 	if (cmds == NULL)
+	{
+		ft_putendl_fd("minishell: parser: malloc error", STDERR_FILENO);
 		return (NULL);
+	}
 	last_cmd = get_lastcommand(cmds);
 	last_cmd->op = SCOLON;
 	return (cmds);
