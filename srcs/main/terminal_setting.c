@@ -16,6 +16,7 @@ bool	set_terminal_setting(void)
 		return (false);
 	}
 	termios_p.c_lflag &= ~(ICANON | ECHO | ISIG);
+	termios_p.c_oflag &= ~OPOST;
 	ret = tcsetattr(STDIN_FILENO, TCSANOW, &termios_p);
 	if (ret == -1)
 	{
@@ -41,6 +42,7 @@ bool	reset_terminal_setting(void)
 		return (false);
 	}
 	termios_p.c_lflag |= ICANON | ECHO | ISIG;
+	termios_p.c_oflag |= OPOST;
 	ret = tcsetattr(STDIN_FILENO, TCSANOW, &termios_p);
 	if (ret == -1)
 	{
