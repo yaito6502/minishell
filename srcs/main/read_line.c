@@ -84,12 +84,12 @@ char	*read_line(t_hist **hist)
 	tmp = line;
 	set_initial_position();
 	line = get_line(line, hist);
-	write(STDOUT_FILENO, "\n", 1);
 	if (!reset_terminal_setting() || !line)
 	{
 		free(tmp);
 		return (NULL);
 	}
+	write(STDOUT_FILENO, "\n", 1);
 	if (!update_history(line, hist))
 		return (NULL);
 	return (line);
