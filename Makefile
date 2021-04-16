@@ -114,7 +114,7 @@ $(NAME): $(OBJECTS) $(LIBFT)
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(BINDIRS)
-	gcc -g $(CFLAGS) $(INCLUDES) -c $< -ltermcap -o $@
+	gcc -g $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(TEST): $(LIBFT)
 	gcc -g $(filter tests/%/test_$@.c, $(TESTFILE)) tests/print_tcommand.c \
