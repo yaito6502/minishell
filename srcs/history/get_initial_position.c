@@ -18,19 +18,3 @@ void	get_cursor_position(int *row, int *col)
 	i++;
 	*col = ft_atoi(&buf[i]) - 1;
 }
-
-void	get_initial_position(int *len)
-{
-	int					tcol;
-	extern t_termcap	term;
-	int					row;
-	int					col;
-
-	get_cursor_position(&row, &col);
-	get_terminal_description();
-	tcol = tgetnum("col");
-	row = row - ((13 + *len) / tcol);
-	col = col - ((13 + *len) % tcol);
-	term.cm = wrap_tgetstr(term.cm, "cm");
-	tputs(tgoto(term.cm, col + 13, row), 1, ft_putchar);
-}

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static bool	is_leftend(int *i)
+bool	is_leftend(int *i)
 {
 	int	col;
 

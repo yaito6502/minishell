@@ -8,6 +8,15 @@
 #define CTRL_D		"\004"
 #define CTRL_C		"\003"
 
+// void	move_nextline(void)
+// {
+	// int	row;
+	// int	col;
+
+	// get_cursor_position(&row, &col);
+	// tputs(tgoto(term.cm, 0, row + 1), 1, ft_putchar);
+// }
+
 static char	*check_input(char *line, char *c, int *i, int rc)
 {
 	if (*i == BUFFER_SIZE)
@@ -62,8 +71,9 @@ static char	*get_line(char *line, t_hist **hist)
 
 char	*read_line(t_hist **hist)
 {
-	char	*line;
-	char	*tmp;
+	extern t_termcap	term;
+	char				*line;
+	char				*tmp;
 
 	line = malloc(sizeof(char) * BUFFER_SIZE);
 	if (!line || !set_terminal_setting())
@@ -73,6 +83,7 @@ char	*read_line(t_hist **hist)
 	}
 	line[0] = '\0';
 	tmp = line;
+	get_cursor_position(&term.pos[0], &term.pos[1]);
 	line = get_line(line, hist);
 	if (!reset_terminal_setting() || !line)
 	{

@@ -56,6 +56,7 @@ typedef struct	s_termcap {
 	char	*term_buf;
 	char	*string_buf;
 	char	*buf_ptr;
+	int		pos[2];
 	char	*cd;
 	char	*dc;
 	char	*up;
@@ -134,7 +135,6 @@ void			free_history(t_hist *history);
 void			free_one_elm(t_hist *hist);
 char			*display_history(char *line, char *c, int *i, t_hist **hist);
 bool			update_history(char *line, t_hist **hist_p);
-void			get_initial_position(int *len);
 
 //error output
 int				error_execute(char *path);
@@ -154,5 +154,9 @@ bool			get_terminal_description(void);
 bool			set_termcapsettings(t_termcap term);
 char			*wrap_tgetstr(char *stored_cap, char *cap);
 void			free_tterm(t_termcap term);
+
+
+bool			is_leftend(int *i);
+void			get_cursor_position(int *row, int *col);
 
 #endif
