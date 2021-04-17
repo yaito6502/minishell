@@ -29,9 +29,11 @@ t_dir	get_dir(char *c)
 static void	put_line(char *line, int *i)
 {
 	extern t_termcap	term;
+	int					pos[2];
 
-	term.rc = wrap_tgetstr(term.rc, "rc");
-	tputs(term.rc, 1, ft_putchar);
+	get_initial_position(i, &pos[0], &pos[1]);
+	//term.rc = wrap_tgetstr(term.rc, "rc");
+	//tputs(term.rc, 1, ft_putchar);
 	term.cd = wrap_tgetstr(term.cd, "cd");
 	tputs(term.cd, 1, ft_putchar);
 	*i = (int)ft_strlen(line);

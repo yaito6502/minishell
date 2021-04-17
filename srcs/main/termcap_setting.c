@@ -18,6 +18,7 @@ bool	init_tterm(void)
 	term.up = NULL;
 	term.nd = NULL;
 	term.le = NULL;
+	term.cm = NULL;
 	return (true);
 }
 
