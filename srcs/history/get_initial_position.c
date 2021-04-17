@@ -21,8 +21,8 @@ void	get_cursor_position(int *row, int *col)
 
 void	get_initial_position(int *len, int *row, int *col)
 {
-	int	tcol;
-	extern t_termcap term;
+	int					tcol;
+	extern t_termcap	term;
 
 	get_cursor_position(row, col);
 	get_terminal_description();
@@ -31,5 +31,4 @@ void	get_initial_position(int *len, int *row, int *col)
 	*col = *col - ((13 + *len) % tcol);
 	term.cm = wrap_tgetstr(term.cm, "cm");
 	tputs(tgoto(term.cm, *col + 13, *row), 1, ft_putchar);
-
 }

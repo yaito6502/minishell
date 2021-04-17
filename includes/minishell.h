@@ -61,8 +61,6 @@ typedef struct	s_termcap {
 	char *up;
 	char *nd;
 	char *le;
-	char *sc;
-	char *rc;
 	char *cm;
 }				t_termcap;
 

@@ -60,15 +60,6 @@ static char	*get_line(char *line, t_hist **hist)
 	return (line);
 }
 
-// static void	set_initial_position(void)
-// {
-	// extern t_termcap	term;
-
-	// term.sc = wrap_tgetstr(term.sc, "sc");
-	// tputs(term.sc, 1, ft_putchar);
-	// return ;
-// }
-
 char	*read_line(t_hist **hist)
 {
 	char	*line;
@@ -82,7 +73,6 @@ char	*read_line(t_hist **hist)
 	}
 	line[0] = '\0';
 	tmp = line;
-	//set_initial_position();
 	line = get_line(line, hist);
 	if (!reset_terminal_setting() || !line)
 	{
