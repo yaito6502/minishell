@@ -21,25 +21,25 @@
 # define LOAD			1
 # define BUFFER_SIZE	2048
 
-typedef enum	e_op {
+typedef enum e_op {
 	EOS,
 	PIPELINE,
 	SCOLON
-}				t_op;
+}	t_op;
 
-typedef enum	e_dir {
+typedef enum e_dir {
 	PREV,
 	NEXT
-}				t_dir;
+}	t_dir;
 
-typedef struct	s_hist {
+typedef struct s_hist {
 	struct s_hist	*next;
 	struct s_hist	*prev;
 	char			*line;
 	char			*modified_line;
-}				t_hist;
+}	t_hist;
 
-typedef struct	s_command {
+typedef struct s_command {
 	struct s_command	*next;
 	char				**argv;
 	char				**redirect_in;
@@ -50,21 +50,21 @@ typedef struct	s_command {
 	bool				has_childproc;
 	pid_t				pid;
 	int					exitstatus;
-}				t_command;
+}	t_command;
 
 typedef struct	s_termcap {
-	char *term_buf;
-	char *string_buf;
-	char *buf_ptr;
-	char *cd;
-	char *dc;
-	char *up;
-	char *nd;
-	char *le;
-	char *cm;
-}				t_termcap;
+	char	*term_buf;
+	char	*string_buf;
+	char	*buf_ptr;
+	char	*cd;
+	char	*dc;
+	char	*up;
+	char	*nd;
+	char	*le;
+	char	*cm;
+}	t_termcap;
 
-t_termcap term;
+t_termcap	term;
 
 //utils
 t_command		*create_new_tcommand(void);
@@ -79,20 +79,19 @@ char			**split_line(char *str, char *set[2]);
 bool			validate_envkey(char *key);
 bool			update_env(char *key, char *value);
 void			sort_environ(char **a, char **b, size_t front, size_t end);
-char			**get_sorted_environ();
-int				print_sorted_env();
+char			**get_sorted_environ(void);
+int				print_sorted_env(void);
 void			wrap_exit(unsigned int status);
 
 //parse
 char			**tokenize(char *line);
 bool			validate_line(char *line);
 bool			validate_quote(char *line);
-t_command		*get_commandline(char **list);
-char			*get_laststr(char **list);
+t_command		*parse(char **list);
+t_command		*get_lastcommand(t_command *cmds);
 char			**get_strs(char **list, int len);
-int				strschr(char **strs, char *set);
-void			*wrap_free_commands_list(t_command *cmds);
-bool			set_redirection_list(t_command *cmd, char **list);
+int				strsncmp(char **strs, char *set);
+bool			endswith(char *str, char *end);
 char			*expand_envval(char *line);
 
 //execute
