@@ -135,7 +135,7 @@ void			free_history(t_hist *history);
 void			free_one_elm(t_hist *hist);
 char			*display_history(char *line, char *c, int *i, t_hist **hist);
 bool			update_history(char *line, t_hist **hist_p);
-void			get_initial_position(int *len, int *row, int *col);
+void			get_initial_position(int *len);
 
 //error output
 int				error_execute(char *path);
