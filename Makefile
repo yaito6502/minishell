@@ -56,7 +56,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/history/history.c \
 			srcs/history/display_history.c \
 			srcs/history/update_history.c \
-			srcs/history/get_initial_position.c
+			srcs/history/get_cursor_position.c
 
 
 TESTFILE =	tests/print_tcommand.c \
