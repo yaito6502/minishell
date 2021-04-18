@@ -8,7 +8,7 @@
 
 static int	print_error(char *message)
 {
-	ft_putstr_fd("minishell : export: `", STDERR_FILENO);
+	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
 	ft_putstr_fd(message, STDERR_FILENO);
 	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 	return (EXIT_FAILURE);
@@ -29,7 +29,7 @@ static bool	set_keyvalue(char *str, char **key, char **value)
 		*key = ft_strdup(str);
 	if (!*key || (equal && !*value))
 	{
-		ft_putstr_fd("minishell : export : ", STDERR_FILENO);
+		ft_putstr_fd("minishell: export : ", STDERR_FILENO);
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		return (false);
 	}
