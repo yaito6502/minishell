@@ -23,8 +23,6 @@ void	move_nextline(int *len)
 
 static char	*check_input(char *line, char *c, int *i, int rc)
 {
-	extern t_termcap term;
-
 	if (*i == BUFFER_SIZE)
 	{
 		write(STDOUT_FILENO, "\n", 1);
