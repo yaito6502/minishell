@@ -8,14 +8,14 @@
 #define CTRL_D		"\004"
 #define CTRL_C		"\003"
 
-// void	move_nextline(void)
-// {
-	// int	row;
-	// int	col;
+void	move_nextline(void)
+{
+	int	row;
+	int	col;
 
-	// get_cursor_position(&row, &col);
-	// tputs(tgoto(term.cm, 0, row + 1), 1, ft_putchar);
-// }
+	get_cursor_position(&row, &col);
+	tputs(tgoto(term.cm, 0, row + 1), 1, ft_putchar);
+}
 
 static char	*check_input(char *line, char *c, int *i, int rc)
 {
@@ -34,6 +34,8 @@ static char	*check_input(char *line, char *c, int *i, int rc)
 	else if (rc == 1 && c[0] != '\n' && c[0] != '\034')
 	{
 		ft_putchar_fd(c[0], STDOUT_FILENO);
+		if (is_leftend(i))
+			move_nextline();
 		line[*i] = c[0];
 		(*i)++;
 		line[*i] = '\0';
