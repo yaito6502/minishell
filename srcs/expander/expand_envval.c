@@ -61,7 +61,8 @@ static char	*copy_normalchar(char *line, char *ret, int *i, bool inquote)
 		while (line[*i] != '\0' && line[*i] != '$')
 			(*i)++;
 	else
-		while (line[*i] != '\'' && line[*i] != '\0' && line[*i] != '$')
+		while (line[*i] != '"' && line[*i] != '\''
+			&& line[*i] != '\0' && line[*i] != '$')
 			(*i)++;
 	str = ft_substr(line, 0, *i);
 	if (str == NULL)
