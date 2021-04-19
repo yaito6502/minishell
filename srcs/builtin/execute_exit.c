@@ -72,7 +72,7 @@ int	execute_exit(t_command *cmd)
 		str = cmd->argv[(!ft_strncmp(cmd->argv[1], "--", 3)) + 1];
 	if (str == NULL)
 	{
-		ft_putendl_fd("exit", STDOUT_FILENO);
+		ft_putendl_fd("exit", STDERR_FILENO);
 		wrap_exit(EXIT_SUCCESS);
 	}
 	if (!is_digits(str))
@@ -84,7 +84,7 @@ int	execute_exit(t_command *cmd)
 	if (cmd->argv[(!ft_strncmp(cmd->argv[1], "--", 3)) + 2] != NULL)
 		wrap_exit(print_error("too many arguments\n"));
 	exit_status = ft_atoll(str);
-	ft_putendl_fd("exit", STDOUT_FILENO);
+	ft_putendl_fd("exit", STDERR_FILENO);
 	wrap_exit(exit_status % 256);
 	return (EXIT_FAILURE);
 }

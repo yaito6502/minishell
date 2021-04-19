@@ -30,6 +30,7 @@ static bool	error_return(char *line, char last_op, bool has_space)
 			ft_putchar_fd(last_op, STDERR_FILENO);
 		ft_putendl_fd("'", STDERR_FILENO);
 	}
+	store_exitstatus(SAVE, 258);
 	return (false);
 }
 
