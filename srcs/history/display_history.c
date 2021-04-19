@@ -26,18 +26,14 @@ t_dir	get_dir(char *c)
 	return (-1);
 }
 
-void	put_line(char *line, int *i)
+static void	put_line(char *line, int *i)
 {
 	extern t_termcap	term;
 
-	term.le = wrap_tgetstr(term.le, "le", &term.buf_ptr);
-	while (*i > 0)
-	{
-		tputs(term.le, 1, ft_putchar);
-		(*i)--;
-	}
-	term.ce = wrap_tgetstr(term.ce, "ce", &term.buf_ptr);
-	tputs(term.ce, 1, ft_putchar);
+	term.cm = wrap_tgetstr(term.cm, "cm");
+	tputs(tgoto(term.cm, term.pos[1], term.pos[0]), 1, ft_putchar);
+	term.cd = wrap_tgetstr(term.cd, "cd");
+	tputs(term.cd, 1, ft_putchar);
 	*i = (int)ft_strlen(line);
 	write(STDOUT_FILENO, line, *i);
 	return ;

@@ -8,26 +8,17 @@
 #define CTRL_D		"\004"
 #define CTRL_C		"\003"
 
-/*
-** 端末のカノニカルモードを無効化し、read関数から入力を即時受け取る。
-*/
+void	move_nextline(int *len)
+{	
+	int	col;
 
-static void	back_line(char *line, int *i)
-{
-	extern t_termcap	term;
-
-	if (*i == 0)
+	get_terminal_description();
+	col = tgetnum("col");
+	if ((13 + *len) % col == 0)
 	{
-		write(STDOUT_FILENO, "\007", 1);
-		return ;
+		ft_putchar(13);
+		ft_putchar(10);
 	}
-	line[*i - 1] = '\0';
-	*i = *i - 1;
-	term.le = wrap_tgetstr(term.le, "le", &term.buf_ptr);
-	term.dc = wrap_tgetstr(term.dc, "dc", &term.buf_ptr);
-	tputs(term.le, 1, ft_putchar);
-	tputs(term.dc, 1, ft_putchar);
-	return ;
 }
 
 static char	*check_input(char *line, char *c, int *i, int rc)
@@ -47,6 +38,7 @@ static char	*check_input(char *line, char *c, int *i, int rc)
 	else if (rc == 1 && c[0] != '\n' && c[0] != '\034')
 	{
 		ft_putchar_fd(c[0], STDOUT_FILENO);
+		move_nextline(i);
 		line[*i] = c[0];
 		(*i)++;
 		line[*i] = '\0';
@@ -84,8 +76,9 @@ static char	*get_line(char *line, t_hist **hist)
 
 char	*read_line(t_hist **hist)
 {
-	char	*line;
-	char	*tmp;
+	extern t_termcap	term;
+	char				*line;
+	char				*tmp;
 
 	line = malloc(sizeof(char) * BUFFER_SIZE);
 	if (!line || !set_terminal_setting())
@@ -95,13 +88,14 @@ char	*read_line(t_hist **hist)
 	}
 	line[0] = '\0';
 	tmp = line;
+	get_cursor_position(&term.pos[0], &term.pos[1]);
 	line = get_line(line, hist);
-	write(STDOUT_FILENO, "\n", 1);
 	if (!reset_terminal_setting() || !line)
 	{
 		free(tmp);
 		return (NULL);
 	}
+	write(STDOUT_FILENO, "\n", 1);
 	if (!update_history(line, hist))
 		return (NULL);
 	return (line);

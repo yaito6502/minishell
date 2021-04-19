@@ -7,6 +7,7 @@ LIBFT = ./libft/libft.a
 
 SRCFILE =	srcs/main/main.c \
 			srcs/main/read_line.c \
+			srcs/main/back_line.c \
 			srcs/main/get_signal_in_read_line.c \
 			srcs/main/terminal_setting.c \
 			srcs/main/termcap_setting.c \
@@ -54,7 +55,8 @@ SRCFILE =	srcs/main/main.c \
 			srcs/tokenizer/validate_quote.c \
 			srcs/history/history.c \
 			srcs/history/display_history.c \
-			srcs/history/update_history.c
+			srcs/history/update_history.c \
+			srcs/history/get_cursor_position.c
 
 
 TESTFILE =	tests/print_tcommand.c \
@@ -113,7 +115,7 @@ $(NAME): $(OBJECTS) $(LIBFT)
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(BINDIRS)
-	gcc -g $(CFLAGS) $(INCLUDES) -c $< -ltermcap -o $@
+	gcc -g $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(TEST): $(LIBFT)
 	gcc -g $(filter tests/%/test_$@.c, $(TESTFILE)) tests/print_tcommand.c \

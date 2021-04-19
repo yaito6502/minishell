@@ -52,14 +52,17 @@ typedef struct s_command {
 	int					exitstatus;
 }	t_command;
 
-typedef struct s_termcap {
+typedef struct	s_termcap {
 	char	*term_buf;
 	char	*string_buf;
 	char	*buf_ptr;
-	char	*ce;
+	int		pos[2];
+	char	*cd;
 	char	*dc;
-	char	*DC;
+	char	*up;
+	char	*nd;
 	char	*le;
+	char	*cm;
 }	t_termcap;
 
 t_termcap	term;
@@ -141,6 +144,7 @@ bool			fd_error(long fd, char *errmsg);
 
 //terminal setting and termcap
 char			*read_line(t_hist **hist);
+void			back_line(char *line, int *i);
 void			get_eof(char *line, t_hist **hist);
 char			*get_sigint(char *line, char *c);
 bool			set_terminal_setting(void);
@@ -148,7 +152,11 @@ bool			reset_terminal_setting(void);
 bool			init_tterm(void);
 bool			get_terminal_description(void);
 bool			set_termcapsettings(t_termcap term);
-char			*wrap_tgetstr(char *stored_cap, char *cap, char **bufaddr);
+char			*wrap_tgetstr(char *stored_cap, char *cap);
 void			free_tterm(t_termcap term);
+
+
+bool			is_leftend(int *i);
+void			get_cursor_position(int *row, int *col);
 
 #endif
