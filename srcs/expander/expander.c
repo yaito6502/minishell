@@ -89,13 +89,13 @@ static bool	preprocess_tokens(char ***strs)
 		if (ret == NULL)
 			return (false);
 		tmp = ret;
+		if (is_empty_env(strs, ret, i))
+			continue ;
 		ret = trim_quote(ret);
 		if (tmp != (*strs)[i])
 			free(tmp);
 		if (ret == NULL)
 			return (false);
-		if (is_empty_env(strs, ret, i))
-			continue ;
 		free((*strs)[i]);
 		(*strs)[i] = ret;
 		i++;
