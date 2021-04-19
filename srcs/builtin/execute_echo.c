@@ -46,12 +46,12 @@ int	execute_echo(t_command *cmd)
 	i = get_option(cmd->argv, &op_flag);
 	while (cmd->argv[i] != NULL)
 	{
-		printf("%s", cmd->argv[i]);
+		ft_putstr_fd(cmd->argv[i], STDOUT_FILENO);
 		if (cmd->argv[i + 1] != NULL)
-			printf(" ");
+			ft_putstr_fd(" ", STDOUT_FILENO);
 		i++;
 	}
 	if (op_flag == false)
-		printf("\n");
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	return (0);
 }

@@ -1,10 +1,12 @@
 #include "minishell.h"
 
-static int	print_error(char *message)
+static int	print_error(char *first, char *second)
 {
 	ft_putendl_fd("exit", STDERR_FILENO);
 	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-	ft_putstr_fd(message, STDERR_FILENO);
+	ft_putstr_fd(first, STDERR_FILENO);
+	if (second != NULL)
+		ft_putstr_fd(second, STDERR_FILENO);
 	return (255);
 }
 
@@ -51,11 +53,7 @@ static long long	ft_atoll(const char *nptr)
 	while (*nptr >= '0' && *nptr <= '9')
 	{
 		if (is_overflow(num * sign, (*nptr - '0') * sign))
-		{
-			sign = print_error(copy);
-			ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
-			wrap_exit(sign);
-		}
+			wrap_exit(print_error(copy, ": numeric argument required\n"));
 		num = num * 10 + *nptr - '0';
 		nptr++;
 	}
@@ -76,13 +74,14 @@ int	execute_exit(t_command *cmd)
 		wrap_exit(EXIT_SUCCESS);
 	}
 	if (!is_digits(str))
+		wrap_exit(print_error(str, ": numeric argument required\n"));
+	if (cmd->argv[(!ft_strncmp(cmd->argv[1], "--", 3)) + 2] != NULL)
 	{
-		exit_status = print_error(str);
-		ft_putendl_fd(": numeric argument required", STDERR_FILENO);
+		exit_status = print_error("too many arguments\n", NULL);
+		if (is_digits(str))
+			wrap_exit(EXIT_FAILURE);
 		wrap_exit(exit_status);
 	}
-	if (cmd->argv[(!ft_strncmp(cmd->argv[1], "--", 3)) + 2] != NULL)
-		wrap_exit(print_error("too many arguments\n"));
 	exit_status = ft_atoll(str);
 	ft_putendl_fd("exit", STDERR_FILENO);
 	wrap_exit(exit_status % 256);
