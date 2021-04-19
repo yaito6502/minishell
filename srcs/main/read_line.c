@@ -9,7 +9,7 @@
 #define CTRL_C		"\003"
 
 void	move_nextline(int *len)
-{	
+{
 	int	col;
 
 	get_terminal_description();

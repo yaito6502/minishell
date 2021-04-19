@@ -10,7 +10,7 @@ void	get_eof(char *line, t_hist **hist)
 	free_history(*hist);
 	reset_terminal_setting();
 	free_tterm(term);
-	write(STDOUT_FILENO, "exit\n", 5);
+	write(STDERR_FILENO, "exit\n", 5);
 	exit(EXIT_SUCCESS);
 }
 
