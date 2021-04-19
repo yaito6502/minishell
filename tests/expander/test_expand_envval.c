@@ -6,8 +6,10 @@ int main(void)
 	char *ret;
 	// export TEST="$TERM + $PWD"
 
-	//str = ft_strdup("'$HOME' aaaa\"$TEST\" $PWD");
-	str = ft_strdup("$$$");
+	//str = ft_strdup("echo \" $12USER\"'$PWD'");
+	//str = ft_strdup("''''''''''$USER''''''''''");
+	str = ft_strdup("\"'$USER'\"'$USER'");
+	//str = ft_strdup("$$$");
 	puts(str);
 	ret = expand_envval(str);
 	puts(ret);

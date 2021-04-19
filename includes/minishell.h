@@ -121,6 +121,7 @@ int				execute_exit(t_command *cmd);
 
 //expander
 char			*expand_envval(char *line);
+void			get_envname(char *line, int *i);
 char			*expand_exitstatus(char *ret, int *i);
 char			*output_dollar(char *ret, int *i);
 bool			preprocess_command(t_command *cmd);
