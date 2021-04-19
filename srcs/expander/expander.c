@@ -94,6 +94,8 @@ static bool	preprocess_tokens(char **strs)
 			free(tmp);
 		if (ret == NULL)
 			return (false);
+		if (is_empty_env(&strs, ret, i))
+			continue ;
 		free(strs[i]);
 		strs[i] = ret;
 		i++;

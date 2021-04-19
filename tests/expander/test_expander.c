@@ -28,33 +28,39 @@ int main(int argc, char **argv)
 
 	store_exitstatus(SAVE, 15);
 	cmd = create_new_tcommand();
+
+	cmd->argv = ft_split("echo,a,$TEST,a,$123456789USER",',');
+	ret = preprocess_command(cmd);
+	print_splits(cmd->argv);
+	ft_free_split(cmd->argv);
+
 	cmd->argv = ft_split("'$?',$?,\"$?\",\"world's end\",'$HOME'aaaa\"$TEST\",$PWD",',');
-	ret = preprocess_command(cmd->argv);
+	ret = preprocess_command(cmd);
 	print_splits(cmd->argv);
 	ft_free_split(cmd->argv);
 
 	cmd->argv = ft_split("\"'$?$?'\",'$?',$??,\"world's end\",'$HOME'aaaa\"$TEST\",$PWD",',');
-	ret = preprocess_command(cmd->argv);
+	ret = preprocess_command(cmd);
 	print_splits(cmd->argv);
 	ft_free_split(cmd->argv);
 
 	cmd->argv = ft_split("\"$?\"$?\"$?\",'$?'$?'$?','','\"\"'",',');
-	ret = preprocess_command(cmd->argv);
+	ret = preprocess_command(cmd);
 	print_splits(cmd->argv);
 	ft_free_split(cmd->argv);
 
 	cmd->argv = ft_split("\"\'$?\"\'\"$?\', $??, $$$$$$$",',');
-	ret = preprocess_command(cmd->argv);
+	ret = preprocess_command(cmd);
 	print_splits(cmd->argv);
 	ft_free_split(cmd->argv);
 
 	cmd->argv = ft_split("$$$$$$",',');
-	ret = preprocess_command(cmd->argv);
+	ret = preprocess_command(cmd);
 	print_splits(cmd->argv);
 	ft_free_split(cmd->argv);
 
 	cmd->argv = ft_split("$$$$$$$",',');
-	ret = preprocess_command(cmd->argv);
+	ret = preprocess_command(cmd);
 	print_splits(cmd->argv);
 
 	free_commandslist(&cmd);
