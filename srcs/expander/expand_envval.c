@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 /*
-** line中の展開が必要なdollarの数を返す。
+** get_key修正
 */
 
 static int	has_dollar(char *line)
@@ -17,6 +17,8 @@ static int	has_dollar(char *line)
 			inquote = true;
 		else if (*line == '"' && inquote == true)
 			inquote = false;
+		if (*line == '$' && *(line + 1) != '\0')
+			ret++;
 		if (*line == '\'' && inquote == false)
 		{
 			line++;
@@ -25,9 +27,7 @@ static int	has_dollar(char *line)
 			if (*line != '\0')
 				line++;
 		}
-		if (*line == '$' && *(line + 1) != '\0')
-			ret++;
-		if (*line != '\0')
+		else if (*line != '\0')
 			line++;
 	}
 	return (ret);
@@ -57,11 +57,14 @@ static char	*copy_normalchar(char *line, char *ret, int *i, bool inquote)
 	char	*str;
 
 	*i = 0;
+	if (line[*i] == '"')
+		(*i)++;
 	if (inquote == true)
-		while (line[*i] != '\0' && line[*i] != '$')
+		while (line[*i] != '"' && line[*i] != '\0' && line[*i] != '$')
 			(*i)++;
 	else
-		while (line[*i] != '\'' && line[*i] != '\0' && line[*i] != '$')
+		while (line[*i] != '"' && line[*i] != '\''
+			&& line[*i] != '\0' && line[*i] != '$')
 			(*i)++;
 	str = ft_substr(line, 0, *i);
 	if (str == NULL)
@@ -73,10 +76,6 @@ static char	*copy_normalchar(char *line, char *ret, int *i, bool inquote)
 	(*i)--;
 	return (ret);
 }
-
-/*
-** $?は特別な値、直前のコマンドの終了ステータス。別途保存用の関数を用意して、そこから値をとる。
-*/
 
 static char	*get_key(char *line, char *ret, int *i)
 {
@@ -90,8 +89,7 @@ static char	*get_key(char *line, char *ret, int *i)
 		return (output_dollar(ret, i));
 	if (*line == '?')
 		return (expand_exitstatus(ret, i));
-	while (ft_isalnum(line[*i]) || line[*i] == '_')
-		(*i)++;
+	get_envname(line, i);
 	name = ft_substr(line, 0, *i);
 	if (name == NULL)
 		return (NULL);
@@ -102,13 +100,6 @@ static char	*get_key(char *line, char *ret, int *i)
 	free(tmp);
 	return (ret);
 }
-
-/*
-** 入力から受け取った文字列を環境変数を展開した形で返す。
-** ''中はリテラル、""中は展開
-** ',"が二個ずつあることは別関数で確認する。（ない場合は、実装範囲外。エラー）
-** 環境変数の命名規則はアルファベット,数字とアンダースコアの組み合わせとする。(要検証)
-*/
 
 char	*expand_envval(char *line)
 {

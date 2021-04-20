@@ -27,6 +27,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/parser/parser_utils.c \
 			srcs/expander/expander.c \
 			srcs/expander/expand_envval.c \
+			tests/expander/get_envname.c \
 			srcs/expander/expand_utils.c \
 			srcs/expander/validate_redirect.c \
 			srcs/execute/connect_pipeline.c \
