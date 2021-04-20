@@ -7,9 +7,11 @@ char	*read_command(void)
 	char	*buf;
 	ssize_t	rdbyte;
 
-	if ((buf = malloc(BUFFER_SIZE + 1)) == NULL)
+	buf = malloc(BUFFER_SIZE + 1);
+	if (buf == NULL)
 		return (NULL);
-	if ((rdbyte = read(STDIN_FILENO, buf, BUFFER_SIZE)) == ERROR)
+	rdbyte = read(STDIN_FILENO, buf, BUFFER_SIZE);
+	if (rdbyte == ERROR)
 	{
 		free(buf);
 		return (NULL);
