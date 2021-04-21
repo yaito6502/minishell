@@ -27,6 +27,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/parser/parser_utils.c \
 			srcs/expander/expander.c \
 			srcs/expander/is_empty_env.c \
+			srcs/expander/expand_tilde.c \
 			srcs/expander/expand_envval.c \
 			srcs/expander/get_envname.c \
 			srcs/expander/expand_utils.c \

@@ -55,6 +55,8 @@ static char	*trim_quote(char *arg)
 	char	*tmp;
 	char	*ret;
 
+	if (arg == NULL)
+		return (NULL);
 	tmp = malloc(sizeof(char) * (get_len(arg) + 1));
 	if (tmp == NULL)
 		return (NULL);
@@ -80,20 +82,20 @@ static bool	preprocess_tokens(char ***strs)
 	char	*ret;
 	char	*tmp;
 
-	if ((*strs) == NULL)
-		return (true);
 	i = 0;
-	while ((*strs)[i] != NULL)
+	while ((*strs) != NULL && (*strs)[i] != NULL)
 	{
 		ret = expand_envval((*strs)[i]);
-		if (ret == NULL)
-			return (false);
-		tmp = ret;
+		if (ret == (*strs)[i])
+			ret = ft_strdup((*strs)[i]);
 		if (is_empty_env(strs, ret, i))
 			continue ;
+		tmp = ret;
+		ret = expand_firsttilde(ret);
+		free(tmp);
+		tmp = ret;
 		ret = trim_quote(ret);
-		if (tmp != (*strs)[i])
-			free(tmp);
+		free(tmp);
 		if (ret == NULL)
 			return (false);
 		free((*strs)[i]);
