@@ -138,7 +138,7 @@ char			*display_history(char *line, char *c, int *i, t_hist **hist);
 bool			update_history(char *line, t_hist **hist_p);
 
 //error output
-int				error_execute(char *path);
+int				error_execute(char *path, int last_errno);
 int				error_fork(void);
 bool			redirect_error(char *key, char *errmsg);
 bool			fd_error(long fd, char *errmsg);

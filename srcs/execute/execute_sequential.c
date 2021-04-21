@@ -8,7 +8,7 @@ static void	sequential_chlidproc(t_command *cmd)
 		execve(cmd->argv[0], cmd->argv, environ);
 	else
 		execve(get_cmd_frompath(cmd), cmd->argv, environ);
-	exit(error_execute(cmd->argv[0]));
+	exit(error_execute(cmd->argv[0], errno));
 }
 
 int	execute_sequential(t_command *cmd)

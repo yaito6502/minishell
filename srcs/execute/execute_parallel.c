@@ -21,7 +21,7 @@ static void	parallel_childproc(t_command *cmd, int newpipe[2])
 		execve(cmd->argv[0], cmd->argv, environ);
 	else
 		execve(get_cmd_frompath(cmd), cmd->argv, environ);
-	exit(error_execute(cmd->argv[0]));
+	exit(error_execute(cmd->argv[0], errno));
 }
 
 int	execute_parallel(t_command *cmd)
