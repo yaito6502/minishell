@@ -6,7 +6,7 @@
 
 void	get_envname(char *line, int *i)
 {
-	if(ft_isdigit(line[*i]))
+	if (ft_isdigit(line[*i]))
 	{
 		(*i)++;
 		return ;
