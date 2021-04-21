@@ -13,7 +13,6 @@ static void	make_newlist(char ***strs, char **new, int target_i)
 		{
 			free((*strs)[i]);
 			i++;
-			target_i = -1;
 			continue ;
 		}
 		new[j] = (*strs)[i];
