@@ -9,7 +9,6 @@ static bool	has_tilde(char *line)
 
 char	*expand_firsttilde(char *arg)
 {
-	char	*bottom;
 	char	*ret;
 
 	if (!has_tilde(arg))
