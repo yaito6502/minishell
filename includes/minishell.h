@@ -93,7 +93,6 @@ t_command		*get_lastcommand(t_command *cmds);
 char			**get_strs(char **list, int len);
 int				strsncmp(char **strs, char *set);
 bool			endswith(char *str, char *end);
-char			*expand_envval(char *line);
 
 //execute
 char			*get_cmd_frompath(t_command *cmd);
@@ -122,6 +121,7 @@ int				execute_exit(t_command *cmd);
 //expander
 char			*expand_envval(char *line);
 void			get_envname(char *line, int *i);
+bool			is_empty_env(char ***strs, char *line, int i);
 char			*expand_exitstatus(char *ret, int *i);
 char			*output_dollar(char *ret, int *i);
 bool			preprocess_command(t_command *cmd);
@@ -138,7 +138,7 @@ char			*display_history(char *line, char *c, int *i, t_hist **hist);
 bool			update_history(char *line, t_hist **hist_p);
 
 //error output
-int				error_execute(char *path);
+int				error_execute(char *path, int last_errno);
 int				error_fork(void);
 bool			redirect_error(char *key, char *errmsg);
 bool			fd_error(long fd, char *errmsg);

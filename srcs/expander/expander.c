@@ -74,28 +74,30 @@ static char	*trim_quote(char *arg)
 	return (ret);
 }
 
-static bool	preprocess_tokens(char **strs)
+static bool	preprocess_tokens(char ***strs)
 {
 	int		i;
 	char	*ret;
 	char	*tmp;
 
-	if (strs == NULL)
+	if ((*strs) == NULL)
 		return (true);
 	i = 0;
-	while (strs[i] != NULL)
+	while ((*strs)[i] != NULL)
 	{
-		ret = expand_envval(strs[i]);
+		ret = expand_envval((*strs)[i]);
 		if (ret == NULL)
 			return (false);
 		tmp = ret;
+		if (is_empty_env(strs, ret, i))
+			continue ;
 		ret = trim_quote(ret);
-		if (tmp != strs[i])
+		if (tmp != (*strs)[i])
 			free(tmp);
 		if (ret == NULL)
 			return (false);
-		free(strs[i]);
-		strs[i] = ret;
+		free((*strs)[i]);
+		(*strs)[i] = ret;
 		i++;
 	}
 	return (true);
@@ -103,9 +105,9 @@ static bool	preprocess_tokens(char **strs)
 
 bool	preprocess_command(t_command *cmd)
 {
-	if (!preprocess_tokens(cmd->argv)
-		|| !preprocess_tokens(cmd->redirect_in)
-		|| !preprocess_tokens(cmd->redirect_out))
+	if (!preprocess_tokens(&cmd->argv)
+		|| !preprocess_tokens(&cmd->redirect_in)
+		|| !preprocess_tokens(&cmd->redirect_out))
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
