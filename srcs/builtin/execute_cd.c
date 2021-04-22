@@ -19,7 +19,7 @@ static int	set_path(char *path)
 	{
 		free(newpath);
 		print_error(path);
-		ft_putendl_fd(":No such file or directory", STDERR_FILENO);
+		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
 	ret = (!update_env("OLDPWD", getenv("PWD"))
