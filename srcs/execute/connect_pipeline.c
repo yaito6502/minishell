@@ -4,7 +4,7 @@ static bool	error_piping(char *str)
 {
 	ft_putstr_fd("minishell: connect_pipeline: ", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
-	ft_putstr_fd(strerror(errno), STDERR_FILENO);
+	ft_putendl_fd(strerror(errno), STDERR_FILENO);
 	return (false);
 }
 
