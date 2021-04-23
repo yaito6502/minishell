@@ -14,12 +14,13 @@ static int	set_path(char *path)
 
 	if (!path)
 		return (EXIT_FAILURE);
-	newpath = join_path(path);
-	if (chdir(newpath) == -1)
+	newpath = create_newpath(path);
+	if (!newpath || chdir(newpath) == -1)
 	{
 		free(newpath);
 		print_error(path);
-		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
 	ret = (!update_env("OLDPWD", getenv("PWD"))
@@ -64,7 +65,7 @@ static char	*expand_tilde(char *path)
 	if (path && path[1] != '\0' && path[1] != '/')
 	{
 		print_error(path);
-		ft_putendl_fd(":No such file or directory", STDERR_FILENO);
+		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 		return (NULL);
 	}
 	home = getenv("HOME");

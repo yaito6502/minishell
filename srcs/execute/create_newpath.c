@@ -39,6 +39,25 @@ static char	**get_dir_separeted_by_slash(char *path)
 	return (dir);
 }
 
+static bool	is_validdir(char *dir)
+{
+	struct stat	sb;
+
+	if (lstat(dir, &sb) == -1)
+		return (false);
+	if (!S_ISDIR(sb.st_mode))
+	{
+		errno = ENOTDIR;
+		return (false);
+	}
+	if (!(S_IXUSR & sb.st_mode))
+	{
+		errno = EACCES;
+		return (false);
+	}
+	return (true);
+}
+
 static t_list	*create_hierarchy(char *path)
 {
 	char	**dir;
@@ -47,7 +66,7 @@ static t_list	*create_hierarchy(char *path)
 
 	dir = get_dir_separeted_by_slash(path);
 	list = NULL;
-	ft_lstadd_back(&list, ft_lstnew(NULL));
+	ft_lstadd_back(&list, ft_lstnew(ft_strdup(NULL)));
 	while (dir && *dir != NULL)
 	{
 		if (!ft_strncmp(*dir, "..", 3))
@@ -89,16 +108,20 @@ char	*create_newpath(char *path)
 	t_list	*list;
 
 	if (!ft_strncmp(path, "/", 2))
-		return (path);
+		return (ft_strdup(path));
 	list = create_hierarchy(path);
-	if (!list)
-		return (NULL);
 	head = list;
 	newpath = NULL;
-	list = list->next;
+	if (list && list->next)
+		list = list->next;
 	while (list != NULL)
 	{
 		newpath = add_path(newpath, list->content);
+		if (!is_validdir(newpath))
+		{
+			free(newpath);
+			newpath = NULL;
+		}
 		if (!newpath)
 			break ;
 		list = list->next;
