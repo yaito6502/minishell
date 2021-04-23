@@ -81,7 +81,7 @@ int	execute_unset(t_command *cmd)
 {
 	int		i;
 	int		ret;
-	int		key;
+	char	key;
 
 	i = 1;
 	ret = 0;
