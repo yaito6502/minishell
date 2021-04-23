@@ -21,9 +21,10 @@ static char	*get_cwd_with_slash(void)
 
 static char	**get_dir_separeted_by_slash(char *path)
 {
-	char	*cwd;
-	char	*newpath;
-	char	**dir;
+	char		*cwd;
+	char		*newpath;
+	char		**dir;
+	struct stat	sb;
 
 	if (*path == '/')
 		return (ft_split(path, '/'));
@@ -34,6 +35,8 @@ static char	**get_dir_separeted_by_slash(char *path)
 	free(cwd);
 	if (!newpath)
 		return (NULL);
+	if (stat(newpath, &sb) == -1)
+		return (NULL);
 	dir = ft_split(newpath, '/');
 	free(newpath);
 	return (dir);
@@ -43,7 +46,7 @@ static bool	is_validdir(char *dir)
 {
 	struct stat	sb;
 
-	if (lstat(dir, &sb) == -1)
+	if (stat(dir, &sb) == -1)
 		return (false);
 	if (!S_ISDIR(sb.st_mode))
 	{
@@ -58,13 +61,11 @@ static bool	is_validdir(char *dir)
 	return (true);
 }
 
-static t_list	*create_hierarchy(char *path)
+static t_list	*create_hierarchy(char **dir)
 {
-	char	**dir;
 	t_list	*last;
 	t_list	*list;
 
-	dir = get_dir_separeted_by_slash(path);
 	list = NULL;
 	ft_lstadd_back(&list, ft_lstnew(ft_strdup(NULL)));
 	while (dir && *dir != NULL)
@@ -101,19 +102,10 @@ char	*add_path(char *path, char *dir)
 	return (newpath);
 }
 
-char	*create_newpath(char *path)
+char	*add_path_iterate(t_list *list)
 {
 	char	*newpath;
-	t_list	*head;
-	t_list	*list;
 
-	if (!ft_strncmp(path, "/", 2))
-		return (ft_strdup(path));
-	list = create_hierarchy(path);
-	head = list;
-	newpath = NULL;
-	if (list && list->next)
-		list = list->next;
 	while (list != NULL)
 	{
 		newpath = add_path(newpath, list->content);
@@ -123,9 +115,29 @@ char	*create_newpath(char *path)
 			newpath = NULL;
 		}
 		if (!newpath)
-			break ;
+			return (NULL);
 		list = list->next;
 	}
+	return (newpath);
+}
+
+char	*create_newpath(char *path)
+{
+	char	*newpath;
+	char	**dir;
+	t_list	*head;
+	t_list	*list;
+
+	if (!ft_strncmp(path, "/", 2))
+		return (ft_strdup(path));
+	dir = get_dir_separeted_by_slash(path);
+	if (!dir)
+		return (NULL);
+	list = create_hierarchy(dir);
+	head = list;
+	if (list && list->next)
+		list = list->next;
+	newpath = add_path_iterate(list);
 	ft_lstclear(&head, free);
 	return (newpath);
 }
