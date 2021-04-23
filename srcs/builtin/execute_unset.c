@@ -90,15 +90,15 @@ int	execute_unset(t_command *cmd)
 		key = get_escapestr(cmd->argv[i]);
 		if (key == NULL)
 		{
-			ret = error_unset(cmd->argv[i], "':malloc error");
+			ret = error_unset(key, "':malloc error");
 			continue ;
 		}
 		if (!validate_envkey(key))
-			ret = error_unset(cmd->argv[i], "': not a valid identifier");
+			ret = error_unset(key, "': not a valid identifier");
 		else if (getenv(key))
 		{
 			if (!delete_key(key))
-				ret = error_unset(cmd->argv[i], "':malloc error");
+				ret = error_unset(key, "':malloc error");
 		}
 		free(key);
 		i++;
