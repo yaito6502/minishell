@@ -7,12 +7,12 @@
 ** return後、execute_builtin関数で、コマンド終了時の処理を呼び出す想定で実装します。
 */
 
-void	error_unset(char *key, char *errmsg)
+static int	error_unset(char *key, char *errmsg)
 {
 	ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
 	ft_putstr_fd(key, STDERR_FILENO);
 	ft_putendl_fd(errmsg, STDERR_FILENO);
-	return ;
+	return (1);
 }
 
 static int	get_target_index(char *key)
@@ -81,24 +81,26 @@ int	execute_unset(t_command *cmd)
 {
 	int		i;
 	int		ret;
+	int		key;
 
 	i = 1;
 	ret = 0;
 	while (cmd->argv[i] != NULL)
 	{
-		if (!validate_envkey(cmd->argv[i]))
+		key = get_escapestr(cmd->argv[i]);
+		if (key == NULL)
 		{
-			error_unset(cmd->argv[i], "': not a valid identifier");
-			ret = 1;
+			ret = error_unset(cmd->argv[i], "':malloc error");
+			continue ;
 		}
-		else if (getenv(cmd->argv[i]))
+		if (!validate_envkey(key))
+			ret = error_unset(cmd->argv[i], "': not a valid identifier");
+		else if (getenv(key))
 		{
-			if (!delete_key(cmd->argv[i]))
-			{
-				error_unset(cmd->argv[i], "':malloc error");
-				ret = 1;
-			}
+			if (!delete_key(key))
+				ret = error_unset(cmd->argv[i], "':malloc error");
 		}
+		free(key);
 		i++;
 	}
 	return (ret);
