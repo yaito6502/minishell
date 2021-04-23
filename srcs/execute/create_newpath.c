@@ -7,7 +7,11 @@ static char	*get_cwd_with_slash(void)
 
 	path = getcwd(NULL, 0);
 	if (!path)
+	{
+		if (errno == ENOENT)
+			ft_putendl_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory" , STDERR_FILENO);
 		return (NULL);
+	}
 	tmp = path;
 	path = ft_strjoin(path, "/");
 	if (!path)

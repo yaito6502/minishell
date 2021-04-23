@@ -7,21 +7,43 @@ static int	print_error(char *message)
 	return (EXIT_FAILURE);
 }
 
+static char	*retry_set_path(char *path)
+{
+	char	*newpath;
+	char	*tmp;
+	char	*pwd;
+
+	if (chdir(path) == -1)
+		return (NULL);
+	pwd = getenv("PWD");
+	tmp = pwd;
+	if (!endswith(pwd, "/"))
+		tmp = ft_strjoin(pwd, "/");
+	newpath = ft_strjoin(tmp, path);
+	return (newpath);
+}
+
 static int	set_path(char *path)
 {
 	char		*newpath;
 	int			ret;
+	int			save;
 
 	if (!path)
 		return (EXIT_FAILURE);
 	newpath = create_newpath(path);
-	if (!newpath || chdir(newpath) == -1)
+	save = errno;
+	if (chdir(newpath) == -1)
 	{
 		free(newpath);
-		print_error(path);
-		ft_putstr_fd(": ", STDERR_FILENO);
-		ft_putendl_fd(strerror(errno), STDERR_FILENO);
-		return (EXIT_FAILURE);
+		newpath = retry_set_path(path);
+		if (!newpath)
+		{
+			print_error(path);
+			ft_putstr_fd(": ", STDERR_FILENO);
+			ft_putendl_fd(strerror(save), STDERR_FILENO);
+			return (EXIT_FAILURE);
+		}
 	}
 	ret = (!update_env("OLDPWD", getenv("PWD"))
 			|| !update_env("PWD", newpath));
