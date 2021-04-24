@@ -13,8 +13,5 @@ char	*expand_firsttilde(char *arg)
 
 	if (!has_tilde(arg))
 		return (ft_strdup(arg));
-	ret = ft_strjoin(getenv("HOME"), arg + 1);
-	if (ret == NULL)
-		return (NULL);
-	return (ret);
+	return (ft_strjoin(getenv("HOME"), arg + 1));
 }
