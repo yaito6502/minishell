@@ -12,7 +12,7 @@ static int	error_unset(char *key, char *errmsg)
 	ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
 	ft_putstr_fd(key, STDERR_FILENO);
 	ft_putendl_fd(errmsg, STDERR_FILENO);
-	return (1);
+	return (EXIT_FAILURE);
 }
 
 static int	get_target_index(char *key)
