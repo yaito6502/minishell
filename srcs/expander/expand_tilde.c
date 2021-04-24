@@ -9,8 +9,6 @@ static bool	has_tilde(char *line)
 
 char	*expand_firsttilde(char *arg)
 {
-	char	*ret;
-
 	if (!has_tilde(arg))
 		return (ft_strdup(arg));
 	return (ft_strjoin(getenv("HOME"), arg + 1));
