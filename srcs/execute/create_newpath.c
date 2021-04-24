@@ -70,8 +70,7 @@ static t_list	*create_hierarchy(char **dir)
 	t_list	*last;
 	t_list	*list;
 
-	list = NULL;
-	ft_lstadd_back(&list, ft_lstnew(ft_strdup(NULL)));
+	list = ft_lstnew(NULL);
 	while (dir && *dir != NULL)
 	{
 		if (!ft_strncmp(*dir, "..", 3))
@@ -110,6 +109,7 @@ char	*add_path_iterate(t_list *list)
 {
 	char	*newpath;
 
+	newpath = NULL;
 	while (list != NULL)
 	{
 		newpath = add_path(newpath, list->content);
