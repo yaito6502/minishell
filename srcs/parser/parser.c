@@ -122,8 +122,8 @@ static t_command	*get_list(char **strs)
 	list = get_list(get_strs(strs, i));
 	if (list == NULL)
 		return (ft_free_split(strs));
-	list->op = SCOLON;
 	last = get_lastcommand(list);
+	last->op = SCOLON;
 	last->next = get_list(get_strs(strs + i + 1, 0));
 	ft_free_split(strs);
 	if (last->next == NULL)
