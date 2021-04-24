@@ -83,6 +83,7 @@ void			sort_environ(char **a, char **b, size_t front, size_t end);
 char			**get_sorted_environ(void);
 int				print_sorted_env(void);
 void			wrap_exit(unsigned int status);
+char			*get_escapestr(char *line);
 
 //parse
 char			**tokenize(char *line);

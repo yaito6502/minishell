@@ -23,6 +23,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/utils/update_env.c \
 			srcs/utils/print_sorted_env.c \
 			srcs/utils/wrap_exit.c \
+			srcs/utils/get_escapestr.c \
 			srcs/parser/parser.c \
 			srcs/parser/parser_utils.c \
 			srcs/expander/expander.c \
@@ -74,6 +75,7 @@ TESTFILE =	tests/print_tcommand.c \
 			tests/utils/test_split_line.c \
 			tests/utils/test_validate_envkey.c \
 			tests/utils/test_update_env.c \
+			tests/utils/test_get_escapestr.c \
 			tests/parser/test_parser.c \
 			tests/expander/test_expander.c \
 			tests/expander/test_expand_envval.c \
@@ -119,9 +121,9 @@ $(OBJDIR)/%.o: %.c
 	@mkdir -p $(BINDIRS)
 	gcc -g $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(TEST): $(LIBFT)
+$(TEST): $(OBJECTS) $(LIBFT)
 	gcc -g $(filter tests/%/test_$@.c, $(TESTFILE)) tests/print_tcommand.c \
-	$(filter-out srcs/main/main.c ,$(SRCFILE)) $(INCLUDES) $^ -ltermcap -o test
+	$(filter-out obj/srcs/main/main.o, $^) $(INCLUDES) -ltermcap -o test
 
 clean:
 	$(MAKE) clean -C ./libft
