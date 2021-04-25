@@ -35,9 +35,9 @@ char	*check_buf(char *path, char *buf)
 {
 	char	*tmp;
 
-	if (!ft_strncmp(buf, "./", 2))
+	if (!ft_strncmp(buf, "./", 2) || !ft_strncmp(buf, ".", 2))
 		return (path);
-	if (!ft_strncmp(buf, "../", 3))
+	if (!ft_strncmp(buf, "../", 3) || !ft_strncmp(buf, "..", 3))
 	{
 		tmp = path;
 		while (*path)
@@ -58,11 +58,14 @@ char	*check_buf(char *path, char *buf)
 char	*read_path(char *cmd, char *buf)
 {
 	int		len;
-	char	tmp[2048];
+	char	*tmp;
 
 	len = 0;
 	while (cmd[len] != '/' && cmd[len] != '\0')
 		len++;
+	tmp = malloc(len + 1);
+	if (tmp == NULL)
+		return (NULL);
 	ft_strlcpy(tmp, cmd, len + 1);
 	if (cmd[len] == '/')
 	{
@@ -71,6 +74,7 @@ char	*read_path(char *cmd, char *buf)
 	}
 	free(buf);
 	buf = ft_strdup(tmp);
+	free(tmp);
 	if (buf == NULL)
 		return (NULL);
 	return (buf);

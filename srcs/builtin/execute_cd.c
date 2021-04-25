@@ -2,25 +2,48 @@
 
 static int	print_error(char *message)
 {
-	printf("minishell: cd: ");
-	printf("%s", message);
+	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+	ft_putstr_fd(message, STDERR_FILENO);
 	return (EXIT_FAILURE);
+}
+
+static char	*retry_set_path(char *path)
+{
+	char	*newpath;
+	char	*tmp;
+	char	*pwd;
+
+	if (chdir(path) == -1)
+		return (NULL);
+	pwd = getenv("PWD");
+	tmp = pwd;
+	if (!endswith(pwd, "/"))
+		tmp = ft_strjoin(pwd, "/");
+	newpath = ft_strjoin(tmp, path);
+	return (newpath);
 }
 
 static int	set_path(char *path)
 {
 	char		*newpath;
 	int			ret;
+	int			save;
 
 	if (!path)
 		return (EXIT_FAILURE);
-	newpath = join_path(path);
+	newpath = create_newpath(path);
+	save = errno;
 	if (chdir(newpath) == -1)
 	{
 		free(newpath);
-		print_error(path);
-		printf("%s\n", ":No such file or directory");
-		return (EXIT_FAILURE);
+		newpath = retry_set_path(path);
+		if (!newpath)
+		{
+			print_error(path);
+			ft_putstr_fd(": ", STDERR_FILENO);
+			ft_putendl_fd(strerror(save), STDERR_FILENO);
+			return (EXIT_FAILURE);
+		}
 	}
 	ret = (!update_env("OLDPWD", getenv("PWD"))
 			|| !update_env("PWD", newpath));
@@ -64,7 +87,7 @@ static char	*expand_tilde(char *path)
 	if (path && path[1] != '\0' && path[1] != '/')
 	{
 		print_error(path);
-		printf("%s\n", ":No such file or directory\n");
+		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 		return (NULL);
 	}
 	home = getenv("HOME");
@@ -95,7 +118,7 @@ int	execute_cd(t_command *cmd)
 		path = ft_strdup(getenv("OLDPWD"));
 		if (path == NULL)
 			return (print_error("OLDPWD not set\n"));
-		printf("%s\n", path);
+		ft_putendl_fd(path, STDOUT_FILENO);
 	}
 	else
 	{
