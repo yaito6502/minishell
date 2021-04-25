@@ -27,7 +27,7 @@ bool	is_empty_env(char ***strs, char *line, int target_i)
 	int		i;
 	char	**new;
 
-	if (*line != '\0')
+	if (line == NULL || *line != '\0')
 		return (false);
 	i = 0;
 	while ((*strs)[i] != NULL)
