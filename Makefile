@@ -36,7 +36,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/do_redirection.c \
 			srcs/execute/error_redirect.c \
 			srcs/execute/get_cmd_frompath.c \
-			srcs/execute/join_path.c \
+			srcs/execute/create_newpath.c \
 			srcs/execute/reconnect_stdfd.c \
 			srcs/execute/execute_sequential.c \
 			srcs/execute/execute_parallel.c \
@@ -83,7 +83,7 @@ TESTFILE =	tests/print_tcommand.c \
 			tests/execute/test_connect_pipeline.c \
 			tests/execute/test_do_redirection.c \
 			tests/execute/test_get_cmd_frompath.c \
-			tests/execute/test_join_path.c \
+			tests/execute/test_create_newpath.c \
 			tests/execute/test_reconnect_stdfd.c \
 			tests/execute/test_execute_sequential.c \
 			tests/execute/test_execute_parallel.c \
