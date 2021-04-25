@@ -84,6 +84,8 @@ char			**get_sorted_environ(void);
 int				print_sorted_env(void);
 void			wrap_exit(unsigned int status);
 char			*get_escapestr(char *line);
+char			*add_path(char *path, char *dir);
+char		*add_path_iterate(t_list *list);
 
 //parse
 char			**tokenize(char *line);

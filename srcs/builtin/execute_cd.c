@@ -1,12 +1,5 @@
 #include "minishell.h"
 
-static int	print_error(char *message)
-{
-	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-	ft_putstr_fd(message, STDERR_FILENO);
-	return (EXIT_FAILURE);
-}
-
 static char	*retry_set_path(char *path)
 {
 	char	*newpath;
@@ -51,7 +44,6 @@ static int	set_path(char *path, bool is_putpath)
 
 static bool	set_cdpath_iterate(char *path)
 {
-	char	*tmp;
 	char	*newpath;
 	char	**split_path;
 	size_t	i;
@@ -63,11 +55,7 @@ static bool	set_cdpath_iterate(char *path)
 	while (split_path[i] != NULL)
 	{
 		if (!endswith(split_path[i], "/"))
-		{
-			tmp = split_path[i];
-			split_path[i] = ft_strjoin(tmp, "/");
-			free(tmp);
-		}
+			split_path[i] = add_path(split_path[i], NULL);
 		newpath = ft_strjoin(split_path[i], path);
 		if (set_path(newpath, true) == 0)
 		{
@@ -94,7 +82,10 @@ int	execute_cd(t_command *cmd)
 	{
 		path = ft_strdup(getenv("OLDPWD"));
 		if (path == NULL)
-			return (print_error("OLDPWD not set\n"));
+		{
+			ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR_FILENO);
+			return (EXIT_FAILURE);
+		}
 		ft_putendl_fd(path, STDOUT_FILENO);
 	}
 	else
@@ -106,7 +97,8 @@ int	execute_cd(t_command *cmd)
 	status = set_path(path, false);
 	if (status)
 	{
-		print_error(path);
+		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+		ft_putstr_fd(path, STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putendl_fd(strerror(store_exitstatus(LOAD, errno)), STDERR_FILENO);
 	}
