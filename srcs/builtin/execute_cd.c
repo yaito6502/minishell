@@ -23,30 +23,26 @@ static char	*retry_set_path(char *path)
 	return (newpath);
 }
 
-static int	set_path(char *path)
+static int	set_path(char *path, bool is_putpath)
 {
 	char		*newpath;
 	int			ret;
-	int			save;
 
 	if (!path)
-		return (EXIT_FAILURE);
+		return (EXIT_SUCCESS);
 	newpath = create_newpath(path);
-	save = errno;
+	store_exitstatus(SAVE, errno);
 	if (chdir(newpath) == -1)
 	{
 		free(newpath);
 		newpath = retry_set_path(path);
 		if (!newpath)
-		{
-			print_error(path);
-			ft_putstr_fd(": ", STDERR_FILENO);
-			ft_putendl_fd(strerror(save), STDERR_FILENO);
 			return (EXIT_FAILURE);
-		}
 	}
 	ret = (!update_env("OLDPWD", getenv("PWD"))
 			|| !update_env("PWD", newpath));
+	if (is_putpath)
+		ft_putendl_fd(newpath, STDOUT_FILENO);
 	free(newpath);
 	if (ret == true)
 		return (EXIT_FAILURE);
@@ -55,6 +51,7 @@ static int	set_path(char *path)
 
 static bool	set_cdpath_iterate(char *path)
 {
+	char	*tmp;
 	char	*newpath;
 	char	**split_path;
 	size_t	i;
@@ -65,8 +62,14 @@ static bool	set_cdpath_iterate(char *path)
 	i = 0;
 	while (split_path[i] != NULL)
 	{
+		if (!endswith(split_path[i], "/"))
+		{
+			tmp = split_path[i];
+			split_path[i] = ft_strjoin(tmp, "/");
+			free(tmp);
+		}
 		newpath = ft_strjoin(split_path[i], path);
-		if (set_path(newpath) == 0)
+		if (set_path(newpath, true) == 0)
 		{
 			free(newpath);
 			ft_free_split(split_path);
@@ -79,32 +82,6 @@ static bool	set_cdpath_iterate(char *path)
 	return (false);
 }
 
-static char	*expand_tilde(char *path)
-{
-	char	*home;
-	char	*expd_path;
-
-	if (path && path[1] != '\0' && path[1] != '/')
-	{
-		print_error(path);
-		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
-		return (NULL);
-	}
-	home = getenv("HOME");
-	if (home == NULL)
-	{
-		print_error("HOME not set\n");
-		return (NULL);
-	}
-	if (path)
-		expd_path = ft_strjoin(home, path + 1);
-	else
-		expd_path = ft_strdup(home);
-	if (expd_path == NULL)
-		print_error(strerror(errno));
-	return (expd_path);
-}
-
 int	execute_cd(t_command *cmd)
 {
 	char		*path;
@@ -112,7 +89,7 @@ int	execute_cd(t_command *cmd)
 
 	path = cmd->argv[1];
 	if (path == NULL || *path == '~')
-		path = expand_tilde(path);
+		path = expand_firsttilde(path);
 	else if (!ft_strncmp(path, "-", 2))
 	{
 		path = ft_strdup(getenv("OLDPWD"));
@@ -122,11 +99,17 @@ int	execute_cd(t_command *cmd)
 	}
 	else
 	{
-		if (ft_strncmp(path, "/", 1) && set_cdpath_iterate(path))
+		if (!ft_strchr(path, '/') && !ft_strchr(path, '.') && set_cdpath_iterate(path))
 			return (EXIT_SUCCESS);
 		path = ft_strdup(path);
 	}
-	status = set_path(path);
+	status = set_path(path, false);
+	if (status)
+	{
+		print_error(path);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putendl_fd(strerror(store_exitstatus(LOAD, errno)), STDERR_FILENO);
+	}
 	free(path);
 	return (status);
 }
