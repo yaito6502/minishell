@@ -82,6 +82,7 @@ int	main(int argc, char **argv)
 
 	hist = NULL;
 	create_newenv();
+	update_shlvl();
 	init_tterm();
 	if (argc > 2 && !ft_strncmp(argv[1], "-c", 3))
 	{
