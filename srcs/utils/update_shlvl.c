@@ -27,7 +27,7 @@ static bool	is_valid_shlvl(char *env)
 bool	update_shlvl(void)
 {
 	extern char	**environ;
-	char		env;
+	char		*env;
 	int			value;
 	bool		ret;
 
