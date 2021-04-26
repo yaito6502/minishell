@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-//bash: warning: shell level (1001) too high, resetting to 1
-//1001は足した後の値
 static void	output_error(char *val)
 {
 	ft_putstr_fd("minishell: warning: shell level (", STDERR_FILENO);
@@ -12,7 +10,7 @@ static void	output_error(char *val)
 
 static bool	is_valid_shlvl(char *env)
 {
-	if (!ft_isdigit(*env) || *env != '+' || *env != '-')
+	if (!ft_isdigit(*env) && *env != '+' && *env != '-')
 		return (false);
 	env++;
 	while (*env != '\0')
