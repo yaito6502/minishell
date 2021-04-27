@@ -8,86 +8,61 @@ void output_ret(bool ret)
 		puts("line is invalid.");
 }
 
+bool test_line(char *line, char *expected)
+{
+	printf("input : [%s]\n", line);
+	printf("expected : %s\n", expected);
+	return (validate_line(line));
+}
 
 int main(void)
 {
-	char	*line;
 	bool	ret;
 
-	line = ft_strdup("ls | grep;");
-	ret = validate_line(line);
+	ret = test_line(";>a", "syntax error near unexpected token `;'");
 	output_ret(ret);
-	free(line);
 
-	line = ft_strdup("ls || grep history; ;");
-	ret = validate_line(line);
+	ret = test_line("ls >>", "syntax error near unexpected token `newline'");
 	output_ret(ret);
-	free(line);
 
-	line = ft_strdup("ls ;; grep history;");
-	ret = validate_line(line);
+	ret = test_line("ls >>>>", "syntax error near unexpected token `>>'");
 	output_ret(ret);
-	free(line);
 
-	line = ft_strdup("ls ; ; grep history;");
-	ret = validate_line(line);
+	ret = test_line("ls >>>", "syntax error near unexpected token `>'");
 	output_ret(ret);
-	free(line);
 
-	line = ft_strdup("ls |; grep history;");
-	ret = validate_line(line);
+	ret = test_line("ls || grep history; ;", "syntax error near unexpected token `||'");
 	output_ret(ret);
-	free(line);
 
-	line = ft_strdup("ls ; | grep history;");
-	ret = validate_line(line);
+	ret = test_line("ls ;; grep history;", "syntax error near unexpected token `;;'");
 	output_ret(ret);
-	free(line);
 
-	line = ft_strdup("ls & grep history;");
-	ret = validate_line(line);
+	ret = test_line("ls ; ; grep history;", "syntax error near unexpected token `;'");
 	output_ret(ret);
-	free(line);
 
-	line = ft_strdup("ls >");
-	ret = validate_line(line);
+	ret = test_line("ls |; grep history;", "syntax error near unexpected token `;'");
 	output_ret(ret);
-	free(line);
 
-	line = ft_strdup("ls >;");
-	ret = validate_line(line);
+	ret = test_line("ls ; | grep history;", "syntax error near unexpected token `|'");
 	output_ret(ret);
-	free(line);
 
-	line = ft_strdup("ls |");
-	ret = validate_line(line);
+	ret = test_line("ls & grep history;", "syntax error near unexpected token `&'");
 	output_ret(ret);
-	free(line);
 
-	line = ft_strdup("ls |;");
-	ret = validate_line(line);
+	ret = test_line("ls >", "syntax error near unexpected token `newline'");
 	output_ret(ret);
-	free(line);
 
-	line = ft_strdup("ls |&");
-	ret = validate_line(line);
+	ret = test_line("ls >;", "syntax error near unexpected token `;'");
 	output_ret(ret);
-	free(line);
 
-	line = ft_strdup("ls >>");
-	ret = validate_line(line);
+	ret = test_line("ls |", "syntax error near unexpected token `newline'");
 	output_ret(ret);
-	free(line);
 
-	line = ft_strdup("ls >>>>");
-	ret = validate_line(line);
+	ret = test_line("ls |;", "syntax error near unexpected token `;'");
 	output_ret(ret);
-	free(line);
 
-	line = ft_strdup("ls >>>");
-	ret = validate_line(line);
+	ret = test_line("ls |&", "syntax error near unexpected token `&'");
 	output_ret(ret);
-	free(line);
 
 	return 0;
 }

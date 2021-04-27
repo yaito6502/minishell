@@ -60,8 +60,20 @@ static bool	check_operator(char *line, char last_op)
 		return (error_return(line, last_op, false));
 }
 
+static bool	check_first_semicolon(char *line)
+{
+	char	*head;
+
+	while (*line)
+	{
+
+	}
+}
+
 bool	validate_line(char *line)
 {
+	if (!check_first_semicolon(line))
+		return (false);
 	while (*line != '\0')
 	{
 		if (ft_strchr(OPS, *line))
