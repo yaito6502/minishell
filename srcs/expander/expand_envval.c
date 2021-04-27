@@ -17,7 +17,7 @@ static int	has_dollar(char *line)
 			inquote = true;
 		else if (*line == '"' && inquote == true)
 			inquote = false;
-		if (*line == '$' && *(line + 1) != '\0')
+		if (*line == '$' && *(line + 1) != '\0' && *(line + 1) != ' ')
 			ret++;
 		if (*line == '\'' && inquote == false)
 		{
@@ -85,7 +85,7 @@ static char	*get_key(char *line, char *ret, int *i)
 
 	*i = 0;
 	line++;
-	if (*line == '\0')
+	if (*line == '\0' || *line == ' ')
 		return (output_dollar(ret, i));
 	if (*line == '?')
 		return (expand_exitstatus(ret, i));
