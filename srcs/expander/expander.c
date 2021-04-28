@@ -61,6 +61,8 @@ static char	*trim_quote(char *arg)
 	if (tmp == NULL)
 		return (NULL);
 	i = 0;
+	if (!ft_strchr(arg, '\'') && !ft_strchr(arg, '"'))
+		arg = get_escapestr(arg);
 	ret = tmp;
 	while (arg[i] != '\0')
 	{

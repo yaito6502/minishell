@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+#define EXE_ECHO	0
+
 static void	print_signal_message(t_command *cmd, int status)
 {
 	if (WIFSIGNALED(status) && WTERMSIG(status) == 3 && cmd->next == NULL)
@@ -46,7 +48,7 @@ void	start_commands(t_command *cmd)
 	{
 		if (!validate_redirect(cmd))
 			return ;
-		if (!preprocess_command(cmd))
+		if (is_builtin(cmd) != EXE_ECHO && !preprocess_command(cmd))
 			return ;
 		if (cmd->op == PIPELINE || cmd->receive_pipe == true)
 			cmd->exitstatus = execute_parallel(cmd);
@@ -63,5 +65,4 @@ void	start_commands(t_command *cmd)
 		cmd = cmd->next;
 	}
 	free_commandslist(&cmd);
-	return ;
 }

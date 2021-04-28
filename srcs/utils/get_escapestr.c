@@ -26,6 +26,8 @@ char	*get_escapestr(char *line)
 
 	len = get_len(line);
 	str = malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
 	i = 0;
 	while (*line != '\0')
 	{
