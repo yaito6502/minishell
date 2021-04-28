@@ -19,7 +19,7 @@ int main(void)
 {
 	bool	ret;
 
-	ret = test_line(";>a", "syntax error near unexpected token `;'");
+	ret = test_line("\t ;>a", "syntax error near unexpected token `;'");
 	output_ret(ret);
 
 	ret = test_line("ls >>", "syntax error near unexpected token `newline'");

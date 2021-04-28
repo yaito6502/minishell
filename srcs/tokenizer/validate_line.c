@@ -62,12 +62,16 @@ static bool	check_operator(char *line, char last_op)
 
 static bool	check_first_semicolon(char *line)
 {
-	char	*head;
+	char	*scolon;
 
-	while (*line)
+	scolon = ft_strchr(line, ';');
+	while (line != scolon)
 	{
-
+		if (!ft_strchr(OPS, *line) && !ft_strchr(SPACES, *line))
+			return (true);
+		line++;
 	}
+	return (error_return(";", 'a', false));
 }
 
 bool	validate_line(char *line)
