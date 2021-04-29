@@ -37,7 +37,8 @@ bool	update_shlvl(void)
 	value = ft_atoi(env);
 	if (value < 0)
 		return (update_env("SHLVL", "0"));
-	value++;
+	if (++value == 1000)
+		return (update_env("SHLVL", ""));
 	env = ft_itoa(value);
 	if (value >= 1001)
 	{
