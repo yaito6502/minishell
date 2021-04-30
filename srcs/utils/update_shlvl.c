@@ -24,7 +24,6 @@ static bool	is_valid_shlvl(char *env)
 
 bool	update_shlvl(void)
 {
-	extern char	**environ;
 	char		*env;
 	int			value;
 	bool		ret;
@@ -40,6 +39,8 @@ bool	update_shlvl(void)
 	if (++value == 1000)
 		return (update_env("SHLVL", ""));
 	env = ft_itoa(value);
+	if (env == NULL)
+		return (false);
 	if (value >= 1001)
 	{
 		output_error(env);
