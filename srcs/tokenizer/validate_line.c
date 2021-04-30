@@ -10,81 +10,84 @@
 #define SEP		"|;&"
 #define SPACES	"\v\r\f\t\n "
 
-static bool	error_return(char *line, char last_op, bool has_space)
+static size_t	count_consective_char(char *line)
+{
+	size_t	i;
+	char	head;
+
+	i = 0;
+	head = *line;
+	while (*line && line[i] == head)
+		i++;
+	return (i);
+}
+
+static bool	error_return(char *line, char *prev_ptr)
 {
 	const char	*newline = "newline";
+	size_t		i;
 
 	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-	if (*line == last_op && !has_space)
-	{
-		ft_putchar_fd(last_op, STDERR_FILENO);
-		ft_putchar_fd(last_op, STDERR_FILENO);
-		ft_putendl_fd("'", STDERR_FILENO);
-	}
+	i = count_consective_char(prev_ptr);
+	if (ft_strchr(SEP, *prev_ptr) && i >= 2)
+		i = 2;
+	if (*prev_ptr == '<' && line != prev_ptr)
+		i = i % 2 + 1;
+	if (*prev_ptr == '>' && line != prev_ptr)
+		i = i % 3 + 1;
+	if (ft_strchr("<>", *prev_ptr) && !*line)
+		ft_putstr_fd((char *)newline, STDERR_FILENO);
 	else
-	{
-		last_op = *line;
-		if (last_op == '\0')
-			ft_putstr_fd((char *)newline, STDERR_FILENO);
-		else
-			ft_putchar_fd(last_op, STDERR_FILENO);
-		ft_putendl_fd("'", STDERR_FILENO);
-	}
+		while (i--)
+			ft_putchar_fd(*prev_ptr, STDERR_FILENO);
+	ft_putendl_fd("'", STDERR_FILENO);
 	store_exitstatus(SAVE, 258);
 	return (false);
 }
 
-static bool	check_operator(char *line, char last_op)
+static bool	check_operator(char *line)
 {
-	bool	has_space;
+	char	*prev_ptr;
 
-	has_space = false;
-	line++;
 	while (*line != '\0')
 	{
+		prev_ptr = line;
+		line++;
 		if (!ft_strchr(OPS, *line) && !ft_strchr(SPACES, *line))
 			return (true);
 		if (ft_strchr(SPACES, *line))
-			has_space = true;
-		else if (*line == '<')
-			return (error_return(line, last_op, (line[1] != '<')));
-		else if (line[1] == '>')
-			return (error_return(line, last_op, (line[2] != '>')));
-		else if (ft_strchr(SEP, *line))
-			return (error_return(line, last_op, has_space));
-		line++;
+		{
+			line++;
+			if (ft_strchr("<>", *prev_ptr) && ft_strchr(OPS, *line))
+				return (error_return(line, line));
+			continue ;
+		}
+		if (*prev_ptr == '>' && count_consective_char(prev_ptr) > 2)
+			return (error_return(line, prev_ptr));
+		if (ft_strchr("|;&<", *line) && *line != *prev_ptr)
+			prev_ptr = line;
+		if (ft_strchr("|;&<", *line))
+			return (error_return(line, prev_ptr));
 	}
-	if (last_op == ';')
+	if (*prev_ptr == ';')
 		return (true);
-	else
-		return (error_return(line, last_op, false));
-}
-
-static bool	check_first_semicolon(char *line)
-{
-	char	*scolon;
-
-	scolon = ft_strchr(line, ';');
-	while (line != scolon)
-	{
-		if (!ft_strchr(OPS, *line) && !ft_strchr(SPACES, *line))
-			return (true);
-		line++;
-	}
-	return (error_return(";", 'a', false));
+	return (error_return(line, prev_ptr));
 }
 
 bool	validate_line(char *line)
 {
-	if (!check_first_semicolon(line))
-		return (false);
+	char	*head;
+
+	head = line;
 	while (*line != '\0')
 	{
 		if (ft_strchr(OPS, *line))
 		{
+			if (line == head && !ft_strchr("<>", *line))
+				return (error_return(line, line));
 			if (*line == AMP)
-				return (error_return(line, 'n', false));
-			if (!check_operator(line, *line))
+				return (error_return(line, line));
+			if (!check_operator(line))
 				return (false);
 		}
 		line++;
