@@ -6,6 +6,7 @@ void output_ret(bool ret)
 		puts("line is valid.");
 	else
 		puts("line is invalid.");
+	puts("-----------------------------------------");
 }
 
 bool test_line(char *line, char *expected)
@@ -19,7 +20,42 @@ int main(void)
 {
 	bool	ret;
 
+	ret = test_line("echo ; ;", "syntax error near unexpected token `;'");
+	output_ret(ret);
+
 	ret = test_line("\t ;>a", "syntax error near unexpected token `;'");
+	output_ret(ret);
+
+	ret = test_line("ls |", "syntax error near unexpected token `newline'");
+	output_ret(ret);
+
+	ret = test_line("ls >", "syntax error near unexpected token `newline'");
+	output_ret(ret);
+
+	ret = test_line("ls ; ; grep history;", "syntax error near unexpected token `;'");
+	output_ret(ret);
+
+	ret = test_line("ls ; | grep history;", "syntax error near unexpected token `|'");
+	output_ret(ret);
+
+	//ここから上は要修正
+
+	ret = test_line(";", "syntax error near unexpected token `;'");
+	output_ret(ret);
+
+	ret = test_line(";;", "syntax error near unexpected token `;;'");
+	output_ret(ret);
+
+	ret = test_line("echo ;;", "syntax error near unexpected token `;;'");
+	output_ret(ret);
+
+	ret = test_line("echo ;;;", "syntax error near unexpected token `;;'");
+	output_ret(ret);
+
+	ret = test_line("|", "syntax error near unexpected token `|'");
+	output_ret(ret);
+
+	ret = test_line("||", "syntax error near unexpected token `||'");
 	output_ret(ret);
 
 	ret = test_line("ls >>", "syntax error near unexpected token `newline'");
@@ -37,31 +73,22 @@ int main(void)
 	ret = test_line("ls ;; grep history;", "syntax error near unexpected token `;;'");
 	output_ret(ret);
 
-	ret = test_line("ls ; ; grep history;", "syntax error near unexpected token `;'");
-	output_ret(ret);
-
 	ret = test_line("ls |; grep history;", "syntax error near unexpected token `;'");
-	output_ret(ret);
-
-	ret = test_line("ls ; | grep history;", "syntax error near unexpected token `|'");
-	output_ret(ret);
-
-	ret = test_line("ls & grep history;", "syntax error near unexpected token `&'");
-	output_ret(ret);
-
-	ret = test_line("ls >", "syntax error near unexpected token `newline'");
 	output_ret(ret);
 
 	ret = test_line("ls >;", "syntax error near unexpected token `;'");
 	output_ret(ret);
 
-	ret = test_line("ls |", "syntax error near unexpected token `newline'");
-	output_ret(ret);
-
 	ret = test_line("ls |;", "syntax error near unexpected token `;'");
 	output_ret(ret);
 
+	ret = test_line("ls & grep history;", "syntax error near unexpected token `&'");
+	output_ret(ret);
+
 	ret = test_line("ls |&", "syntax error near unexpected token `&'");
+	output_ret(ret);
+
+	ret = test_line("echo \'johnson & johnson\'", "");
 	output_ret(ret);
 
 	return 0;

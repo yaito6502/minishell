@@ -88,6 +88,7 @@ char			*get_escapestr(char *line);
 //parse
 char			**tokenize(char *line);
 bool			validate_line(char *line);
+char			*get_first_sep(char *line);
 bool			validate_quote(char *line);
 t_command		*parse(char **list);
 t_command		*get_lastcommand(t_command *cmds);
