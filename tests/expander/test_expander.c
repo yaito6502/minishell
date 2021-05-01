@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 	store_exitstatus(SAVE, 15);
 	cmd = create_new_tcommand();
 
-	cmd->argv = ft_split("echo,\" $USER $ \"'$PWD'",',');
+	cmd->argv = ft_split("echo,\"$\t$\v$USER $ \"'$PWD'",',');
 	ret = preprocess_command(cmd);
 	print_splits(cmd->argv);
 	ft_free_split(cmd->argv);
