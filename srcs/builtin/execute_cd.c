@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static char	*retry_set_path(char *path)
+static char	*retry_change_directory(char *path)
 {
 	char	*newpath;
 	char	*tmp;
@@ -16,7 +16,7 @@ static char	*retry_set_path(char *path)
 	return (newpath);
 }
 
-static int	set_path(char *path, bool is_putpath)
+static int	change_directory(char *path, bool is_putpath)
 {
 	char		*newpath;
 	int			ret;
@@ -28,7 +28,7 @@ static int	set_path(char *path, bool is_putpath)
 	if (chdir(newpath) == -1)
 	{
 		free(newpath);
-		newpath = retry_set_path(path);
+		newpath = retry_change_directory(path);
 		if (!newpath)
 			return (EXIT_FAILURE);
 	}
@@ -57,7 +57,7 @@ static bool	set_cdpath_iterate(char *path)
 		if (!endswith(split_path[i], "/"))
 			split_path[i] = add_path(split_path[i], NULL);
 		newpath = ft_strjoin(split_path[i], path);
-		if (set_path(newpath, true) == 0)
+		if (change_directory(newpath, true) == 0)
 		{
 			free(newpath);
 			ft_free_split(split_path);
@@ -70,31 +70,39 @@ static bool	set_cdpath_iterate(char *path)
 	return (false);
 }
 
+static char	*select_path(char *str)
+{
+	char	*path;
+
+	path = str;
+	if (getenv("HOME") == NULL && path == NULL)
+		ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
+	else if (path == NULL || *path == '~')
+		path = expand_firsttilde(path);
+	else if (!ft_strncmp(path, "-", 2))
+	{
+		path = ft_strdup(getenv("OLDPWD"));
+		if (path)
+			ft_putendl_fd(path, STDOUT_FILENO);
+		else
+			ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR_FILENO);
+	}
+	else
+		path = ft_strdup(path);
+	return (path);
+}
+
 int	execute_cd(t_command *cmd)
 {
 	char		*path;
 	int			status;
 
-	path = cmd->argv[1];
-	if (path == NULL || *path == '~')
-		path = expand_firsttilde(path);
-	else if (!ft_strncmp(path, "-", 2))
-	{
-		path = ft_strdup(getenv("OLDPWD"));
-		if (path == NULL)
-		{
-			ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR_FILENO);
-			return (EXIT_FAILURE);
-		}
-		ft_putendl_fd(path, STDOUT_FILENO);
-	}
-	else
-	{
-		if (!ft_strchr(path, '/') && !ft_strchr(path, '.') && set_cdpath_iterate(path))
+	path = select_path(cmd->argv[1]);
+	if (!path)
+		return (EXIT_FAILURE);
+	if (!ft_strchr(path, '/') && !ft_strchr(path, '.') && set_cdpath_iterate(path))
 			return (EXIT_SUCCESS);
-		path = ft_strdup(path);
-	}
-	status = set_path(path, false);
+	status = change_directory(path, false);
 	if (status)
 	{
 		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);

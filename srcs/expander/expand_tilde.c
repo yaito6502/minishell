@@ -16,11 +16,6 @@ char	*expand_firsttilde(char *arg)
 	if (!has_tilde(arg))
 		return (ft_strdup(arg));
 	home = getenv("HOME");
-	if (home == NULL)
-	{
-		ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
-		return (NULL);
-	}
 	if (!arg)
 		return (ft_strdup(home));
 	return (ft_strjoin(home, arg + 1));

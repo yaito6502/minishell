@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-#define EXE_ECHO	0
 
 static void	print_signal_message(t_command *cmd, int status)
 {
@@ -48,7 +47,7 @@ void	start_commands(t_command *cmd)
 	{
 		if (!validate_redirect(cmd))
 			return ;
-		if (is_builtin(cmd) != EXE_ECHO && !preprocess_command(cmd))
+		if (!preprocess_command(cmd))
 			return ;
 		if (cmd->op == PIPELINE || cmd->receive_pipe == true)
 			cmd->exitstatus = execute_parallel(cmd);
