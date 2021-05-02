@@ -20,6 +20,37 @@ int main(void)
 {
 	bool	ret;
 
+	ret = test_line("<>", "syntax error near unexpected token `newline'");
+	output_ret(ret);
+
+	ret = test_line("<>a", "syntax error near unexpected token `newline'");
+	output_ret(ret);
+
+	ret = test_line("< >", "syntax error near unexpected token `>'");
+	output_ret(ret);
+
+	ret = test_line("< <", "syntax error near unexpected token `<'");
+	output_ret(ret);
+
+	ret = test_line("<<", "syntax error near unexpected token `newline'");
+	output_ret(ret);
+
+	ret = test_line("ls >>", "syntax error near unexpected token `newline'");
+	output_ret(ret);
+
+	ret = test_line("ls >>a", "");
+	output_ret(ret);
+
+	ret = test_line("ls >>;", "syntax error near unexpected token `;'");
+	output_ret(ret);
+
+	ret = test_line("ls >><", "syntax error near unexpected token `<'");
+	output_ret(ret);
+
+	ret = test_line("ls >>>", "syntax error near unexpected token `>'");
+	output_ret(ret);
+
+	// //ここから上は要修正
 	ret = test_line("echo ; ;", "syntax error near unexpected token `;'");
 	output_ret(ret);
 
@@ -38,7 +69,6 @@ int main(void)
 	ret = test_line("ls ; | grep history;", "syntax error near unexpected token `|'");
 	output_ret(ret);
 
-	//ここから上は要修正
 
 	ret = test_line(";", "syntax error near unexpected token `;'");
 	output_ret(ret);
@@ -58,13 +88,7 @@ int main(void)
 	ret = test_line("||", "syntax error near unexpected token `||'");
 	output_ret(ret);
 
-	ret = test_line("ls >>", "syntax error near unexpected token `newline'");
-	output_ret(ret);
-
 	ret = test_line("ls >>>>", "syntax error near unexpected token `>>'");
-	output_ret(ret);
-
-	ret = test_line("ls >>>", "syntax error near unexpected token `>'");
 	output_ret(ret);
 
 	ret = test_line("ls || grep history; ;", "syntax error near unexpected token `||'");

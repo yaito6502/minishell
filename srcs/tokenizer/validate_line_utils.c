@@ -36,3 +36,27 @@ char	*get_first_sep(char *line)
 		return (return_small(scolon, amp));
 	return (return_small(scolon, pipe));
 }
+
+bool	error_return(char *line, char last_op, bool has_space)
+{
+	const char	*newline = "newline";
+
+	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+	if (*line == last_op && !has_space)
+	{
+		ft_putchar_fd(last_op, STDERR_FILENO);
+		ft_putchar_fd(last_op, STDERR_FILENO);
+		ft_putendl_fd("'", STDERR_FILENO);
+	}
+	else
+	{
+		last_op = *line;
+		if (last_op == '\0')
+			ft_putstr_fd((char *)newline, STDERR_FILENO);
+		else
+			ft_putchar_fd(last_op, STDERR_FILENO);
+		ft_putendl_fd("'", STDERR_FILENO);
+	}
+	store_exitstatus(SAVE, 258);
+	return (false);
+}
