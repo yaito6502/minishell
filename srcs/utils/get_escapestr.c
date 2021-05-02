@@ -21,24 +21,24 @@ static int	get_len(char *line)
 char	*get_escapestr(char *line)
 {
 	char	*str;
-	int		len;
 	int		i;
+	int		j;
 
-	len = get_len(line);
-	str = malloc(sizeof(char) * (len + 1));
+	str = malloc(sizeof(char) * (get_len(line) + 1));
 	if (!str)
 		return (NULL);
 	i = 0;
-	while (*line != '\0')
+	j = 0;
+	while (line[j] != '\0')
 	{
-		if (*line == '\\')
+		if (line[j] == '\\' && !is_inquote(line, j))
 		{
-			line++;
+			j++;
 			continue ;
 		}
-		str[i] = *line;
+		str[i] = line[j];
 		i++;
-		line++;
+		j++;
 	}
 	str[i] = '\0';
 	return (str);

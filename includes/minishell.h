@@ -52,7 +52,7 @@ typedef struct s_command {
 	int					exitstatus;
 }	t_command;
 
-typedef struct	s_termcap {
+typedef struct s_termcap {
 	char	*term_buf;
 	char	*string_buf;
 	char	*buf_ptr;
@@ -85,11 +85,12 @@ int				print_sorted_env(void);
 void			wrap_exit(unsigned int status);
 char			*get_escapestr(char *line);
 char			*add_path(char *path, char *dir);
-char		*add_path_iterate(t_list *list);
+char			*add_path_iterate(t_list *list);
 bool			update_shlvl(void);
 
 //parse
 char			**tokenize(char *line);
+bool			is_inquote(char *p, int len);
 bool			validate_line(char *line);
 bool			validate_quote(char *line);
 t_command		*parse(char **list);
@@ -160,7 +161,6 @@ bool			get_terminal_description(void);
 bool			set_termcapsettings(t_termcap term);
 char			*wrap_tgetstr(char *stored_cap, char *cap);
 void			free_tterm(t_termcap term);
-
 
 bool			is_leftend(int *i);
 void			get_cursor_position(int *row, int *col);
