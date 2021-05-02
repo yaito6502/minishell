@@ -57,6 +57,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/builtin/execute_exit.c \
 			srcs/tokenizer/tokenize.c \
 			srcs/tokenizer/validate_line.c \
+			srcs/tokenizer/validate_line_utils.c \
 			srcs/tokenizer/validate_quote.c \
 			srcs/history/history.c \
 			srcs/history/display_history.c \
