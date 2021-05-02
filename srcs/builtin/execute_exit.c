@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+#define SPACES	"\v\r\f\t\n "
+
 static int	print_error(char *first, char *second)
 {
 	ft_putendl_fd("exit", STDERR_FILENO);
@@ -10,7 +12,7 @@ static int	print_error(char *first, char *second)
 	return (255);
 }
 
-static bool	is_digits(char *str)
+static bool	is_validstr(char *str)
 {
 	size_t	i;
 
@@ -20,8 +22,11 @@ static bool	is_digits(char *str)
 	if (!str[i])
 		return (false);
 	while (str[i])
-		if (!ft_isdigit(str[i++]))
+	{
+		if (!ft_isdigit(str[i]) && !ft_strchr(SPACES, str[i]))
 			return (false);
+		i++;
+	}
 	return (true);
 }
 
@@ -73,12 +78,12 @@ int	execute_exit(t_command *cmd)
 		ft_putendl_fd("exit", STDERR_FILENO);
 		wrap_exit(EXIT_SUCCESS);
 	}
-	if (!is_digits(str) && *str != ' ')
+	if (!is_validstr(str))
 		wrap_exit(print_error(str, ": numeric argument required\n"));
 	if (cmd->argv[(!ft_strncmp(cmd->argv[1], "--", 3)) + 2] != NULL)
 	{
 		exit_status = print_error("too many arguments\n", NULL);
-		if (is_digits(str) && *str != ' ')
+		if (!is_validstr(str))
 			wrap_exit(EXIT_FAILURE);
 		wrap_exit(exit_status);
 	}
