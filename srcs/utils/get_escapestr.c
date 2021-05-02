@@ -64,7 +64,7 @@ static char	*copy_outquote(char *tmp, int *index, char *line)
 	int i;
 
 	i = *index;
-	while (*line != '\'' && *line != '"')
+	while (*line != '\0' && *line != '\'' && *line != '"')
 	{
 		if (*line == '\\' && *(line + 1) != '\\')
 		{
