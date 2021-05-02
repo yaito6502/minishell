@@ -11,6 +11,8 @@
 ** 現在読み込んだindexまでがクォート中にあるかないかを返す。
 */
 
+#define SPACES	"\v\r\f\t\n "
+
 static bool	is_inquote(char *p, int len)
 {
 	int		i;
@@ -46,7 +48,7 @@ static int	get_index(char *p)
 	i = 0;
 	while (p[i] != '\0')
 	{
-		while (p[i] != '\0' && !ft_strchr(" |><;", p[i]))
+		while (p[i] != '\0' && !ft_strchr("\v\r\f\t\n |><;", p[i]))
 			i++;
 		if (is_inquote(p, i))
 		{
@@ -96,12 +98,11 @@ static char	*put_op_token(char ***tokens, char *p)
 {
 	char	*tmp;
 
-	if (*p == ' ')
-	{
-		while (*p == ' ')
-			p++;
+	tmp = p;
+	while (ft_strchr(SPACES, *p))
+		p++;
+	if (tmp < p)
 		return (p);
-	}
 	tmp = ft_substr(p, 0, 1);
 	if (tmp == NULL)
 		return (NULL);
