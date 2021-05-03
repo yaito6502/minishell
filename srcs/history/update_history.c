@@ -5,7 +5,7 @@
 ** 実行されなかったhistoryのmodified_lineはlineへ更新する。
 */
 
-static bool	error_return(char *str)
+static bool	error_uhistory(char *str)
 {
 	write(STDOUT_FILENO, "\n", 1);
 	ft_putstr_fd("minishell: update_history: ", STDERR_FILENO);
@@ -70,7 +70,7 @@ bool	update_history(char *line, t_hist **hist)
 	{
 		*hist = add_line_to_front(line, *hist);
 		if (*hist == NULL)
-			return (error_return("malloc error"));
+			return (error_uhistory("malloc error"));
 		free((*hist)->modified_line);
 		(*hist)->modified_line = NULL;
 		if ((*hist)->next == NULL)
