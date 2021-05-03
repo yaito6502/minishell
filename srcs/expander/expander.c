@@ -6,7 +6,7 @@
 */
 #define SPACES	"\v\r\f\t\n "
 
-static bool	is_args(char *str)
+static bool	has_spaces_in_expdedstr(char *str)
 {
 	int		len;
 	int		i;
@@ -17,8 +17,9 @@ static bool	is_args(char *str)
 	if (!dollar)
 		return (false);
 	len = dollar - str;
-	get_envname(dollar + 1, &len);
-	name = ft_substr(dollar, 1, len);
+	dollar++;
+	get_envname(dollar, &len);
+	name = ft_substr(dollar, 0, len);
 	dollar = getenv(name);
 	free(name);
 	if (!dollar)
@@ -35,7 +36,11 @@ static char	*get_preformatted_tokens(char *token)
 	char	*escaped;
 	char	*preformetted;
 
+	if (token == NULL)
+		return (NULL);
 	expded = expand_firsttilde(token);
+	if (expded == NULL)
+		return (NULL);
 	escaped = get_escapestr(expded);
 	preformetted = trim_quote(escaped);
 	free(expded);
@@ -43,12 +48,14 @@ static char	*get_preformatted_tokens(char *token)
 	return (preformetted);
 }
 
-static bool	insert_expded_args(char ***strs, int index)
+static bool	insert_expded_args(char ***strs, int index, bool is_args)
 {
 	char	**tokens;
 	char	**new_strs;
 	int		j;
 
+	if (!is_args)
+		return (true);
 	new_strs = NULL;
 	if (index > 0)
 		new_strs = get_strs(*strs, index);
@@ -64,7 +71,7 @@ static bool	insert_expded_args(char ***strs, int index)
 		new_strs = add_str_to_list(new_strs, tokens[j++]);
 	ft_free_split(tokens);
 	while ((*strs)[++index] && new_strs)
-		new_strs = add_str_to_list(new_strs, (*strs)[index++]);
+		new_strs = add_str_to_list(new_strs, (*strs)[index]);
 	ft_free_split(*strs);
 	*strs = new_strs;
 	return (*strs);
@@ -75,12 +82,12 @@ static bool	preprocess_tokens(char ***strs)
 	int		i;
 	char	*expded;
 	char	*ret;
-	bool	is_arg;
+	bool	is_args;
 
 	i = 0;
 	while ((*strs) != NULL && (*strs)[i] != NULL)
 	{
-		is_arg = is_args((*strs)[i]);
+		is_args = has_spaces_in_expdedstr((*strs)[i]);
 		expded = expand_envval((*strs)[i]);
 		if (expded == (*strs)[i])
 			expded = ft_strdup((*strs)[i]);
@@ -92,7 +99,7 @@ static bool	preprocess_tokens(char ***strs)
 			return (false);
 		free((*strs)[i]);
 		(*strs)[i] = ret;
-		if (is_arg && !insert_expded_args(strs, i))
+		if (!insert_expded_args(strs, i, is_args))
 			return (false);
 		i++;
 	}

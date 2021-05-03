@@ -27,7 +27,7 @@ char	*output_dollar(char *ret, int *i)
 	return (ret);
 }
 
-int	get_len(char *line)
+static int	get_len(char *line)
 {
 	int		i;
 	int		len;
@@ -55,7 +55,7 @@ int	get_len(char *line)
 	return (len);
 }
 
-char	*copy_literal(char *arg, char *tmp, int *i)
+static char	*copy_literal(char *arg, char *tmp, int *i)
 {
 	char	quote;
 
