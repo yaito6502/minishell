@@ -26,7 +26,7 @@ static char	*check_input(char *line, char *c, int *i)
 	int	n;
 
 	n = 0;
-	while (c[n] != '\0' && c[n] != '\n' && c[n] != '\034')
+	while (c[n] != '\0' && c[n] != '\n' && c[n] != '\033')
 	{
 		if (*i == BUFFER_SIZE)
 			break ;
@@ -88,7 +88,7 @@ static char	*get_line(char *line, t_hist **hist)
 
 char	*read_line(t_hist **hist)
 {
-	extern t_termcap	term;
+	//extern t_termcap	term;
 	char				*line;
 	char				*tmp;
 
@@ -100,7 +100,7 @@ char	*read_line(t_hist **hist)
 	}
 	line[0] = '\0';
 	tmp = line;
-	get_cursor_position(&term.pos[0], &term.pos[1]);
+	//get_cursor_position(&term.pos[0], &term.pos[1]);
 	line = get_line(line, hist);
 	if (!reset_terminal_setting() || !line)
 	{
