@@ -132,6 +132,7 @@ bool			is_empty_env(char ***strs, char *line, int i);
 char			*expand_firsttilde(char *arg);
 char			*expand_exitstatus(char *ret, int *i);
 char			*output_dollar(char *ret, int *i);
+char			*trim_quote(char *arg);
 bool			preprocess_command(t_command *cmd);
 bool			validate_redirect(t_command *cmd);
 

@@ -90,7 +90,6 @@ char	*get_escapestr(char *line)
 
 	tmp = malloc(sizeof(char) * (ft_strlen(line) + 1));
 	if (tmp == NULL)
-
 		return (NULL);
 	i = 0;
 	j = 0;
