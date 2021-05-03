@@ -22,6 +22,8 @@ int	execute_sequential(t_command *cmd)
 {
 	if (!do_redirection(cmd))
 		return (1);
+	if (!cmd->argv || !cmd->argv[0])
+		return (0);
 	if (is_builtin(cmd) != -1)
 		return (execute_builtin(cmd));
 	cmd->pid = fork();

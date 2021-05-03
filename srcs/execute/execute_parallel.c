@@ -13,11 +13,13 @@ static void	parallel_childproc(t_command *cmd, int newpipe[2])
 	char		*cmdpath;
 
 	if (!connect_pipeline(cmd, newpipe))
-		exit(1);
+		wrap_exit(1);
 	if (!do_redirection(cmd))
-		exit(1);
+		wrap_exit(1);
+	if (!cmd->argv || !cmd->argv[0])
+		wrap_exit(0);
 	if (is_builtin(cmd) != -1)
-		exit(execute_builtin(cmd));
+		wrap_exit(execute_builtin(cmd));
 	if (has_slash(cmd->argv[0]))
 		execve(cmd->argv[0], cmd->argv, environ);
 	else
