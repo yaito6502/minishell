@@ -10,6 +10,7 @@ static int	error_pipe(void)
 static void	parallel_childproc(t_command *cmd, int newpipe[2])
 {
 	extern char	**environ;
+	char		*cmdpath;
 
 	if (!connect_pipeline(cmd, newpipe))
 		exit(1);
@@ -20,8 +21,14 @@ static void	parallel_childproc(t_command *cmd, int newpipe[2])
 	if (has_slash(cmd->argv[0]))
 		execve(cmd->argv[0], cmd->argv, environ);
 	else
-		execve(get_cmd_frompath(cmd), cmd->argv, environ);
-	exit(error_execute(cmd->argv[0], errno));
+	{
+		cmdpath = get_cmd_frompath(cmd);
+		if (cmdpath != NULL)
+			execve(get_cmd_frompath(cmd), cmd->argv, environ);
+		else
+			wrap_exit(error_execute(cmd->argv[0], 14));
+	}
+	wrap_exit(error_execute(cmd->argv[0], errno));
 }
 
 int	execute_parallel(t_command *cmd)
