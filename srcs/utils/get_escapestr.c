@@ -17,7 +17,7 @@
 
 static char	*copy_singlequote(char *tmp, int *index, char *line)
 {
-	int i;
+	int	i;
 
 	i = *index;
 	tmp[i] = *line;
@@ -38,7 +38,7 @@ static char	*copy_singlequote(char *tmp, int *index, char *line)
 
 static char	*copy_doublequote(char *tmp, int *index, char *line)
 {
-	int i;
+	int	i;
 
 	i = *index;
 	tmp[i] = *line;
@@ -61,7 +61,7 @@ static char	*copy_doublequote(char *tmp, int *index, char *line)
 
 static char	*copy_outquote(char *tmp, int *index, char *line)
 {
-	int i;
+	int	i;
 
 	i = *index;
 	while (*line != '\0' && *line != '\'' && *line != '"')
