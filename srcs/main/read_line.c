@@ -21,19 +21,20 @@ void	move_nextline(int *len)
 	}
 }
 
-static char	*check_input(char *line, char *c, int *i, int rc)
+static char	*check_input(char *line, char *c, int *i)
 {
-	if (!ft_strncmp(c, "\v", 2) || !ft_strncmp(c, "\r", 2)
-		|| !ft_strncmp(c, "\f", 2) || !ft_strncmp(c, "\t", 2))
-		write(STDOUT_FILENO, "\007", 1);
-	else if (rc == 1 && c[0] != '\n' && c[0] != '\034')
+	int	n;
+
+	n = 0;
+	while (c[n] != '\0' && c[n] != '\n' && c[n] != '\034')
 	{
-		ft_putchar_fd(c[0], STDOUT_FILENO);
+		ft_putchar_fd(c[n], STDOUT_FILENO);
 		move_nextline(i);
-		line[*i] = c[0];
+		line[*i] = c[n];
 		(*i)++;
-		line[*i] = '\0';
+		n++;
 	}
+	line[*i] = '\0';
 	return (line);
 }
 
@@ -65,7 +66,7 @@ static bool	check_control(char *c, int *i, char *line, t_hist **hist)
 
 static char	*get_line(char *line, t_hist **hist)
 {
-	char	c[8];
+	char	c[64];
 	int		i;
 	int		rc;
 
@@ -73,19 +74,19 @@ static char	*get_line(char *line, t_hist **hist)
 	c[0] = '\0';
 	while (c[0] != '\n')
 	{
-		rc = read(STDIN_FILENO, c, 7);
+		rc = read(STDIN_FILENO, c, 63);
 		if (rc == -1)
 			return (NULL);
 		c[rc] = '\0';
 		if (rc != 0 && !check_control(c, &i, line, hist))
-			line = check_input(line, c, &i, rc);
+			line = check_input(line, c, &i);
 	}
 	return (line);
 }
 
 char	*read_line(t_hist **hist)
 {
-	//extern t_termcap	term;
+	extern t_termcap	term;
 	char				*line;
 	char				*tmp;
 
@@ -97,7 +98,7 @@ char	*read_line(t_hist **hist)
 	}
 	line[0] = '\0';
 	tmp = line;
-	//get_cursor_position(&term.pos[0], &term.pos[1]);
+	get_cursor_position(&term.pos[0], &term.pos[1]);
 	line = get_line(line, hist);
 	if (!reset_terminal_setting() || !line)
 	{
