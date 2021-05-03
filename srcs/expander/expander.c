@@ -79,27 +79,26 @@ static char	*trim_quote(char *arg)
 static bool	preprocess_tokens(char ***strs)
 {
 	int		i;
-	char	*ret;
-	char	*tmp;
+	char	*ret[4];
 
 	i = 0;
 	while ((*strs) != NULL && (*strs)[i] != NULL)
 	{
-		ret = expand_envval((*strs)[i]);
-		if (ret == (*strs)[i])
-			ret = ft_strdup((*strs)[i]);
-		if (is_empty_env(strs, ret, i))
+		ret[0] = expand_envval((*strs)[i]);
+		if (ret[0] == (*strs)[i])
+			ret[0] = ft_strdup((*strs)[i]);
+		if (is_empty_env(strs, ret[0], i))
 			continue ;
-		tmp = ret;
-		ret = expand_firsttilde(ret);
-		free(tmp);
-		tmp = ret;
-		ret = trim_quote(ret);
-		free(tmp);
-		if (ret == NULL)
+		ret[1] = expand_firsttilde(ret[0]);
+		ret[2] = get_escapestr(ret[1]);
+		ret[3] = trim_quote(ret[2]);
+		free(ret[0]);
+		free(ret[1]);
+		free(ret[2]);
+		if (ret[3] == NULL)
 			return (false);
 		free((*strs)[i]);
-		(*strs)[i] = ret;
+		(*strs)[i] = ret[3];
 		i++;
 	}
 	return (true);

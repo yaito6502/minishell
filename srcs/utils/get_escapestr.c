@@ -86,12 +86,15 @@ char	*get_escapestr(char *line)
 	char	*tmp;
 	char	*str;
 	int		i;
+	int		j;
 
 	tmp = malloc(sizeof(char) * (ft_strlen(line) + 1));
 	if (tmp == NULL)
+
 		return (NULL);
 	i = 0;
-	while (*line != '\0')
+	j = 0;
+	while (line[j] != '\0')
 	{
 		if (*line == '\'')
 			line = copy_singlequote(tmp, &i, line);

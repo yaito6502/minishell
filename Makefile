@@ -24,6 +24,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/utils/print_sorted_env.c \
 			srcs/utils/wrap_exit.c \
 			srcs/utils/get_escapestr.c \
+			srcs/utils/add_path.c \
 			srcs/utils/update_shlvl.c \
 			srcs/parser/parser.c \
 			srcs/parser/parser_utils.c \

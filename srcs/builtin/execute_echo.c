@@ -43,6 +43,8 @@ int	execute_echo(t_command *cmd)
 	int		i;
 
 	op_flag = false;
+	if (!preprocess_command(cmd))
+		return (EXIT_FAILURE);
 	i = get_option(cmd->argv, &op_flag);
 	while (cmd->argv[i] != NULL)
 	{
