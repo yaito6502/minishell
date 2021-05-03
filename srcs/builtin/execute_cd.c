@@ -48,11 +48,11 @@ static bool	set_cdpath_iterate(char *path)
 	char	**split_path;
 	size_t	i;
 
-	split_path = ft_split(getenv("CDPATH"), ':');
-	if (split_path == NULL)
+	if (ft_strchr(path, '.') || ft_strchr(path, '/'))
 		return (false);
+	split_path = ft_split(getenv("CDPATH"), ':');
 	i = 0;
-	while (split_path[i] != NULL)
+	while (split_path && split_path[i] != NULL)
 	{
 		if (!endswith(split_path[i], "/"))
 			split_path[i] = add_path(split_path[i], NULL);
@@ -75,10 +75,12 @@ static char	*select_path(char *str)
 	char	*path;
 
 	path = str;
-	if (getenv("HOME") == NULL && path == NULL)
-		ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
-	else if (path == NULL || *path == '~')
-		path = expand_firsttilde(path);
+	if (!path)
+	{
+		path = ft_strdup(getenv("HOME"));
+		if (!path)
+			ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
+	}
 	else if (!ft_strncmp(path, "-", 2))
 	{
 		path = ft_strdup(getenv("OLDPWD"));
@@ -100,8 +102,8 @@ int	execute_cd(t_command *cmd)
 	path = select_path(cmd->argv[1]);
 	if (!path)
 		return (EXIT_FAILURE);
-	if (!ft_strchr(path, '/') && !ft_strchr(path, '.') && set_cdpath_iterate(path))
-			return (EXIT_SUCCESS);
+	if (set_cdpath_iterate(path))
+		return (EXIT_SUCCESS);
 	status = change_directory(path, false);
 	if (status)
 	{
