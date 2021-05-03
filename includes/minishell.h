@@ -92,6 +92,8 @@ bool			update_shlvl(void);
 char			**tokenize(char *line);
 bool			is_inquote(char *p, int len);
 bool			validate_line(char *line);
+char			*get_first_sep(char *line);
+bool			error_return(char *line, char last_op, bool has_space);
 bool			validate_quote(char *line);
 t_command		*parse(char **list);
 t_command		*get_lastcommand(t_command *cmds);
