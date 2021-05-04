@@ -17,13 +17,23 @@ static bool	is_validstr(char *str)
 	size_t	i;
 
 	i = 0;
+	while (!ft_strchr(SPACES, str[i]))
+		i++;
 	if (*str == '-' || *str == '+')
 		i++;
 	if (!str[i])
 		return (false);
 	while (str[i])
 	{
-		if (!ft_isdigit(str[i]) && !ft_strchr(SPACES, str[i]))
+		if (!ft_isdigit(str[i]))
+			return (false);
+		i++;
+	}
+	if (!str[i])
+		return (true);
+	while (str[i])
+	{
+		if (!ft_strchr(SPACES, str[i]))
 			return (false);
 		i++;
 	}
