@@ -5,6 +5,7 @@
 #define RIGHTKEY	"\033[C"
 #define LEFTKEY		"\033[D"
 #define BACKSPACE	"\177"
+#define TAB			"\t"
 #define CTRL_D		"\004"
 #define CTRL_C		"\003"
 
@@ -26,7 +27,7 @@ static char	*check_input(char *line, char *c, int *i)
 	int	n;
 
 	n = 0;
-	while (c[n] != '\0' && c[n] != '\n' && c[n] != '\034')
+	while (c[n] != '\0' && c[n] != '\n' && c[n] != '\033')
 	{
 		if (*i == BUFFER_SIZE)
 			break ;
@@ -42,13 +43,13 @@ static char	*check_input(char *line, char *c, int *i)
 
 static bool	check_control(char *c, int *i, char *line, t_hist **hist)
 {
-	if (!ft_strncmp(c, BACKSPACE, 2)
+	if (!ft_strncmp(c, BACKSPACE, 2) || !ft_strncmp(c, TAB, 2)
 		|| !ft_strncmp(c, CTRL_D, 2) || !ft_strncmp(c, CTRL_C, 2)
 		|| !ft_strncmp(c, UPKEY, 4) || !ft_strncmp(c, DOWNKEY, 4))
 	{
 		if (!ft_strncmp(c, CTRL_D, 2) && *i == 0)
 			get_eof(line, hist);
-		else if (!ft_strncmp(c, CTRL_D, 2))
+		else if (!ft_strncmp(c, CTRL_D, 2) || !ft_strncmp(c, TAB, 2))
 			write(1, "\007", 1);
 		else if (!ft_strncmp(c, BACKSPACE, 2))
 			back_line(line, i);

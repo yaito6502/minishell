@@ -53,7 +53,7 @@ int	execute_export(t_command *cmd)
 		value = NULL;
 		if (!set_keyvalue(cmd->argv[i], &key, &value))
 			status = EXIT_FAILURE;
-		if (!update_env(key, value))
+		if (!ft_strncmp(key, "_", 2) || !update_env(key, value))
 			status = print_error(cmd->argv[i]);
 		free(key);
 		free(value);

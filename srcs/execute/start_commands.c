@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+
 static void	print_signal_message(t_command *cmd, int status)
 {
 	if (WIFSIGNALED(status) && WTERMSIG(status) == 3 && cmd->next == NULL)
@@ -63,5 +64,4 @@ void	start_commands(t_command *cmd)
 		cmd = cmd->next;
 	}
 	free_commandslist(&cmd);
-	return ;
 }

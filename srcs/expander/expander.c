@@ -4,102 +4,103 @@
 ** cmd.argv内の文字列に対して環境変数展開、"'の削除を行う関数。
 ** クォート中のクォートはリテラルとして扱う。
 */
+#define SPACES	"\v\r\f\t\n "
 
-static int	get_len(char *line)
+static bool	has_spaces_in_expdedstr(char *str)
 {
-	int		i;
 	int		len;
-	char	quote;
-
-	i = 0;
-	len = 0;
-	while (line[i] != '\0')
-	{
-		if (line[i] != '\'' && line[i] != '"')
-		{
-			len++;
-			i++;
-			continue ;
-		}
-		quote = line[i];
-		i++;
-		while (line[i] != '\0' && line[i] != quote)
-		{
-			len++;
-			i++;
-		}
-		i++;
-	}
-	return (len);
-}
-
-static char	*copy_literal(char *arg, char *tmp, int *i)
-{
-	char	quote;
-
-	quote = arg[*i];
-	(*i)++;
-	while (arg[*i] != quote)
-	{
-		*tmp = arg[*i];
-		tmp++;
-		(*i)++;
-	}
-	(*i)++;
-	return (tmp);
-}
-
-static char	*trim_quote(char *arg)
-{
 	int		i;
-	char	*tmp;
-	char	*ret;
+	char	*dollar;
+	char	*name;
 
-	if (arg == NULL)
-		return (NULL);
-	tmp = malloc(sizeof(char) * (get_len(arg) + 1));
-	if (tmp == NULL)
-		return (NULL);
+	dollar = ft_strchr(str, '$');
+	if (!dollar)
+		return (false);
+	len = dollar - str;
+	dollar++;
+	get_envname(dollar, &len);
+	name = ft_substr(dollar, 0, len);
+	dollar = getenv(name);
+	free(name);
+	if (!dollar)
+		return (false);
 	i = 0;
-	ret = tmp;
-	while (arg[i] != '\0')
-	{
-		if (arg[i] == '\'' || arg[i] == '"')
-		{
-			tmp = copy_literal(arg, tmp, &i);
-			continue ;
-		}
-		*tmp++ = arg[i];
+	while (dollar[i] && !ft_strchr(SPACES, dollar[i]))
 		i++;
+	return (dollar[i]);
+}
+
+static char	*get_preformatted_tokens(char *token)
+{
+	char	*expded;
+	char	*escaped;
+	char	*preformetted;
+
+	if (token == NULL)
+		return (NULL);
+	expded = expand_firsttilde(token);
+	if (expded == NULL)
+		return (NULL);
+	escaped = get_escapestr(expded);
+	preformetted = trim_quote(escaped);
+	free(expded);
+	free(escaped);
+	return (preformetted);
+}
+
+static bool	insert_expded_args(char ***strs, int index, bool is_args)
+{
+	char	**tokens;
+	char	**new_strs;
+	int		j;
+
+	if (!is_args)
+		return (true);
+	new_strs = NULL;
+	if (index > 0)
+		new_strs = get_strs(*strs, index);
+	tokens = ft_split_multi((*strs)[index], SPACES);
+	if ((!new_strs && index > 0) || !tokens)
+	{
+		ft_free_split(tokens);
+		return (ft_free_split(*strs));
 	}
-	*tmp = '\0';
-	return (ret);
+	j = 1;
+	new_strs = add_str_to_list(new_strs, tokens[0]);
+	while (tokens[j] && new_strs)
+		new_strs = add_str_to_list(new_strs, tokens[j++]);
+	ft_free_split(tokens);
+	while ((*strs)[++index] && new_strs)
+		new_strs = add_str_to_list(new_strs, (*strs)[index]);
+	ft_free_split(*strs);
+	*strs = new_strs;
+	return (*strs);
 }
 
 static bool	preprocess_tokens(char ***strs)
 {
 	int		i;
+	char	*expded;
 	char	*ret;
-	char	*tmp;
+	bool	is_args;
 
 	i = 0;
 	while ((*strs) != NULL && (*strs)[i] != NULL)
 	{
-		ret = expand_envval((*strs)[i]);
-		if (ret == (*strs)[i])
-			ret = ft_strdup((*strs)[i]);
-		if (is_empty_env(strs, ret, i))
+		is_args = has_spaces_in_expdedstr((*strs)[i]);
+		expded = expand_envval((*strs)[i]);
+		if (expded == (*strs)[i])
+			expded = ft_strdup((*strs)[i]);
+		if (is_empty_env(strs, expded, i))
 			continue ;
-		tmp = ret;
-		ret = expand_firsttilde(ret);
-		free(tmp);
-		tmp = ret;
-		ret = trim_quote(ret);
-		free(tmp);
+		ret = get_preformatted_tokens(expded);
+		free(expded);
 		if (ret == NULL)
 			return (false);
 		free((*strs)[i]);
 		(*strs)[i] = ret;
+		if (!insert_expded_args(strs, i, is_args))
+			return (false);
 		i++;
 	}
 	return (true);
