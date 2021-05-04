@@ -10,19 +10,26 @@ static int	print_error(char *first, char *second)
 	return (255);
 }
 
-static bool	is_digits(char *str)
+static bool	is_validstr(char *str)
 {
 	size_t	i;
 
 	i = 0;
-	if (*str == '-' || *str == '+')
+	while (ft_isspace(str[i]))
 		i++;
-	if (!str[i])
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	if (str[i] == '\0')
 		return (false);
-	while (str[i])
-		if (!ft_isdigit(str[i++]))
-			return (false);
-	return (true);
+	while (ft_isdigit(str[i]))
+		i++;
+	if (str[i] == '\0')
+		return (true);
+	while (ft_isspace(str[i]))
+		i++;
+	if (str[i] == '\0')
+		return (true);
+	return (false);
 }
 
 static bool	is_overflow(long long num, int bottom)
@@ -73,12 +80,12 @@ int	execute_exit(t_command *cmd)
 		ft_putendl_fd("exit", STDERR_FILENO);
 		wrap_exit(EXIT_SUCCESS);
 	}
-	if (!is_digits(str))
+	if (!is_validstr(str))
 		wrap_exit(print_error(str, ": numeric argument required\n"));
 	if (cmd->argv[(!ft_strncmp(cmd->argv[1], "--", 3)) + 2] != NULL)
 	{
 		exit_status = print_error("too many arguments\n", NULL);
-		if (is_digits(str))
+		if (is_validstr(str))
 			wrap_exit(EXIT_FAILURE);
 		wrap_exit(exit_status);
 	}
