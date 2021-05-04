@@ -85,7 +85,7 @@ int	execute_exit(t_command *cmd)
 	if (cmd->argv[(!ft_strncmp(cmd->argv[1], "--", 3)) + 2] != NULL)
 	{
 		exit_status = print_error("too many arguments\n", NULL);
-		if (!is_validstr(str))
+		if (is_validstr(str))
 			wrap_exit(EXIT_FAILURE);
 		wrap_exit(exit_status);
 	}
