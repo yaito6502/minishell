@@ -5,6 +5,7 @@
 #define RIGHTKEY	"\033[C"
 #define LEFTKEY		"\033[D"
 #define BACKSPACE	"\177"
+#define TAB			"\t"
 #define CTRL_D		"\004"
 #define CTRL_C		"\003"
 
@@ -21,34 +22,54 @@ void	move_nextline(int *len)
 	}
 }
 
-static char	*check_input(char *line, char *c, int *i, int rc)
+static char	*check_input(char *line, char *c, int *i)
 {
+	int	n;
+
+	n = 0;
+	while (c[n] != '\0' && c[n] != '\n' && c[n] != '\033')
+	{
+		if (*i == BUFFER_SIZE)
+			break ;
+		ft_putchar_fd(c[n], STDOUT_FILENO);
+		move_nextline(i);
+		line[*i] = c[n];
+		(*i)++;
+		n++;
+	}
+	line[*i] = '\0';
+	return (line);
+}
+
+static bool	check_control(char *c, int *i, char *line, t_hist **hist)
+{
+	if (!ft_strncmp(c, BACKSPACE, 2) || !ft_strncmp(c, TAB, 2)
+		|| !ft_strncmp(c, CTRL_D, 2) || !ft_strncmp(c, CTRL_C, 2)
+		|| !ft_strncmp(c, UPKEY, 4) || !ft_strncmp(c, DOWNKEY, 4))
+	{
+		if (!ft_strncmp(c, CTRL_D, 2) && *i == 0)
+			get_eof(line, hist);
+		else if (!ft_strncmp(c, CTRL_D, 2) || !ft_strncmp(c, TAB, 2))
+			write(1, "\007", 1);
+		else if (!ft_strncmp(c, BACKSPACE, 2))
+			back_line(line, i);
+		else if (!ft_strncmp(c, CTRL_C, 2))
+			get_sigint(line, c);
+		else if (!ft_strncmp(c, UPKEY, 4) || !ft_strncmp(c, DOWNKEY, 4))
+			display_history(line, c, i, hist);
+		return (true);
+	}
 	if (*i == BUFFER_SIZE)
 	{
-		write(STDOUT_FILENO, "\n", 1);
-		ft_putendl_fd("minishell: read_line: Too long line", STDERR_FILENO);
-		c[0] = '\n';
-		return (NULL);
+		write(1, "\007", 1);
+		return (true);
 	}
-	if (!ft_strncmp(c, BACKSPACE, 2))
-		back_line(line, i);
-	else if (!ft_strncmp(c, "\v", 2) || !ft_strncmp(c, "\r", 2)
-		|| !ft_strncmp(c, "\f", 2) || !ft_strncmp(c, "\t", 2))
-		write(STDOUT_FILENO, "\007", 1);
-	else if (rc == 1 && c[0] != '\n' && c[0] != '\034')
-	{
-		ft_putchar_fd(c[0], STDOUT_FILENO);
-		move_nextline(i);
-		line[*i] = c[0];
-		(*i)++;
-		line[*i] = '\0';
-	}
-	return (line);
+	return (false);
 }
 
 static char	*get_line(char *line, t_hist **hist)
 {
-	char	c[8];
+	char	c[64];
 	int		i;
 	int		rc;
 
@@ -56,20 +77,12 @@ static char	*get_line(char *line, t_hist **hist)
 	c[0] = '\0';
 	while (c[0] != '\n')
 	{
-		rc = read(STDIN_FILENO, c, 7);
+		rc = read(STDIN_FILENO, c, 63);
 		if (rc == -1)
 			return (NULL);
 		c[rc] = '\0';
-		if (rc != 0 && !ft_strncmp(c, CTRL_D, 2) && i == 0)
-			get_eof(line, hist);
-		else if (rc != 0 && !ft_strncmp(c, CTRL_D, 2))
-			write(1, "\007", 1);
-		else if (rc != 0 && !ft_strncmp(c, CTRL_C, 2))
-			line = get_sigint(line, c);
-		else if (!ft_strncmp(c, UPKEY, 4) || !ft_strncmp(c, DOWNKEY, 4))
-			line = display_history(line, c, &i, hist);
-		else if (rc != 0)
-			line = check_input(line, c, &i, rc);
+		if (rc != 0 && !check_control(c, &i, line, hist))
+			line = check_input(line, c, &i);
 	}
 	return (line);
 }
@@ -80,7 +93,7 @@ char	*read_line(t_hist **hist)
 	char				*line;
 	char				*tmp;
 
-	line = malloc(sizeof(char) * BUFFER_SIZE);
+	line = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!line || !set_terminal_setting())
 	{
 		free(line);

@@ -8,7 +8,7 @@
 ** **histは参照したhisotryをそのまま返す。
 */
 
-static char	*error_return(char *c, char *str)
+static char	*error_dhistory(char *c, char *str)
 {
 	write(STDOUT_FILENO, "\n", 1);
 	ft_putstr_fd("minishell: display_history: ", STDERR_FILENO);
@@ -54,7 +54,7 @@ char	*display_history(char *line, char *c, int *i, t_hist **hist)
 		free((*hist)->modified_line);
 	(*hist)->modified_line = ft_strdup(line);
 	if ((*hist)->modified_line == NULL)
-		return (error_return(c, "malloc error"));
+		return (error_dhistory(c, "malloc error"));
 	if (dir == NEXT)
 		*hist = (*hist)->next;
 	else
