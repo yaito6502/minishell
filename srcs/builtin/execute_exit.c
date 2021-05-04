@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-#define SPACES	"\v\r\f\t\n "
-
 static int	print_error(char *first, char *second)
 {
 	ft_putendl_fd("exit", STDERR_FILENO);
@@ -17,27 +15,21 @@ static bool	is_validstr(char *str)
 	size_t	i;
 
 	i = 0;
-	while (!ft_strchr(SPACES, str[i]))
+	while (ft_isspace(str[i]))
 		i++;
-	if (*str == '-' || *str == '+')
+	if (str[i] == '-' || str[i] == '+')
 		i++;
-	if (!str[i])
+	if (str[i] == '\0')
 		return (false);
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (false);
+	while (ft_isdigit(str[i]))
 		i++;
-	}
-	if (!str[i])
+	if (str[i] == '\0')
 		return (true);
-	while (str[i])
-	{
-		if (!ft_strchr(SPACES, str[i]))
-			return (false);
+	while (ft_isspace(str[i]))
 		i++;
-	}
-	return (true);
+	if (str[i] == '\0')
+		return (true);
+	return (false);
 }
 
 static bool	is_overflow(long long num, int bottom)
