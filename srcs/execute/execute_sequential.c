@@ -13,7 +13,7 @@ static void	sequential_chlidproc(t_command *cmd)
 		if (cmdpath != NULL)
 			execve(cmdpath, cmd->argv, environ);
 		else
-			wrap_exit(error_execute(cmd->argv[0], 14));
+			wrap_exit(error_execute(cmd->argv[0], EFAULT));
 	}
 	wrap_exit(error_execute(cmd->argv[0], errno));
 }
