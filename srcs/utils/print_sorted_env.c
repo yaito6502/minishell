@@ -12,8 +12,8 @@ static bool	get_str_literal(char *str, char **literal)
 	ptr = ft_strchr(str, '=');
 	if (!ptr)
 		return (false);
-	ptr = ft_strdup(ptr);
-	*literal = ft_str_sandwich(ptr, "\"");
+	ptr = ft_str_sandwich(ptr + 1, "\"");
+	*literal = ft_strjoin("=", ptr);
 	free(ptr);
 	return (true);
 }
@@ -29,7 +29,7 @@ static void	merge(char **a, char **b, size_t index[3])
 	k = 0;
 	while (i < index[MID] && j < index[END])
 	{
-		if (ft_strncmp(a[i], a[j], ft_strlen(a[i])) < 0)
+		if (ft_strncmp(a[i], a[j], INT_MAX) < 0)
 			b[k++] = a[i++];
 		else
 			b[k++] = a[j++];
