@@ -3,20 +3,16 @@
 static int	has_dollar(char *line)
 {
 	int		ret;
-	bool	inquote;
 
 	ret = 0;
-	inquote = false;
 	while (*line != '\0')
 	{
-		if (*line == '"' && inquote == false)
-			inquote = true;
-		else if (*line == '"' && inquote == true)
-			inquote = false;
+		if (*line == '"')
+			is_inquote(*line);
 		if (*line == '$' && *(line + 1) != '\0'
 			&& !ft_isspace(*(line + 1)))
 			ret++;
-		if (*line == '\'' && inquote == false)
+		if (*line == '\'' && is_inquote('L'))
 		{
 			line++;
 			while (*line != '\'' && *line != '\0')

@@ -13,7 +13,7 @@
 
 #define SPACES	"\v\r\f\t\n "
 
-static bool	is_inquote(char *p, int len)
+static bool	is_inquote_t(char *p, int len)
 {
 	int		i;
 	int		j;
@@ -50,7 +50,7 @@ static int	get_index(char *p)
 	{
 		while (p[i] != '\0' && !ft_strchr("\v\r\f\t\n |><;", p[i]))
 			i++;
-		if (is_inquote(p, i))
+		if (is_inquote_t(p, i))
 		{
 			while (p[i] != '\0' && !ft_strchr("\"'", p[i]))
 				i++;
