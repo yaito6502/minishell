@@ -78,7 +78,7 @@ static char	*get_key(char *line, char *ret, int *i)
 
 	*i = 0;
 	line++;
-	if (*line == '\0' || ft_isspace(*line) || *line != '"')
+	if (*line == '\0' || ft_isspace(*line) || *line == '"')
 		return (output_dollar(ret, i));
 	if (*line == '?')
 		return (expand_exitstatus(ret, i));
