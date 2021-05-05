@@ -53,6 +53,8 @@ bool	endswith(char *str, char *end)
 {
 	char	elen;
 
+	if (!str || !end)
+		return (false);
 	elen = ft_strlen(end);
 	return (!ft_strncmp(str + (ft_strlen(str) - elen), end, elen + 1));
 }

@@ -1,18 +1,30 @@
 #include "minishell.h"
 
-static char	*retry_change_directory(char *path)
+#define ERR_GETCWD "cd: error retrieving current directory: getcwd:\
+ cannot access parent directories: No such file or directory"
+
+char	*retry_change_directory(char *path)
 {
 	char	*newpath;
-	char	*tmp;
+	char	*try;
 	char	*pwd;
 
 	if (chdir(path) == -1)
 		return (NULL);
 	pwd = getenv("PWD");
-	tmp = pwd;
 	if (!endswith(pwd, "/"))
-		tmp = ft_strjoin(pwd, "/");
-	newpath = ft_strjoin(tmp, path);
+		pwd = ft_strjoin(pwd, "/");
+	else
+		pwd = ft_strdup(pwd);
+	try = ft_strjoin(pwd, path);
+	free(pwd);
+	newpath = create_newpath(try);
+	if (!newpath && store_exitstatus(LOAD, errno) == ENOENT)
+	{
+		ft_putendl_fd(ERR_GETCWD, STDERR_FILENO);
+		return (try);
+	}
+	free(try);
 	return (newpath);
 }
 
