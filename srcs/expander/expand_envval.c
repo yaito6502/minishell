@@ -98,24 +98,20 @@ char	*expand_envval(char *line)
 {
 	char	*ret;
 	int		i;
-	bool	inquote;
 
-	inquote = false;
 	if (has_dollar(line) == 0)
 		return (line);
 	ret = NULL;
 	while (*line != '\0')
 	{
-		if (*line == '"' && inquote == false)
-			inquote = true;
-		else if (*line == '"' && inquote == true)
-			inquote = false;
-		if (*line == '\'' && inquote == false)
+		if (*line == '"')
+			is_inquote(*line);
+		if (*line == '\'' && !is_inquote('L'))
 			ret = copy_literal(line, ret, &i);
 		else if (*line == '$')
 			ret = get_key(line, ret, &i);
 		else
-			ret = copy_normalchar(line, ret, &i, inquote);
+			ret = copy_normalchar(line, ret, &i, is_inquote('L'));
 		if (ret == NULL)
 			return (NULL);
 		line = line + i + 1;
