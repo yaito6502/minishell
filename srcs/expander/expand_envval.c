@@ -10,7 +10,7 @@ static int	has_dollar(char *line)
 		if (*line == '"')
 			is_inquote(*line);
 		if (*line == '$' && *(line + 1) != '\0'
-			&& !ft_isspace(*(line + 1)))
+			&& !ft_isspace(*(line + 1)) && *(line + 1) != '"')
 			ret++;
 		if (*line == '\'' && !is_inquote('L'))
 		{
@@ -78,7 +78,7 @@ static char	*get_key(char *line, char *ret, int *i)
 
 	*i = 0;
 	line++;
-	if (*line == '\0' || ft_isspace(*line))
+	if (*line == '\0' || ft_isspace(*line) || *line != '"')
 		return (output_dollar(ret, i));
 	if (*line == '?')
 		return (expand_exitstatus(ret, i));
