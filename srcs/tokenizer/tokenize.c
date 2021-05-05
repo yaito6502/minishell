@@ -13,7 +13,7 @@
 
 #define SPACES	"\v\r\f\t\n "
 
-bool	is_inquote(char *p, int len)
+static bool	is_inquote(char *p, int len)
 {
 	int		i;
 	int		j;

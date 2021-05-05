@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-#define SPACES	"\v\r\f\t\n "
-
 static int	has_dollar(char *line)
 {
 	int		ret;
@@ -16,7 +14,7 @@ static int	has_dollar(char *line)
 		else if (*line == '"' && inquote == true)
 			inquote = false;
 		if (*line == '$' && *(line + 1) != '\0'
-			&& !ft_strchr(SPACES, *(line + 1)))
+			&& !ft_isspace(*(line + 1)))
 			ret++;
 		if (*line == '\'' && inquote == false)
 		{
@@ -84,7 +82,7 @@ static char	*get_key(char *line, char *ret, int *i)
 
 	*i = 0;
 	line++;
-	if (*line == '\0' || ft_strchr(SPACES, *line))
+	if (*line == '\0' || ft_isspace(*line))
 		return (output_dollar(ret, i));
 	if (*line == '?')
 		return (expand_exitstatus(ret, i));
