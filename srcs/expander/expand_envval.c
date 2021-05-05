@@ -12,7 +12,7 @@ static int	has_dollar(char *line)
 		if (*line == '$' && *(line + 1) != '\0'
 			&& !ft_isspace(*(line + 1)))
 			ret++;
-		if (*line == '\'' && is_inquote('L'))
+		if (*line == '\'' && !is_inquote('L'))
 		{
 			line++;
 			while (*line != '\'' && *line != '\0')
