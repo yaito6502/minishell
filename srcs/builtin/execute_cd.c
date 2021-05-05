@@ -60,7 +60,7 @@ static bool	set_cdpath_iterate(char *path)
 	char	**split_path;
 	size_t	i;
 
-	if (ft_strchr(path, '.') || ft_strchr(path, '/'))
+	if (path[0] == '\0' || ft_strchr(path, '.') || ft_strchr(path, '/'))
 		return (false);
 	split_path = ft_split(getenv("CDPATH"), ':');
 	i = 0;
