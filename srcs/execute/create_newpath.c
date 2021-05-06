@@ -36,7 +36,10 @@ static char	**get_dir_separeted_by_slash(char *path)
 	if (!newpath)
 		return (NULL);
 	if (stat(newpath, &sb) == -1)
+	{
+		free(newpath);
 		return (NULL);
+	}
 	dir = ft_split(newpath, '/');
 	free(newpath);
 	return (dir);
@@ -62,7 +65,7 @@ static t_list	*create_hierarchy(char **dir)
 			}
 		}
 		else if (ft_strncmp(*dir, ".", 2))
-			ft_lstadd_back(&list, ft_lstnew(*dir));
+			ft_lstadd_back(&list, ft_lstnew(ft_strdup(*dir)));
 		dir++;
 	}
 	return (list);
@@ -90,5 +93,6 @@ char	*create_newpath(char *path)
 		list = list->next;
 	newpath = add_path_iterate(list);
 	ft_lstclear(&head, free);
+	ft_free_split(dir);
 	return (newpath);
 }

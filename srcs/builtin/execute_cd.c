@@ -115,7 +115,10 @@ int	execute_cd(t_command *cmd)
 	if (!path)
 		return (EXIT_FAILURE);
 	if (set_cdpath_iterate(path))
+	{
+		free(path);
 		return (EXIT_SUCCESS);
+	}
 	status = change_directory(path, false);
 	if (status)
 	{
