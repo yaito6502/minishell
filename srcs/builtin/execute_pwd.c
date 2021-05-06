@@ -14,6 +14,6 @@ int	execute_pwd(t_command *cmd)
 	path = getenv("PWD");
 	if (path == NULL)
 		return (EXIT_FAILURE);
-	printf("%s\n", path);
+	ft_putendl_fd(path, STDOUT_FILENO);
 	return (EXIT_SUCCESS);
 }

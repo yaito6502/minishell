@@ -7,12 +7,7 @@ static char	*get_cwd_with_slash(void)
 
 	path = getcwd(NULL, 0);
 	if (!path)
-	{
-		if (errno == ENOENT)
-			ft_putendl_fd("cd: error retrieving current directory: getcwd:\
- cannot access parent directories: No such file or directory", STDERR_FILENO);
 		return (NULL);
-	}
 	tmp = path;
 	path = ft_strjoin(path, "/");
 	if (!path)
@@ -80,6 +75,8 @@ char	*create_newpath(char *path)
 	t_list	*head;
 	t_list	*list;
 
+	if (!path)
+		return (NULL);
 	if (!ft_strncmp(path, "/", 2) || !ft_strncmp(path, "//", 3))
 		return (ft_strdup(path));
 	dir = get_dir_separeted_by_slash(path);
