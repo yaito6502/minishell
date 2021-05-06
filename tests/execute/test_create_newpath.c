@@ -10,5 +10,6 @@ int		main(int argc, char **argv)
 		return (1);
 	path = create_newpath(argv[1]);
 	puts(path);
+	free(path);
 	return (0);
 }
