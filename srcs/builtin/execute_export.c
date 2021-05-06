@@ -17,13 +17,18 @@ static int	print_error(char *message)
 static bool	set_keyvalue(char *str, char **key, char **value)
 {
 	char	*equal;
+	char	*plus;
 
 	equal = ft_strchr(str, '=');
 	*value = NULL;
 	if (equal)
 	{
-		*key = ft_substr(str, 0, equal - str);
-		*value = ft_strdup(equal + 1);
+		plus = ft_strchr(str, '+');
+		*key = ft_substr(str, 0, equal - (str + !!plus));
+		if (plus + 1 == equal && getenv(*key))
+			*value = ft_strjoin(getenv(*key), equal + 1);
+		else
+			*value = ft_strdup(equal + 1);
 	}
 	else
 		*key = ft_strdup(str);

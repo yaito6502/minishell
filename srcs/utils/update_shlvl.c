@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+#define SPACES	"\v\r\f\t\n "
+
 static void	output_error(char *val)
 {
 	ft_putstr_fd("minishell: warning: shell level (", STDERR_FILENO);
@@ -28,7 +30,7 @@ bool	update_shlvl(void)
 	int			value;
 	bool		ret;
 
-	env = getenv("SHLVL");
+	env = ft_strtrim( getenv("SHLVL"), SPACES);
 	if (env == NULL)
 		return (add_newval_to_env("SHLVL=1"));
 	if (!is_valid_shlvl(env))
