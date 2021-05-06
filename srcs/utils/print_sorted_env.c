@@ -4,21 +4,18 @@
 #define MID 1
 #define END 2
 
-static char	*get_str_literal(char *str)
+static bool	get_str_literal(char *str, char **literal)
 {
 	char	*ptr;
-	char	*literal;
 
+	*literal = NULL;
 	ptr = ft_strchr(str, '=');
-	if (ptr)
-	{
-		ptr = ft_strdup(ptr + 1);
-		literal = ft_str_sandwich(ptr, "\"");
-		free(ptr);
-	}
-	else
-		literal = ft_strdup(str);
-	return (literal);
+	if (!ptr)
+		return (false);
+	ptr = ft_str_sandwich(ptr + 1, "\"");
+	*literal = ft_strjoin("=", ptr);
+	free(ptr);
+	return (true);
 }
 
 static void	merge(char **a, char **b, size_t index[3])
@@ -32,7 +29,7 @@ static void	merge(char **a, char **b, size_t index[3])
 	k = 0;
 	while (i < index[MID] && j < index[END])
 	{
-		if (ft_strncmp(a[i], a[j], ft_strlen(a[i])) < 0)
+		if (ft_strncmp(a[i], a[j], INT_MAX) < 0)
 			b[k++] = a[i++];
 		else
 			b[k++] = a[j++];
@@ -40,15 +37,12 @@ static void	merge(char **a, char **b, size_t index[3])
 	if (i == index[MID])
 		while (j < index[END])
 			b[k++] = a[j++];
-	if (i != index[MID])
+	else
 		while (i < index[MID])
 			b[k++] = a[i++];
-	i = 0;
-	while (i < k)
-	{
+	i = k;
+	while (i--)
 		a[index[FRONT] + i] = b[i];
-		i++;
-	}
 }
 
 void	sort_environ(char **a, char **b, size_t front, size_t end)
@@ -85,7 +79,7 @@ char	**get_sorted_environ(void)
 		free(buf);
 		return (NULL);
 	}
-	ft_memcpy(sorted, environ, sizeof(char *) * i);
+	ft_memcpy(sorted, environ, sizeof(char *) * (i + 1));
 	sorted[i] = NULL;
 	sort_environ(sorted, buf, 0, i);
 	free(buf);
@@ -96,6 +90,7 @@ int	print_sorted_env(void)
 {
 	char	**sorted;
 	char	*value;
+	bool	has_value;
 	size_t	i;
 
 	sorted = get_sorted_environ();
@@ -104,15 +99,16 @@ int	print_sorted_env(void)
 	i = 0;
 	while (sorted[i] != NULL)
 	{
-		value = get_str_literal(sorted[i]);
-		if (!value)
+		has_value = get_str_literal(sorted[i], &value);
+		if (has_value && !value)
 			return (EXIT_FAILURE);
-		printf("declare -x ");
-		while (*sorted[i] != '=')
-			putchar(*sorted[i]++);
-		putchar(*sorted[i]++);
-		printf("%s\n", value);
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		while (*sorted[i] && *sorted[i] != '=')
+			ft_putchar(*sorted[i]++);
+		if (has_value)
+			ft_putstr_fd(value, STDOUT_FILENO);
 		free(value);
+		ft_putendl_fd("", STDOUT_FILENO);
 		i++;
 	}
 	free(sorted);

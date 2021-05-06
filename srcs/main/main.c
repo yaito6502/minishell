@@ -83,6 +83,7 @@ int	main(int argc, char **argv)
 	hist = NULL;
 	create_newenv();
 	init_tterm();
+	update_env("OLDPWD", NULL);
 	if (!update_shlvl())
 		wrap_exit(EXIT_FAILURE);
 	if (argc > 2 && !ft_strncmp(argv[1], "-c", 3))
