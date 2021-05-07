@@ -15,7 +15,7 @@ bool	redirect_error(char *key, char *errmsg)
 bool	fd_error(long fd, char *errmsg)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	if (fd < INT_MAX)
+	if (fd <= INT_MAX)
 		ft_putnbr_fd((int)fd, STDERR_FILENO);
 	else
 		ft_putstr_fd("file descriptor out of range", STDERR_FILENO);

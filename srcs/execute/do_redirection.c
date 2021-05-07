@@ -29,7 +29,7 @@ static int	is_appending(char *arg)
 	i = ft_strlen(arg);
 	if (arg[i - 1] == '>' && arg[i - 2] == '>')
 		return (O_RDWR | O_CREAT | O_APPEND);
-	return (O_WRONLY | O_CREAT);
+	return (O_WRONLY | O_CREAT | O_TRUNC);
 }
 
 /*
