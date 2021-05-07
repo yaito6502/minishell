@@ -31,7 +31,9 @@ char	*retry_change_directory(char *path)
 static int	change_directory(char *path, bool is_putpath)
 {
 	char		*newpath;
-	int			ret;
+	char		*pwd;
+	const char	*nullchar = "";
+	bool		ret;
 
 	if (!path)
 		return (EXIT_SUCCESS);
@@ -44,14 +46,14 @@ static int	change_directory(char *path, bool is_putpath)
 		if (!newpath)
 			return (EXIT_FAILURE);
 	}
-	ret = (!update_env("OLDPWD", getenv("PWD"))
-			|| !update_env("PWD", newpath));
+	pwd = getenv("PWD");
+	if (!pwd)
+		pwd = (char *)nullchar;
+	ret = (!update_env("OLDPWD", pwd) || !update_env("PWD", newpath));
 	if (is_putpath)
 		ft_putendl_fd(newpath, STDOUT_FILENO);
 	free(newpath);
-	if (ret == true)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	return (ret);
 }
 
 static bool	set_cdpath_iterate(char *path)
