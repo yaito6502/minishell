@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-#define CURRENTDIR "."
-
 static char	*join_cmd_and_path(char *dirpath, char *cmdname)
 {
 	char	*path;
