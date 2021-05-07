@@ -76,10 +76,15 @@ static void	run_command(char *line)
 
 static void	init_minishell(void)
 {
+	extern char	**environ;
+
 	if (!create_newenv())
 		exit(EXIT_FAILURE);
 	if (!init_tterm())
+	{
+		ft_free_split(environ);
 		exit(EXIT_FAILURE);
+	}
 	if (!update_env("OLDPWD", NULL))
 		wrap_exit(EXIT_FAILURE);
 	if (!update_shlvl())
