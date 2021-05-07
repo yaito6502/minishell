@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+#define CURRENTDIR "."
+
 static char	**create_splitpath(void)
 {
 	extern char	**environ;
@@ -37,13 +39,29 @@ static char	*join_cmd_and_path(char *dirpath, char *cmdname)
 	return (path);
 }
 
-#define CURRENTDIR "."
+static char	*check_dir(DIR *dir, char *path, char *cmdname)
+{
+	struct dirent	*dp;
+
+	dp = readdir(dir);
+	while (dp != NULL)
+	{
+		if (!ft_strncmp(dp->d_name, cmdname, ft_strlen(cmdname) + 1))
+		{
+			closedir(dir);
+			return (join_cmd_and_path(path, cmdname));
+		}
+		dp = readdir(dir);
+	}
+	closedir(dir);
+	return (NULL);
+}
 
 static char	*search_path(char **split_path, char *cmdname)
 {
-	DIR				*dir;
-	struct dirent	*dp;
-	char			*path;
+	DIR		*dir;
+	char	*path;
+	char	*ret;
 
 	while (*split_path != NULL)
 	{
@@ -57,17 +75,9 @@ static char	*search_path(char **split_path, char *cmdname)
 			split_path++;
 			continue ;
 		}
-		dp = readdir(dir);
-		while (dp != NULL)
-		{
-			if (!ft_strncmp(dp->d_name, cmdname, ft_strlen(cmdname) + 1))
-			{
-				closedir(dir);
-				return (join_cmd_and_path(path, cmdname));
-			}
-			dp = readdir(dir);
-		}
-		closedir(dir);
+		ret = check_dir(dir, path, cmdname);
+		if (ret != NULL)
+			return (ret);
 		split_path++;
 	}
 	return (NULL);

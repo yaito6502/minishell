@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 static void	print_signal_message(t_command *cmd, int status)
 {
 	if (WIFSIGNALED(status) && WTERMSIG(status) == 3 && cmd->next == NULL)
