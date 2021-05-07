@@ -14,6 +14,7 @@ static void	sequential_chlidproc(t_command *cmd)
 			execve(cmdpath, cmd->argv, environ);
 		else
 			wrap_exit(error_execute(cmd->argv[0], EFAULT));
+		wrap_exit(error_execute(cmdpath, errno));
 	}
 	wrap_exit(error_execute(cmd->argv[0], errno));
 }
