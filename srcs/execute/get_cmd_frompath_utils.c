@@ -23,14 +23,32 @@ static int	getlen(char *path)
 	return (n);
 }
 
+static char	*get_split_path(char **path)
+{
+	char	*tmp;
+	char	*split_path;
+	size_t	size;
+
+	tmp = ft_strchr(*path, ':');
+	if (tmp == NULL)
+		tmp = ft_strchr(*path, '\0');
+	size = tmp - *path;
+	if (size == 0)
+		split_path = ft_strdup(".");
+	else
+		split_path = ft_substr(*path, 0, size);
+	*path = tmp + 1;
+	return (split_path);
+}
+
 char	**cut_eachcolon(char *path)
 {
 	char	**split_path;
 	int		n;
 	int		i;
-	char	*tmp;
-	size_t	size;
 
+	if (!path)
+		return (NULL);
 	n = getlen(path);
 	split_path = (char **)malloc(sizeof(char *) * (n + 1));
 	if (split_path == NULL)
@@ -39,14 +57,9 @@ char	**cut_eachcolon(char *path)
 	i = 0;
 	while (i < n)
 	{
-		tmp = ft_strchr(path, ':');
-		if (tmp == NULL)
-			tmp = ft_strchr(path, '\0');
-		size = (size_t)(tmp - path);
-		split_path[i] = ft_substr(path, 0, size);
+		split_path[i] = get_split_path(&path);
 		if (split_path[i] == NULL)
 			return (error_malloc());
-		path = tmp + 1;
 		i++;
 	}
 	return (split_path);

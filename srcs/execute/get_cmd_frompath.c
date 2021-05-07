@@ -61,14 +61,10 @@ static char	*search_path(char **split_path, char *cmdname)
 	last_hit = NULL;
 	while (*split_path != NULL)
 	{
-		if ((*split_path)[0] != '\0')
-			path = *split_path;
-		else
-			path = CURRENTDIR;
-		dir = opendir(path);
+		dir = opendir(*split_path);
 		if (dir != NULL)
 		{
-			path = search_dir(dir, path, cmdname, &last_hit);
+			path = search_dir(dir, *split_path, cmdname, &last_hit);
 			if (path != NULL)
 				return (path);
 		}
