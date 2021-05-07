@@ -4,6 +4,14 @@
 ** lineのクォートが閉じているかの判定
 */
 
+static void	print_error(char quote)
+{
+	ft_putstr_fd("minishell: unexpected EOF while looking for matching `", \
+	STDERR_FILENO);
+	ft_putchar_fd(quote, STDERR_FILENO);
+	ft_putendl_fd("'", STDERR_FILENO);
+}
+
 bool	validate_quote(char *line)
 {
 	char	quote;
@@ -22,7 +30,7 @@ bool	validate_quote(char *line)
 			}
 			if (*line == '\0')
 			{
-				ft_putendl_fd("minishell: Quote is not closed.", 2);
+				print_error(quote);
 				return (false);
 			}
 		}

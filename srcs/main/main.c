@@ -19,7 +19,7 @@ static char	*check_validline(char *line)
 	tmp = ft_strtrim(line, SPACES);
 	if (tmp == NULL)
 		return (NULL);
-	if (!validate_line(tmp) || !validate_quote(tmp))
+	if (!validate_quote(tmp) || !validate_line(tmp))
 	{
 		free(tmp);
 		free(line);
