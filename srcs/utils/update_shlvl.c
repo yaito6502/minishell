@@ -42,7 +42,10 @@ bool	update_shlvl(void)
 	int		value;
 	bool	ret;
 
-	env = ft_strtrim(getenv("SHLVL"), SPACES);
+	env = getenv("SHLVL");
+	while (env && ft_strchr(SPACES, *env))
+		env++;
+	env = ft_strtrim(env, "\t\n ");
 	if (env == NULL || !is_valid_shlvl(env))
 		return (reset_shlvl("1", env));
 	value = ft_atoi(env);
