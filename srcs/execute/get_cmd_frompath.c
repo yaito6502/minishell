@@ -54,27 +54,29 @@ static char	*search_dir(DIR *dir, char *path, char *cmdname)
 static char	*search_path(char **split_path, char *cmdname)
 {
 	DIR		*dir;
-	char	*path;
-	char	*ret;
+	char	*tmp;
+	char	*last_hit;
 
+	last_hit = NULL;
 	while (*split_path != NULL)
 	{
 		if ((*split_path)[0] != '\0')
-			path = *split_path;
+			tmp = *split_path;
 		else
-			path = CURRENTDIR;
-		dir = opendir(path);
-		if (dir == NULL)
+			tmp = CURRENTDIR;
+		dir = opendir(tmp);
+		if (dir != NULL)
 		{
-			split_path++;
-			continue ;
+			tmp = search_dir(dir, tmp, cmdname);
+			if (tmp != NULL)
+			{
+				free(last_hit);
+				last_hit = tmp;
+			}
 		}
-		ret = search_dir(dir, path, cmdname);
-		if (ret != NULL)
-			return (ret);
 		split_path++;
 	}
-	return (NULL);
+	return (last_hit);
 }
 
 char	*get_cmd_frompath(t_command *cmd)
