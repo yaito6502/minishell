@@ -2,29 +2,22 @@
 
 #define CURRENTDIR "."
 
-static char	**create_splitpath(void)
-{
-	extern char	**environ;
-	char		**split_path;
-	char		*tmp;
-	int			i;
-
-	i = 0;
-	while (environ[i] != NULL && ft_strncmp(environ[i], "PATH", 4) != 0)
-		i++;
-	if (environ[i] == NULL)
-		return (NULL);
-	split_path = cut_eachcolon(environ[i]);
-	if (split_path == NULL)
-		return (NULL);
-	tmp = split_path[0];
-	split_path[0] = ft_substr(split_path[0], 5, ft_strlen(split_path[0]) - 5);
-	free(tmp);
-	if (split_path[0] == NULL)
-		return (NULL);
-	return (split_path);
-}
-
+//static char	**create_splitpath(void)
+//{
+//	char		**split_path;
+//	char		*tmp;
+//
+//	split_path = cut_eachcolon(getenv("PATH"));
+//	if (split_path == NULL)
+//		return (NULL);
+//	tmp = split_path[0];
+//	split_path[0] = ft_substr(split_path[0], 5, ft_strlen(split_path[0]) - 5);
+//	free(tmp);
+//	if (split_path[0] == NULL)
+//		return (NULL);
+//	return (split_path);
+//}
+//
 static char	*join_cmd_and_path(char *dirpath, char *cmdname)
 {
 	char	*path;
@@ -88,7 +81,7 @@ char	*get_cmd_frompath(t_command *cmd)
 	char	**split_path;
 	char	*fullpath;
 
-	split_path = create_splitpath();
+	split_path = cut_eachcolon(getenv("PATH"));
 	if (!split_path)
 		return (NULL);
 	fullpath = NULL;
