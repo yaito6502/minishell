@@ -45,27 +45,37 @@ static char	**get_dir_separeted_by_slash(char *path)
 	return (dir);
 }
 
-static t_list	*create_hierarchy(char **dir)
+static void	lstdelone_beforenull(t_list **list)
 {
 	t_list	*last;
+
+	last = *list;
+	if (last)
+	{
+		while (last->next && last->next->next)
+			last = last->next;
+		ft_lstdelone(last->next, free);
+		last->next = NULL;
+	}
+}
+
+static t_list	*create_hierarchy(char **dir)
+{
 	t_list	*list;
+	char	*content;
 
 	list = ft_lstnew(NULL);
 	while (dir && *dir != NULL)
 	{
 		if (!ft_strncmp(*dir, "..", 3))
-		{
-			last = list;
-			if (last)
-			{
-				while (last->next && last->next->next)
-					last = last->next;
-				ft_lstdelone(last->next, free);
-				last->next = NULL;
-			}
-		}
+			lstdelone_beforenull(&list);
 		else if (ft_strncmp(*dir, ".", 2))
-			ft_lstadd_back(&list, ft_lstnew(ft_strdup(*dir)));
+		{
+			content = ft_strdup(*dir);
+			if (!content)
+				break ;
+			ft_lstadd_back(&list, ft_lstnew(content));
+		}
 		dir++;
 	}
 	return (list);
