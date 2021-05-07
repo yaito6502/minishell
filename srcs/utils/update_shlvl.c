@@ -10,6 +10,17 @@ static void	output_error(char *val)
 	return ;
 }
 
+static bool	reset_shlvl(char *new_val, char *old_val)
+{
+	int	value;
+
+	value = ft_atoi(old_val);
+	if (value >= 1001)
+		output_error(old_val);
+	free(old_val);
+	return (update_env("SHLVL", new_val));
+}
+
 static bool	is_valid_shlvl(char *env)
 {
 	if (!ft_isdigit(*env) && *env != '+' && *env != '-')
@@ -26,28 +37,25 @@ static bool	is_valid_shlvl(char *env)
 
 bool	update_shlvl(void)
 {
-	char		*env;
-	int			value;
-	bool		ret;
+	char	*env;
+	char	*tmp;
+	int		value;
+	bool	ret;
 
-	env = ft_strtrim( getenv("SHLVL"), SPACES);
-	if (env == NULL)
-		return (add_newval_to_env("SHLVL=1"));
-	if (!is_valid_shlvl(env))
-		return (update_env("SHLVL", "1"));
+	env = ft_strtrim(getenv("SHLVL"), SPACES);
+	if (env == NULL || !is_valid_shlvl(env))
+		return (reset_shlvl("1", env));
 	value = ft_atoi(env);
 	if (value < 0)
-		return (update_env("SHLVL", "0"));
+		return (reset_shlvl("0", env));
 	value++;
+	tmp = env;
 	env = ft_itoa(value);
+	free(tmp);
 	if (env == NULL)
 		return (false);
 	if (value >= 1001)
-	{
-		output_error(env);
-		free(env);
-		return (update_env("SHLVL", "1"));
-	}
+		return (reset_shlvl("1", env));
 	ret = update_env("SHLVL", env);
 	free(env);
 	return (ret);

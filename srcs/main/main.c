@@ -74,6 +74,23 @@ static void	run_command(char *line)
 	exit(store_exitstatus(LOAD, 0));
 }
 
+static void	init_minishell(void)
+{
+	extern char	**environ;
+
+	if (!create_newenv())
+		exit(EXIT_FAILURE);
+	if (!init_tterm())
+	{
+		ft_free_split(environ);
+		exit(EXIT_FAILURE);
+	}
+	if (!update_env("OLDPWD", NULL))
+		wrap_exit(EXIT_FAILURE);
+	if (!update_shlvl())
+		wrap_exit(EXIT_FAILURE);
+}
+
 int	main(int argc, char **argv)
 {
 	extern t_termcap	term;
@@ -81,11 +98,7 @@ int	main(int argc, char **argv)
 	char				*line;
 
 	hist = NULL;
-	create_newenv();
-	init_tterm();
-	update_env("OLDPWD", NULL);
-	if (!update_shlvl())
-		wrap_exit(EXIT_FAILURE);
+	init_minishell();
 	if (argc > 2 && !ft_strncmp(argv[1], "-c", 3))
 	{
 		line = ft_strdup(argv[2]);
