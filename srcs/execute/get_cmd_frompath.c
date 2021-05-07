@@ -27,7 +27,7 @@ static bool	check_executable(char *path)
 	return (true);
 }
 
-static char	*search_dir(DIR *dir, char *path, char *cmdname)
+static char	*search_dir(DIR *dir, char *path, char *cmdname, char **last_hit)
 {
 	struct dirent	*dp;
 	char			*filepath;
@@ -43,7 +43,8 @@ static char	*search_dir(DIR *dir, char *path, char *cmdname)
 				closedir(dir);
 				return (filepath);
 			}
-			free(filepath);
+			free(last_hit);
+			*last_hit = filepath;
 		}
 		dp = readdir(dir);
 	}
@@ -54,25 +55,22 @@ static char	*search_dir(DIR *dir, char *path, char *cmdname)
 static char	*search_path(char **split_path, char *cmdname)
 {
 	DIR		*dir;
-	char	*tmp;
+	char	*path;
 	char	*last_hit;
 
 	last_hit = NULL;
 	while (*split_path != NULL)
 	{
 		if ((*split_path)[0] != '\0')
-			tmp = *split_path;
+			path = *split_path;
 		else
-			tmp = CURRENTDIR;
-		dir = opendir(tmp);
+			path = CURRENTDIR;
+		dir = opendir(path);
 		if (dir != NULL)
 		{
-			tmp = search_dir(dir, tmp, cmdname);
-			if (tmp != NULL)
-			{
-				free(last_hit);
-				last_hit = tmp;
-			}
+			path = search_dir(dir, path, cmdname, &last_hit);
+			if (path != NULL)
+				return (path);
 		}
 		split_path++;
 	}
