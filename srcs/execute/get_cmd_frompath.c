@@ -37,7 +37,7 @@ static char	*join_cmd_and_path(char *dirpath, char *cmdname)
 	return (path);
 }
 
-#define CURRENTDIR "./"
+#define CURRENTDIR "."
 
 static char	*search_path(char **split_path, char *cmdname)
 {

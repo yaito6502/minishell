@@ -20,7 +20,6 @@ static int	getlen(char *path)
 			n++;
 		i++;
 	}
-	printf("%d\n", n);
 	return (n);
 }
 
