@@ -30,20 +30,20 @@ static bool	check_executable(char *path)
 static char	*search_dir(DIR *dir, char *path, char *cmdname)
 {
 	struct dirent	*dp;
-	char			*path;
+	char			*filepath;
 
 	dp = readdir(dir);
 	while (dp != NULL)
 	{
 		if (!ft_strncmp(dp->d_name, cmdname, ft_strlen(cmdname) + 1))
 		{
-			path = join_cmd_and_path(path, cmdname);
-			if (check_executable(path))
+			filepath = join_cmd_and_path(path, cmdname);
+			if (check_executable(filepath))
 			{
 				closedir(dir);
-				return (path);
+				return (filepath);
 			}
-			free(path);
+			free(filepath);
 		}
 		dp = readdir(dir);
 	}
