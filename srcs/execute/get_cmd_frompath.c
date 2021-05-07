@@ -12,7 +12,7 @@ static char	**create_splitpath(void)
 		i++;
 	if (environ[i] == NULL)
 		return (NULL);
-	split_path = ft_split(environ[i], ':');
+	split_path = cut_eachcolon(environ[i]);
 	if (split_path == NULL)
 		return (NULL);
 	tmp = split_path[0];
@@ -37,14 +37,21 @@ static char	*join_cmd_and_path(char *dirpath, char *cmdname)
 	return (path);
 }
 
+#define CURRENTDIR "./"
+
 static char	*search_path(char **split_path, char *cmdname)
 {
 	DIR				*dir;
 	struct dirent	*dp;
+	char			*path;
 
 	while (*split_path != NULL)
 	{
-		dir = opendir(*split_path);
+		if ((*split_path)[0] != '\0')
+			path = *split_path;
+		else
+			path = CURRENTDIR;
+		dir = opendir(path);
 		if (dir == NULL)
 		{
 			split_path++;
@@ -56,7 +63,7 @@ static char	*search_path(char **split_path, char *cmdname)
 			if (!ft_strncmp(dp->d_name, cmdname, ft_strlen(cmdname) + 1))
 			{
 				closedir(dir);
-				return (join_cmd_and_path(*split_path, cmdname));
+				return (join_cmd_and_path(path, cmdname));
 			}
 			dp = readdir(dir);
 		}
@@ -66,16 +73,14 @@ static char	*search_path(char **split_path, char *cmdname)
 	return (NULL);
 }
 
-/*
-** env内PATHからcmdを検索する関数。pathの左が優先。
-*/
-
 char	*get_cmd_frompath(t_command *cmd)
 {
 	char	**split_path;
 	char	*fullpath;
 
 	split_path = create_splitpath();
+	if (!split_path)
+		return (NULL);
 	fullpath = NULL;
 	if (split_path)
 		fullpath = search_path(split_path, cmd->argv[0]);
