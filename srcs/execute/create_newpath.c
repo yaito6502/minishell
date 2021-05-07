@@ -73,7 +73,10 @@ static t_list	*create_hierarchy(char **dir)
 		{
 			content = ft_strdup(*dir);
 			if (!content)
-				break ;
+			{
+				ft_lstclear(&list, free);
+				return (NULL);
+			}
 			ft_lstadd_back(&list, ft_lstnew(content));
 		}
 		dir++;
