@@ -16,17 +16,34 @@ static char	*join_cmd_and_path(char *dirpath, char *cmdname)
 	return (path);
 }
 
-static char	*check_dir(DIR *dir, char *path, char *cmdname)
+static bool	check_executable(char *path)
+{
+	struct stat	sb;
+
+	if (stat(path, &sb) == -1)
+		return (false);
+	if (!(S_IXUSR & sb.st_mode))
+		return (false);
+	return (true);
+}
+
+static char	*search_dir(DIR *dir, char *path, char *cmdname)
 {
 	struct dirent	*dp;
+	char			*path;
 
 	dp = readdir(dir);
 	while (dp != NULL)
 	{
 		if (!ft_strncmp(dp->d_name, cmdname, ft_strlen(cmdname) + 1))
 		{
-			closedir(dir);
-			return (join_cmd_and_path(path, cmdname));
+			path = join_cmd_and_path(path, cmdname);
+			if (check_executable(path))
+			{
+				closedir(dir);
+				return (path);
+			}
+			free(path);
 		}
 		dp = readdir(dir);
 	}
@@ -52,7 +69,7 @@ static char	*search_path(char **split_path, char *cmdname)
 			split_path++;
 			continue ;
 		}
-		ret = check_dir(dir, path, cmdname);
+		ret = search_dir(dir, path, cmdname);
 		if (ret != NULL)
 			return (ret);
 		split_path++;
