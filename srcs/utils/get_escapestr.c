@@ -1,20 +1,5 @@
 #include "minishell.h"
 
-//static bool	is_inquote(char *line)
-//{
-//	static bool	inquote = false;
-//
-//	if (*line != '"')
-//		return (inquote);
-//	if (inquote == false)
-//	{
-//		inquote = true;
-//		return (inquote);
-//	}
-//	inquote = false;
-//	return (inquote);
-//}
-
 static char	*copy_singlequote(char *tmp, int *index, char *line)
 {
 	int	i;

@@ -1,24 +1,18 @@
 #include "minishell.h"
 
-#define SPACES	"\v\r\f\t\n "
-
 static int	has_dollar(char *line)
 {
 	int		ret;
-	bool	inquote;
 
 	ret = 0;
-	inquote = false;
 	while (*line != '\0')
 	{
-		if (*line == '"' && inquote == false)
-			inquote = true;
-		else if (*line == '"' && inquote == true)
-			inquote = false;
+		if (*line == '"')
+			is_inquote(*line);
 		if (*line == '$' && *(line + 1) != '\0'
-			&& !ft_strchr(SPACES, *(line + 1)))
+			&& !ft_isspace(*(line + 1)) && *(line + 1) != '"')
 			ret++;
-		if (*line == '\'' && inquote == false)
+		if (*line == '\'' && !is_inquote('L'))
 		{
 			line++;
 			while (*line != '\'' && *line != '\0')
@@ -84,7 +78,7 @@ static char	*get_key(char *line, char *ret, int *i)
 
 	*i = 0;
 	line++;
-	if (*line == '\0' || ft_strchr(SPACES, *line))
+	if (*line == '\0' || ft_isspace(*line) || *line == '"')
 		return (output_dollar(ret, i));
 	if (*line == '?')
 		return (expand_exitstatus(ret, i));
@@ -104,24 +98,20 @@ char	*expand_envval(char *line)
 {
 	char	*ret;
 	int		i;
-	bool	inquote;
 
-	inquote = false;
 	if (has_dollar(line) == 0)
 		return (line);
 	ret = NULL;
 	while (*line != '\0')
 	{
-		if (*line == '"' && inquote == false)
-			inquote = true;
-		else if (*line == '"' && inquote == true)
-			inquote = false;
-		if (*line == '\'' && inquote == false)
+		if (*line == '"')
+			is_inquote(*line);
+		if (*line == '\'' && !is_inquote('L'))
 			ret = copy_literal(line, ret, &i);
 		else if (*line == '$')
 			ret = get_key(line, ret, &i);
 		else
-			ret = copy_normalchar(line, ret, &i, inquote);
+			ret = copy_normalchar(line, ret, &i, is_inquote('L'));
 		if (ret == NULL)
 			return (NULL);
 		line = line + i + 1;

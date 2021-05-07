@@ -87,10 +87,10 @@ char			*get_escapestr(char *line);
 char			*add_path(char *path, char *dir);
 char			*add_path_iterate(t_list *list);
 bool			update_shlvl(void);
+bool			is_inquote(char new_quote);
 
 //parse
 char			**tokenize(char *line);
-bool			is_inquote(char *p, int len);
 bool			validate_line(char *line);
 char			*get_first_sep(char *line);
 bool			error_return(char *line, char last_op, bool has_space);

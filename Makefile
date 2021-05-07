@@ -26,6 +26,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/utils/get_escapestr.c \
 			srcs/utils/add_path.c \
 			srcs/utils/update_shlvl.c \
+			srcs/utils/is_inquote.c \
 			srcs/parser/parser.c \
 			srcs/parser/parser_utils.c \
 			srcs/expander/expander.c \
