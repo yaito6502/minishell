@@ -43,7 +43,7 @@ static char	*search_dir(DIR *dir, char *path, char *cmdname, char **last_hit)
 				closedir(dir);
 				return (filepath);
 			}
-			free(last_hit);
+			free(*last_hit);
 			*last_hit = filepath;
 		}
 		dp = readdir(dir);
