@@ -2,22 +2,6 @@
 
 #define CURRENTDIR "."
 
-//static char	**create_splitpath(void)
-//{
-//	char		**split_path;
-//	char		*tmp;
-//
-//	split_path = cut_eachcolon(getenv("PATH"));
-//	if (split_path == NULL)
-//		return (NULL);
-//	tmp = split_path[0];
-//	split_path[0] = ft_substr(split_path[0], 5, ft_strlen(split_path[0]) - 5);
-//	free(tmp);
-//	if (split_path[0] == NULL)
-//		return (NULL);
-//	return (split_path);
-//}
-//
 static char	*join_cmd_and_path(char *dirpath, char *cmdname)
 {
 	char	*path;

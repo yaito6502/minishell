@@ -11,6 +11,7 @@ static void	parallel_childproc(t_command *cmd, int newpipe[2])
 {
 	extern char	**environ;
 	char		*cmdpath;
+	char		*path;
 
 	if (!connect_pipeline(cmd, newpipe))
 		wrap_exit(EXIT_FAILURE);
@@ -20,7 +21,8 @@ static void	parallel_childproc(t_command *cmd, int newpipe[2])
 		wrap_exit(EXIT_SUCCESS);
 	if (is_builtin(cmd) != -1)
 		wrap_exit(execute_builtin(cmd));
-	if (has_slash(cmd->argv[0]))
+	path = getenv("PATH");
+	if (has_slash(cmd->argv[0]) || path == NULL || path[0] == '\0')
 		execve(cmd->argv[0], cmd->argv, environ);
 	else
 	{
