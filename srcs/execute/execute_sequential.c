@@ -4,8 +4,10 @@ static void	sequential_chlidproc(t_command *cmd)
 {
 	extern char	**environ;
 	char		*cmdpath;
+	char		*path;
 
-	if (has_slash(cmd->argv[0]))
+	path = getenv("PATH");
+	if (has_slash(cmd->argv[0]) || path == NULL || path[0] == '\0')
 		execve(cmd->argv[0], cmd->argv, environ);
 	else
 	{
@@ -14,6 +16,7 @@ static void	sequential_chlidproc(t_command *cmd)
 			execve(cmdpath, cmd->argv, environ);
 		else
 			wrap_exit(error_execute(cmd->argv[0], EFAULT));
+		wrap_exit(error_execute(cmdpath, errno));
 	}
 	wrap_exit(error_execute(cmd->argv[0], errno));
 }

@@ -107,6 +107,7 @@ bool			connect_pipeline(t_command *cmd, int newpipe[2]);
 bool			do_redirection(t_command *cmd);
 bool			reconnect_stdfd(int mode);
 char			*get_cmd_frompath(t_command *cmd);
+char			**cut_eachcolon(char *path);
 char			*create_newpath(char *path);
 int				execute_sequential(t_command *cmd);
 int				execute_parallel(t_command *cmd);

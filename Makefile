@@ -40,6 +40,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/do_redirection.c \
 			srcs/execute/error_redirect.c \
 			srcs/execute/get_cmd_frompath.c \
+			srcs/execute/get_cmd_frompath_utils.c \
 			srcs/execute/create_newpath.c \
 			srcs/execute/reconnect_stdfd.c \
 			srcs/execute/execute_sequential.c \
