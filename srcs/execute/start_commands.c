@@ -46,7 +46,10 @@ void	start_commands(t_command *cmd)
 	while (cmd != NULL)
 	{
 		if (!validate_redirect(cmd))
-			return ;
+		{
+			cmd = cmd->next;
+			continue ;
+		}
 		if (!preprocess_command(cmd))
 			return ;
 		if (cmd->op == PIPELINE || cmd->receive_pipe == true)

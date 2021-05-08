@@ -23,7 +23,8 @@ static bool	send_pipeline(t_command *cmd, int newpipe[2])
 
 static bool	receive_pipeline(t_command *cmd)
 {
-	if (cmd->receive_pipe == false)
+	if (cmd->receive_pipe == false
+		|| (cmd->lastfd[0] == -1 && cmd->lastfd[1] == -1))
 		return (true);
 	if (close(cmd->lastfd[1]) == -1)
 		return (error_piping("close: "));
