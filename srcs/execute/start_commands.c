@@ -11,7 +11,7 @@ static void	print_signal_message(t_command *cmd, int status)
 	}
 }
 
-static void	confirm_child(t_command *cmd_ptr, t_command *cmd)
+static t_command	*confirm_child(t_command *cmd_ptr, t_command *cmd)
 {
 	int			status;
 	t_command	*end;
@@ -34,6 +34,7 @@ static void	confirm_child(t_command *cmd_ptr, t_command *cmd)
 			store_exitstatus(SAVE, cmd_ptr->exitstatus);
 		cmd_ptr = cmd_ptr->next;
 	}
+	return (end);
 }
 
 void	start_commands(t_command *cmd)
@@ -45,7 +46,10 @@ void	start_commands(t_command *cmd)
 	while (cmd != NULL)
 	{
 		if (!validate_redirect(cmd))
-			return ;
+		{
+			cmd = cmd->next;
+			continue ;
+		}
 		if (!preprocess_command(cmd))
 			return ;
 		if (cmd->op == PIPELINE || cmd->receive_pipe == true)
@@ -56,10 +60,7 @@ void	start_commands(t_command *cmd)
 			reconnect_stdfd(LOAD);
 		}
 		if (cmd->op == SCOLON || cmd->op == EOS)
-		{
-			confirm_child(cmd_ptr, cmd);
-			cmd_ptr = cmd->next;
-		}
+			cmd_ptr = confirm_child(cmd_ptr, cmd);
 		cmd = cmd->next;
 	}
 	free_commandslist(&cmd);
