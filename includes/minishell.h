@@ -114,6 +114,7 @@ void			start_commands(t_command *cmd);
 int				store_exitstatus(int mode, int last_status);
 void			sigint_handler(int signal);
 void			sigquit_handler(int signal);
+bool			is_dir(char *path);
 
 //builtin
 int				execute_builtin(t_command *cmd);
@@ -151,6 +152,7 @@ int				error_execute(char *path, int last_errno);
 int				error_fork(void);
 bool			redirect_error(char *key, char *errmsg);
 bool			fd_error(long fd, char *errmsg);
+int				error_dir(char *path);
 
 //terminal setting and termcap
 char			*read_line(t_hist **hist);

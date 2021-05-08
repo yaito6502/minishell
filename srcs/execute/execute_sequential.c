@@ -6,7 +6,11 @@ static void	sequential_chlidproc(t_command *cmd)
 	char		*cmdpath;
 
 	if (has_slash(cmd->argv[0]))
+	{
+		if (is_dir(cmd->argv[0]))
+			wrap_exit(error_dir(cmd->argv[0]));
 		execve(cmd->argv[0], cmd->argv, environ);
+	}
 	else
 	{
 		cmdpath = get_cmd_frompath(cmd);

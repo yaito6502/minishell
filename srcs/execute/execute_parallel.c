@@ -7,11 +7,8 @@ static int	error_pipe(void)
 	return (1);
 }
 
-static void	parallel_childproc(t_command *cmd, int newpipe[2])
+static void	preprocess_parallel(t_command *cmd, int newpipe[2])
 {
-	extern char	**environ;
-	char		*cmdpath;
-
 	if (!connect_pipeline(cmd, newpipe))
 		wrap_exit(EXIT_FAILURE);
 	if (!do_redirection(cmd))
@@ -20,8 +17,20 @@ static void	parallel_childproc(t_command *cmd, int newpipe[2])
 		wrap_exit(EXIT_SUCCESS);
 	if (is_builtin(cmd) != -1)
 		wrap_exit(execute_builtin(cmd));
+}
+
+static void	parallel_childproc(t_command *cmd, int newpipe[2])
+{
+	extern char	**environ;
+	char		*cmdpath;
+
+	preprocess_parallel(cmd, newpipe);
 	if (has_slash(cmd->argv[0]))
+	{
+		if (is_dir(cmd->argv[0]))
+			wrap_exit(error_dir(cmd->argv[0]));
 		execve(cmd->argv[0], cmd->argv, environ);
+	}
 	else
 	{
 		cmdpath = get_cmd_frompath(cmd);
