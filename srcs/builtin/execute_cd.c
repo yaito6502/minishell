@@ -31,7 +31,9 @@ char	*retry_change_directory(char *path)
 static int	change_directory(char *path, bool is_putpath)
 {
 	char		*newpath;
-	int			ret;
+	char		*pwd;
+	const char	*nullchar = "";
+	bool		ret;
 
 	if (!path)
 		return (EXIT_SUCCESS);
@@ -44,42 +46,42 @@ static int	change_directory(char *path, bool is_putpath)
 		if (!newpath)
 			return (EXIT_FAILURE);
 	}
-	ret = (!update_env("OLDPWD", getenv("PWD"))
-			|| !update_env("PWD", newpath));
+	pwd = getenv("PWD");
+	if (!pwd)
+		pwd = (char *)nullchar;
+	ret = (!update_env("OLDPWD", pwd) || !update_env("PWD", newpath));
 	if (is_putpath)
 		ft_putendl_fd(newpath, STDOUT_FILENO);
 	free(newpath);
-	if (ret == true)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	return (ret);
 }
 
 static bool	set_cdpath_iterate(char *path)
 {
 	char	*newpath;
 	char	**split_path;
+	bool	is_success;
+	bool	is_putpath;
 	size_t	i;
 
 	if (path[0] == '\0' || ft_strchr(path, '.') || ft_strchr(path, '/'))
 		return (false);
-	split_path = ft_split(getenv("CDPATH"), ':');
+	split_path = cut_eachcolon(getenv("CDPATH"));
 	i = 0;
-	while (split_path && split_path[i] != NULL)
+	is_success = false;
+	while (!is_success && split_path && split_path[i] != NULL)
 	{
+		is_putpath = ft_strncmp(split_path[i], ".", 2);
 		if (!endswith(split_path[i], "/"))
 			split_path[i] = add_path(split_path[i], NULL);
 		newpath = ft_strjoin(split_path[i], path);
-		if (change_directory(newpath, true) == 0)
-		{
-			free(newpath);
-			ft_free_split(split_path);
-			return (true);
-		}
+		if (change_directory(newpath, is_putpath) == 0)
+			is_success = true;
 		free(newpath);
 		i++;
 	}
 	ft_free_split(split_path);
-	return (false);
+	return (is_success);
 }
 
 static char	*select_path(char *str)
@@ -115,7 +117,10 @@ int	execute_cd(t_command *cmd)
 	if (!path)
 		return (EXIT_FAILURE);
 	if (set_cdpath_iterate(path))
+	{
+		free(path);
 		return (EXIT_SUCCESS);
+	}
 	status = change_directory(path, false);
 	if (status)
 	{

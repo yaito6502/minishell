@@ -1,28 +1,5 @@
 #include "minishell.h"
 
-static char	**create_splitpath(void)
-{
-	extern char	**environ;
-	char		**split_path;
-	char		*tmp;
-	int			i;
-
-	i = 0;
-	while (environ[i] != NULL && ft_strncmp(environ[i], "PATH", 4) != 0)
-		i++;
-	if (environ[i] == NULL)
-		return (NULL);
-	split_path = ft_split(environ[i], ':');
-	if (split_path == NULL)
-		return (NULL);
-	tmp = split_path[0];
-	split_path[0] = ft_substr(split_path[0], 5, ft_strlen(split_path[0]) - 5);
-	free(tmp);
-	if (split_path[0] == NULL)
-		return (NULL);
-	return (split_path);
-}
-
 static char	*join_cmd_and_path(char *dirpath, char *cmdname)
 {
 	char	*path;
@@ -37,45 +14,74 @@ static char	*join_cmd_and_path(char *dirpath, char *cmdname)
 	return (path);
 }
 
-static char	*search_path(char **split_path, char *cmdname)
+static bool	check_executable(char *path)
 {
-	DIR				*dir;
-	struct dirent	*dp;
+	struct stat	sb;
 
-	while (*split_path != NULL)
+	if (stat(path, &sb) == -1)
+		return (false);
+	if (!(S_IXUSR & sb.st_mode))
+		return (false);
+	return (true);
+}
+
+static char	*search_dir(DIR *dir, char *path, char *cmdname, char **last_hit)
+{
+	struct dirent	*dp;
+	char			*filepath;
+
+	dp = readdir(dir);
+	while (dp != NULL)
 	{
-		dir = opendir(*split_path);
-		if (dir == NULL)
+		if (!ft_strncmp(dp->d_name, cmdname, ft_strlen(cmdname) + 1))
 		{
-			split_path++;
-			continue ;
-		}
-		dp = readdir(dir);
-		while (dp != NULL)
-		{
-			if (!ft_strncmp(dp->d_name, cmdname, ft_strlen(cmdname) + 1))
+			filepath = join_cmd_and_path(path, cmdname);
+			if (check_executable(filepath))
 			{
 				closedir(dir);
-				return (join_cmd_and_path(*split_path, cmdname));
+				return (filepath);
 			}
-			dp = readdir(dir);
+			free(*last_hit);
+			*last_hit = filepath;
 		}
-		closedir(dir);
-		split_path++;
+		dp = readdir(dir);
 	}
+	closedir(dir);
 	return (NULL);
 }
 
-/*
-** env内PATHからcmdを検索する関数。pathの左が優先。
-*/
+static char	*search_path(char **split_path, char *cmdname)
+{
+	DIR		*dir;
+	char	*path;
+	char	*last_hit;
+
+	last_hit = NULL;
+	while (*split_path != NULL)
+	{
+		dir = opendir(*split_path);
+		if (dir != NULL)
+		{
+			path = search_dir(dir, *split_path, cmdname, &last_hit);
+			if (path != NULL)
+			{
+				free(last_hit);
+				return (path);
+			}
+		}
+		split_path++;
+	}
+	return (last_hit);
+}
 
 char	*get_cmd_frompath(t_command *cmd)
 {
 	char	**split_path;
 	char	*fullpath;
 
-	split_path = create_splitpath();
+	split_path = cut_eachcolon(getenv("PATH"));
+	if (!split_path)
+		return (NULL);
 	fullpath = NULL;
 	if (split_path)
 		fullpath = search_path(split_path, cmd->argv[0]);

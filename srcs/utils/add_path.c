@@ -50,5 +50,6 @@ char	*add_path(char *path, char *dir)
 	oldpath = newpath;
 	newpath = ft_strjoin(oldpath, dir);
 	free(oldpath);
+	free(path);
 	return (newpath);
 }

@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 
 	(void)argc;
 	tokens = tokenize(argv[1]);
-	cmd = get_commandline(tokens);
+	cmd = parse(tokens);
 	puts(cmd->argv[0]);
 	path = get_cmd_frompath(cmd);
 	if (path != NULL)
