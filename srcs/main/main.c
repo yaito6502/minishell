@@ -93,7 +93,7 @@ static void	init_minishell(void)
 
 int	main(int argc, char **argv)
 {
-	extern t_termcap	term;
+	extern t_termcap	g_term;
 	t_hist				*hist;
 	char				*line;
 
@@ -110,7 +110,7 @@ int	main(int argc, char **argv)
 		run_command(line);
 	}
 	get_terminal_description();
-	set_termcapsettings(term);
+	set_termcapsettings(g_term);
 	while (1)
 		wait_command(&hist);
 	return (0);

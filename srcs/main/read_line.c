@@ -89,7 +89,7 @@ static char	*get_line(char *line, t_hist **hist)
 
 char	*read_line(t_hist **hist)
 {
-	extern t_termcap	term;
+	extern t_termcap	g_term;
 	char				*line;
 	char				*tmp;
 
@@ -101,7 +101,7 @@ char	*read_line(t_hist **hist)
 	}
 	line[0] = '\0';
 	tmp = line;
-	get_cursor_position(&term.pos[0], &term.pos[1]);
+	get_cursor_position(&g_term.pos[0], &g_term.pos[1]);
 	line = get_line(line, hist);
 	if (!reset_terminal_setting() || !line)
 	{

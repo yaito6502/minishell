@@ -32,7 +32,6 @@ static bool	check_redirect(char *line)
 	return (error_return(line, 'a', false));
 }
 
-
 static bool	check_operator(char *line, char last_op)
 {
 	bool	has_space;
