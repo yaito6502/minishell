@@ -25,7 +25,7 @@ int	error_fork(void)
 
 int	error_dir(char *path)
 {
-	ft_putstr_fd("minishell:", STDERR_FILENO);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(path, STDERR_FILENO);
 	ft_putendl_fd(": is a directory", STDERR_FILENO);
 	return (126);
