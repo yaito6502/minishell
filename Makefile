@@ -122,7 +122,7 @@ $(LIBFT):
 	$(MAKE) bonus -C ./libft
 
 $(NAME): $(OBJECTS) $(LIBFT)
-	gcc -g -fsanitize=address $(CFLAGS) $^ $(INCLUDES) -ltermcap -o $@
+	gcc -g $(CFLAGS) $^ $(INCLUDES) -ltermcap -o $@
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(BINDIRS)

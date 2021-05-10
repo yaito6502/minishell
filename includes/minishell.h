@@ -153,7 +153,6 @@ int				error_execute(char *path, int last_errno);
 int				error_fork(void);
 bool			redirect_error(char *key, char *errmsg);
 bool			fd_error(long fd, char *errmsg);
-int				error_dir(char *path);
 
 //terminal setting and termcap
 char			*read_line(t_hist **hist);
