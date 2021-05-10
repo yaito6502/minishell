@@ -14,24 +14,6 @@ static int	print_error(char *message)
 	return (EXIT_FAILURE);
 }
 
-static char	*copy_addslash(char *tmp, int *i, char *line)
-{
-	size_t	slash;
-
-	slash = 0;
-	while (*line == '\\')
-	{
-		line++;
-		slash++;
-	}
-	if (slash >= 1)
-		tmp[(*i)++] = '\\';
-	tmp[(*i)++] = '\\';
-	tmp[(*i)++] = *line;
-	line++;
-	return (line);
-}
-
 static char	*set_value(char *line)
 {
 	char	*tmp;
@@ -45,13 +27,14 @@ static char	*set_value(char *line)
 	while (*line)
 	{
 		if (ft_strchr("\"$\'\\", *line))
-			line = copy_addslash(tmp, &i, line);
-		else
 		{
-			tmp[i] = *line;
-			i++;
-			line++;
+			tmp[i++] = '\\';
+			tmp[i++] = *line++;
+			if (line && ft_strchr("\"$\'", *line))
+				tmp[i++] = *line++;
 		}
+		else
+			tmp[i++] = *line++;
 	}
 	tmp[i] = '\0';
 	str = ft_strdup(tmp);
