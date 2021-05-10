@@ -14,6 +14,51 @@ static int	print_error(char *message)
 	return (EXIT_FAILURE);
 }
 
+static char	*copy_addslash(char *tmp, int *i, char *line)
+{
+	size_t	slash;
+
+	slash = 0;
+	while (*line == '\\')
+	{
+		line++;
+		slash++;
+	}
+	if (slash >= 1)
+		tmp[(*i)++] = '\\';
+	tmp[(*i)++] = '\\';
+	tmp[(*i)++] = *line;
+	line++;
+	return (line);
+}
+
+static char	*set_value(char *line)
+{
+	char	*tmp;
+	char	*str;
+	int		i;
+
+	tmp = malloc(ft_strlen(line) * 2 + 1);
+	if (tmp == NULL)
+		return (NULL);
+	i = 0;
+	while (*line)
+	{
+		if (ft_strchr("\"$\'\\", *line))
+			line = copy_addslash(tmp, &i, line);
+		else
+		{
+			tmp[i] = *line;
+			i++;
+			line++;
+		}
+	}
+	tmp[i] = '\0';
+	str = ft_strdup(tmp);
+	free(tmp);
+	return (str);
+}
+
 static bool	set_keyvalue(char *str, char **key, char **value)
 {
 	char	*equal;
@@ -28,7 +73,7 @@ static bool	set_keyvalue(char *str, char **key, char **value)
 		if (plus + 1 == equal && getenv(*key))
 			*value = ft_strjoin(getenv(*key), equal + 1);
 		else
-			*value = ft_strdup(equal + 1);
+			*value = set_value(equal + 1);
 	}
 	else
 		*key = ft_strdup(str);

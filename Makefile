@@ -49,7 +49,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/execute/read_command.c \
 			srcs/execute/error_execute.c \
 			srcs/execute/store_exitstatus.c \
-			srcs/execute/id_dir.c \
+			srcs/execute/is_dir.c \
 			srcs/main/get_signal_in_execute.c \
 			srcs/builtin/execute_builtin.c \
 			srcs/builtin/execute_env.c \
@@ -122,7 +122,7 @@ $(LIBFT):
 	$(MAKE) bonus -C ./libft
 
 $(NAME): $(OBJECTS) $(LIBFT)
-	gcc -g $(CFLAGS) $^ $(INCLUDES) -ltermcap -o $@
+	gcc -g -fsanitize=address $(CFLAGS) $^ $(INCLUDES) -ltermcap -o $@
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(BINDIRS)
