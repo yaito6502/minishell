@@ -63,5 +63,4 @@ void	start_commands(t_command *cmd)
 			cmd_ptr = confirm_child(cmd_ptr, cmd);
 		cmd = cmd->next;
 	}
-	free_commandslist(&cmd);
 }
