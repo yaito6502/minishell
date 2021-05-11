@@ -115,6 +115,7 @@ void			start_commands(t_command *cmd);
 int				store_exitstatus(int mode, int last_status);
 void			sigint_handler(int signal);
 void			sigquit_handler(int signal);
+bool			is_dir(char *path);
 
 //builtin
 int				execute_builtin(t_command *cmd);
