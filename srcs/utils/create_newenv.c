@@ -7,7 +7,7 @@
 
 static bool	free_return(char **new_env, int failure_index)
 {
-	int i;
+	int	i;
 
 	i = failure_index - 1;
 	while (i >= 0)

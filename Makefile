@@ -18,7 +18,6 @@ SRCFILE =	srcs/main/main.c \
 			srcs/utils/add_newval_to_env.c \
 			srcs/utils/has_slash.c \
 			srcs/utils/add_str_to_list.c \
-			srcs/utils/split_line.c \
 			srcs/utils/validate_envkey.c \
 			srcs/utils/update_env.c \
 			srcs/utils/print_sorted_env.c \

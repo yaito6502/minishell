@@ -65,7 +65,7 @@ typedef struct s_termcap {
 	char	*cm;
 }	t_termcap;
 
-t_termcap	term;
+t_termcap	g_term;
 
 //utils
 t_command		*create_new_tcommand(void);
@@ -76,7 +76,6 @@ bool			add_newval_to_env(const char *str);
 bool			has_slash(char *cmd);
 char			**add_str_to_list(char **list, const char *str);
 char			*read_command(void);
-char			**split_line(char *str, char *set[2]);
 bool			validate_envkey(char *key);
 bool			update_env(char *key, char *value);
 void			sort_environ(char **a, char **b, size_t front, size_t end);
@@ -163,9 +162,9 @@ bool			set_terminal_setting(void);
 bool			reset_terminal_setting(void);
 bool			init_tterm(void);
 bool			get_terminal_description(void);
-bool			set_termcapsettings(t_termcap term);
+bool			set_termcapsettings(t_termcap g_term);
 char			*wrap_tgetstr(char *stored_cap, char *cap);
-void			free_tterm(t_termcap term);
+void			free_tterm(t_termcap g_term);
 
 bool			is_leftend(int *i);
 void			get_cursor_position(int *row, int *col);

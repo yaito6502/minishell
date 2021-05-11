@@ -13,28 +13,28 @@ bool	is_leftend(int *i)
 
 static void	move_rightend(void)
 {
-	extern t_termcap	term;
+	extern t_termcap	g_term;
 	int					col;
 	int					i;
 
 	get_terminal_description();
 	col = tgetnum("col");
-	term.up = wrap_tgetstr(term.up, "up");
-	term.nd = wrap_tgetstr(term.nd, "nd");
-	term.dc = wrap_tgetstr(term.dc, "dc");
-	tputs(term.up, 1, ft_putchar);
+	g_term.up = wrap_tgetstr(g_term.up, "up");
+	g_term.nd = wrap_tgetstr(g_term.nd, "nd");
+	g_term.dc = wrap_tgetstr(g_term.dc, "dc");
+	tputs(g_term.up, 1, ft_putchar);
 	i = 0;
 	while (i < col)
 	{
-		tputs(term.nd, 1, ft_putchar);
+		tputs(g_term.nd, 1, ft_putchar);
 		i++;
 	}
-	tputs(term.dc, 1, ft_putchar);
+	tputs(g_term.dc, 1, ft_putchar);
 }
 
 void	back_line(char *line, int *i)
 {
-	extern t_termcap	term;
+	extern t_termcap	g_term;
 
 	if (*i == 0)
 	{
@@ -48,9 +48,9 @@ void	back_line(char *line, int *i)
 		move_rightend();
 		return ;
 	}
-	term.le = wrap_tgetstr(term.le, "le");
-	term.dc = wrap_tgetstr(term.dc, "dc");
-	tputs(term.le, 1, ft_putchar);
-	tputs(term.dc, 1, ft_putchar);
+	g_term.le = wrap_tgetstr(g_term.le, "le");
+	g_term.dc = wrap_tgetstr(g_term.dc, "dc");
+	tputs(g_term.le, 1, ft_putchar);
+	tputs(g_term.dc, 1, ft_putchar);
 	return ;
 }

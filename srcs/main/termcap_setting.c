@@ -2,33 +2,33 @@
 
 bool	init_tterm(void)
 {
-	extern t_termcap	term;
+	extern t_termcap	g_term;
 
-	term.term_buf = malloc(2048);
-	term.string_buf = malloc(2048);
-	if (!term.term_buf || !term.string_buf)
+	g_term.term_buf = malloc(2048);
+	g_term.string_buf = malloc(2048);
+	if (!g_term.term_buf || !g_term.string_buf)
 	{
-		free(term.term_buf);
-		free(term.string_buf);
+		free(g_term.term_buf);
+		free(g_term.string_buf);
 		return (false);
 	}
-	term.buf_ptr = term.string_buf;
-	term.cd = NULL;
-	term.dc = NULL;
-	term.up = NULL;
-	term.nd = NULL;
-	term.le = NULL;
-	term.cm = NULL;
+	g_term.buf_ptr = g_term.string_buf;
+	g_term.cd = NULL;
+	g_term.dc = NULL;
+	g_term.up = NULL;
+	g_term.nd = NULL;
+	g_term.le = NULL;
+	g_term.cm = NULL;
 	return (true);
 }
 
 bool	get_terminal_description(void)
 {
-	extern t_termcap	term;
+	extern t_termcap	g_term;
 	char				*termtype;
 
 	termtype = getenv("TERM");
-	if (!termtype || tgetent(term.term_buf, termtype) <= 0)
+	if (!termtype || tgetent(g_term.term_buf, termtype) <= 0)
 	{
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
 		return (false);
@@ -40,7 +40,7 @@ bool	get_terminal_description(void)
 ** termios、terminal descriptionからtermcapに必要な情報を取得、外部変数へ設定。
 */
 
-bool	set_termcapsettings(t_termcap term)
+bool	set_termcapsettings(t_termcap g_term)
 {
 	struct termios	termios_p;
 	extern short	ospeed;
@@ -57,8 +57,8 @@ bool	set_termcapsettings(t_termcap term)
 	PC = tgetnum("pc");
 	if (PC == -1)
 		PC = 0;
-	BC = tgetstr("le", &term.buf_ptr);
-	UP = tgetstr("up", &term.buf_ptr);
+	BC = tgetstr("le", &g_term.buf_ptr);
+	UP = tgetstr("up", &g_term.buf_ptr);
 	return (true);
 }
 
@@ -69,19 +69,19 @@ bool	set_termcapsettings(t_termcap term)
 
 char	*wrap_tgetstr(char *stored_cap, char *cap)
 {
-	extern t_termcap	term;
+	extern t_termcap	g_term;
 
 	if (stored_cap == NULL)
 	{
-		stored_cap = tgetstr(cap, &term.buf_ptr);
+		stored_cap = tgetstr(cap, &g_term.buf_ptr);
 		return (stored_cap);
 	}
 	return (stored_cap);
 }
 
-void	free_tterm(t_termcap term)
+void	free_tterm(t_termcap g_term)
 {
-	free(term.term_buf);
-	free(term.string_buf);
+	free(g_term.term_buf);
+	free(g_term.string_buf);
 	return ;
 }

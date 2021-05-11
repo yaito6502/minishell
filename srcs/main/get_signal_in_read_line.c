@@ -3,13 +3,13 @@
 void	get_eof(char *line, t_hist **hist)
 {
 	extern char			**environ;
-	extern t_termcap	term;
+	extern t_termcap	g_term;
 
 	ft_free_split(environ);
 	free(line);
 	free_history(*hist);
 	reset_terminal_setting();
-	free_tterm(term);
+	free_tterm(g_term);
 	write(STDERR_FILENO, "exit\n", 5);
 	exit(EXIT_SUCCESS);
 }
