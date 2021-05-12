@@ -9,8 +9,6 @@ static int	error_pipe(void)
 
 static void	preprocess_parallel(t_command *cmd, int newpipe[2])
 {
-	extern char	**environ;
-
 	if (!connect_pipeline(cmd, newpipe))
 		wrap_exit(EXIT_FAILURE);
 	if (!do_redirection(cmd))
