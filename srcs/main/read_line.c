@@ -27,7 +27,7 @@ static char	*check_input(char *line, char *c, int *i)
 	int	n;
 
 	n = 0;
-	while (c[n] != '\0' && c[n] != '\n' && c[n] != '\033')
+	while (c[n] != '\0' && c[n] != '\n' && c[n] != '\033' && c[n] != '\034')
 	{
 		if (*i == BUFFER_SIZE)
 			break ;
