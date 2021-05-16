@@ -67,7 +67,7 @@ static int	get_index(char *p)
 ** <>が来たとき前のトークンが数字のみor>が連続するときの場合結合する。
 */
 
-static char	**check_lasttoken(char **tokens, char *op)
+static char	**check_lasttoken(char **tokens, char *op, char *p)
 {
 	int		i;
 	int		j;
@@ -82,8 +82,8 @@ static char	**check_lasttoken(char **tokens, char *op)
 	j = 0;
 	while (ft_isdigit(tokens[i][j]))
 		j++;
-	if (tokens[i][j] == '\0' || \
-	(ft_strchr("<>", tokens[i][j]) && tokens[i][j + 1] == '\0'))
+	if (((ft_strchr("<>", tokens[i][j]) && tokens[i][j + 1] == '\0')
+		|| tokens[i][j] == '\0') && !ft_isspace(*(p - 1)))
 	{
 		tmp = tokens[i];
 		tokens[i] = ft_strjoin(tokens[i], op);
@@ -109,7 +109,7 @@ static char	*put_op_token(char ***tokens, char *p)
 	if (!(*p == '>' || *p == '<') || *tokens == NULL)
 		*tokens = add_str_to_list(*tokens, tmp);
 	else if (*p == '>' || *p == '<')
-		*tokens = check_lasttoken(*tokens, tmp);
+		*tokens = check_lasttoken(*tokens, tmp, p);
 	free(tmp);
 	if (*tokens == NULL)
 		return (NULL);
