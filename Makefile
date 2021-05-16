@@ -21,6 +21,7 @@ SRCFILE =	srcs/main/main.c \
 			srcs/utils/validate_envkey.c \
 			srcs/utils/update_env.c \
 			srcs/utils/print_sorted_env.c \
+			srcs/utils/sort_environ.c \
 			srcs/utils/wrap_exit.c \
 			srcs/utils/get_escapestr.c \
 			srcs/utils/add_path.c \
