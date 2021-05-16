@@ -83,7 +83,7 @@ static char	**check_lasttoken(char **tokens, char *op, char *p)
 	while (ft_isdigit(tokens[i][j]))
 		j++;
 	if (((ft_strchr("<>", tokens[i][j]) && tokens[i][j + 1] == '\0')
-		|| tokens[i][j] == '\0') && !ft_isspace(*(p - 1)))
+			|| tokens[i][j] == '\0') && !ft_isspace(*(p - 1)))
 	{
 		tmp = tokens[i];
 		tokens[i] = ft_strjoin(tokens[i], op);
