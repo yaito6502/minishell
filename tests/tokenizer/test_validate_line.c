@@ -20,10 +20,16 @@ int main(void)
 {
 	bool	ret;
 
-	ret = test_line("<>", "syntax error near unexpected token `newline'");
+	ret = test_line("echo hello | >outfile grep hello", "valid");
 	output_ret(ret);
 
-	ret = test_line("<>a", "syntax error near unexpected token `newline'");
+	ret = test_line("echo hello ; >outfile ls", "valid");
+	output_ret(ret);
+
+	ret = test_line("<>", "syntax error near unexpected token `>'");
+	output_ret(ret);
+
+	ret = test_line("<>a", "syntax error near unexpected token `>'");
 	output_ret(ret);
 
 	ret = test_line("< >", "syntax error near unexpected token `>'");

@@ -46,7 +46,7 @@ static bool	check_operator(char *line, char last_op)
 			has_space = true;
 		else if (ft_strchr("<>", *line) && last_op == *line && !has_space)
 			return (check_redirect(line + 1));
-		else if (ft_strchr("<>", *line))
+		else if (ft_strchr("<>", *line) && last_op != ';' && last_op != '|')
 			return (error_return(line, last_op, has_space));
 		else if (ft_strchr(SEP, *line))
 			return (error_return(line, last_op, has_space));
