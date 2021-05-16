@@ -108,7 +108,7 @@ static char	*put_op_token(char ***tokens, char *p)
 		return (NULL);
 	if (!(*p == '>' || *p == '<') || *tokens == NULL)
 		*tokens = add_str_to_list(*tokens, tmp);
-	if (*p == '>' || *p == '<')
+	else if (*p == '>' || *p == '<')
 		*tokens = check_lasttoken(*tokens, tmp);
 	free(tmp);
 	if (*tokens == NULL)
