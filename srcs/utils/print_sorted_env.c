@@ -12,7 +12,7 @@ static char	*create_escaped_str(char *str)
 	i = 0;
 	while (*str)
 	{
-		if (ft_strchr("\"$\'\\", *str))
+		if (ft_strchr("\"$\'\\`", *str))
 		{
 			tmp[i++] = '\\';
 			tmp[i++] = *str++;
